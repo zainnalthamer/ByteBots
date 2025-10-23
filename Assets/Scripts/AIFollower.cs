@@ -9,10 +9,12 @@ public class AIFollower : MonoBehaviour
     public float rotateSpeed = 10f;
 
     NavMeshAgent agent;
+    Animator anim;
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
         if (player == null)
         {
             GameObject p = GameObject.FindGameObjectWithTag("Player");
@@ -36,6 +38,14 @@ public class AIFollower : MonoBehaviour
         else
         {
             agent.isStopped = true; 
+        }
+
+        if (anim)
+        {
+            float speed = agent.velocity.magnitude;
+
+            bool isWalking = speed > 0.1f;
+            anim.SetBool("isWalking", isWalking);
         }
 
         Vector3 lookDir = player.forward;
