@@ -10,20 +10,36 @@ public class CarouselController : MonoBehaviour
 
     [Header("Base Platform")]
     public GameObject Platform;
-   
+
     [Header("Cranks")]
     public Transform[] Cranks;
 
+    [Header("Control Settings")]
+    public bool isActive = false; 
+    private float currentSpeed = 0f; 
+
+    void Start()
+    {
+        currentSpeed = 0f;
+    }
 
     void Update()
     {
-        //rotate main platform ride
-        Platform.transform.Rotate(Vector3.up * rideSpeed * Time.deltaTime);
+        if (!isActive) return;
 
-        //rotate cranks based on ride speed
+        currentSpeed = Mathf.Lerp(currentSpeed, rideSpeed, Time.deltaTime * 1.5f);
+
+        Platform.transform.Rotate(Vector3.up * currentSpeed * Time.deltaTime);
+
         foreach (Transform crank in Cranks)
         {
-            crank.Rotate(Vector3.forward * (rideSpeed*1.25f) * Time.deltaTime * 10);
+            crank.Rotate(Vector3.forward * (currentSpeed * 1.25f) * Time.deltaTime * 10);
         }
+    }
+
+    public void ActivateCarousel()
+    {
+        isActive = true;
+        Debug.Log("Carousel started!");
     }
 }
