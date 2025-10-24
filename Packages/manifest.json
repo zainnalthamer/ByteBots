@@ -16,6 +16,8 @@
     "com.unity.timeline": "1.6.5",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.9.4",
+    "link.neocortex.ollama": "file:C:/Users/zahra/Downloads/neocortex-ollama-support-master/neocortex-ollama-support-master",
+    "link.neocortex.sdk": "file:C:/Users/zahra/Downloads/neocortex-unity-sdk-main/neocortex-unity-sdk-main",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
