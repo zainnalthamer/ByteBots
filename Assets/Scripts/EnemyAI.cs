@@ -67,18 +67,24 @@ public class EnemyAI : MonoBehaviour
 
     void DetectPlayer()
     {
-        Vector3 dirToPlayer = player.position - transform.position;
+        if (player == null) return;
+
+        Vector3 rayOrigin = transform.position + Vector3.up * 1.5f;
+        Vector3 targetPos = player.position + Vector3.up * 1.0f;
+        Vector3 dirToPlayer = targetPos - rayOrigin;
+        float distanceToPlayer = dirToPlayer.magnitude;
         float angle = Vector3.Angle(transform.forward, dirToPlayer);
 
-        if (angle < fieldOfView / 2 && dirToPlayer.magnitude < sightRange)
+        if (angle < fieldOfView / 2 && distanceToPlayer < sightRange)
         {
-            if (!Physics.Raycast(transform.position, dirToPlayer.normalized, dirToPlayer.magnitude, obstacleMask))
+            if (!Physics.Raycast(rayOrigin, dirToPlayer.normalized, distanceToPlayer, obstacleMask))
             {
                 chasing = true;
                 agent.speed = chaseSpeed;
             }
         }
     }
+
 
     void ChasePlayer()
     {
@@ -98,13 +104,15 @@ public class EnemyAI : MonoBehaviour
         agent.isStopped = true;
 
         if (animator)
+        {
             animator.SetTrigger(attackTrigger);
+            yield return new WaitForSeconds(animator.GetCurrentAnimatorClipInfo(0)[0].clip.length);
+        }
 
-        yield return new WaitForSeconds(2.5f);
-
-        Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
 #endif
     }
 }
