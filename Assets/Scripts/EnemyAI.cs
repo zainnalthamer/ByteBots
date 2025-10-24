@@ -10,18 +10,21 @@ public class EnemyAI : MonoBehaviour
     [Header("Detection Settings")]
     public float sightRange = 10f;
     public float fieldOfView = 60f;
-    public LayerMask playerLayer;
     public LayerMask obstacleMask;
 
     [Header("Chase Settings")]
-    public float chaseSpeed = 5f;
     public float patrolSpeed = 2f;
+    public float chaseSpeed = 5f;
+
+    [Header("References")]
+    public Animator animator;
+    public string attackTrigger = "Attack";
 
     private NavMeshAgent agent;
     private Transform player;
     private int currentPoint = 0;
     private bool chasing = false;
-    private float waitTimer = 0f;
+    private bool gameOver = false;
 
     void Start()
     {
@@ -34,6 +37,8 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if (gameOver) return;
+
         if (!chasing)
         {
             Patrol();
@@ -49,21 +54,15 @@ public class EnemyAI : MonoBehaviour
     {
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {
-            waitTimer += Time.deltaTime;
-            if (waitTimer >= patrolWaitTime)
-            {
-                GoToNextPoint();
-                waitTimer = 0f;
-            }
+            currentPoint = (currentPoint + 1) % patrolPoints.Length;
+            agent.destination = patrolPoints[currentPoint].position;
         }
     }
 
     void GoToNextPoint()
     {
         if (patrolPoints.Length == 0) return;
-
         agent.destination = patrolPoints[currentPoint].position;
-        currentPoint = (currentPoint + 1) % patrolPoints.Length;
     }
 
     void DetectPlayer()
@@ -71,13 +70,12 @@ public class EnemyAI : MonoBehaviour
         Vector3 dirToPlayer = player.position - transform.position;
         float angle = Vector3.Angle(transform.forward, dirToPlayer);
 
-        if (angle < fieldOfView * 0.5f && dirToPlayer.magnitude <= sightRange)
+        if (angle < fieldOfView / 2 && dirToPlayer.magnitude < sightRange)
         {
             if (!Physics.Raycast(transform.position, dirToPlayer.normalized, dirToPlayer.magnitude, obstacleMask))
             {
                 chasing = true;
                 agent.speed = chaseSpeed;
-                Debug.Log("Enemy spotted player!");
             }
         }
     }
@@ -87,12 +85,26 @@ public class EnemyAI : MonoBehaviour
         agent.destination = player.position;
 
         float distance = Vector3.Distance(transform.position, player.position);
-        if (distance < 1.5f)
+        if (distance < 1.8f)
         {
-            Debug.Log("Player caught!");
-            chasing = false;
-            agent.speed = patrolSpeed;
-            GoToNextPoint();
+            StartCoroutine(AttackAndExit());
         }
+    }
+
+    System.Collections.IEnumerator AttackAndExit()
+    {
+        chasing = false;
+        gameOver = true;
+        agent.isStopped = true;
+
+        if (animator)
+            animator.SetTrigger(attackTrigger);
+
+        yield return new WaitForSeconds(2.5f);
+
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }
