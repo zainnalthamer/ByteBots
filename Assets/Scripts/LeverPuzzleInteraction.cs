@@ -10,8 +10,8 @@ public class LeverPuzzleInteraction : MonoBehaviour
     public GameObject leverUI;
     public GameObject leverGroup;
 
-    private bool playerInRange = false;
-    private bool isInteracting = false;
+    bool playerInRange = false;
+    bool isInteracting = false;
 
     void Start()
     {
@@ -54,7 +54,7 @@ public class LeverPuzzleInteraction : MonoBehaviour
         }
     }
 
-    void ExitInteraction()
+    public void ExitInteraction()
     {
         isInteracting = false;
         leverCamera.gameObject.SetActive(false);
@@ -75,7 +75,7 @@ public class LeverPuzzleInteraction : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -84,7 +84,7 @@ public class LeverPuzzleInteraction : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
