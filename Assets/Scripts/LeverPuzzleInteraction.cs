@@ -43,6 +43,9 @@ public class LeverPuzzleInteraction : MonoBehaviour
         if (player.TryGetComponent(out ThirdPersonController tpc))
             tpc.enabled = false;
 
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         if (leverUI) leverUI.SetActive(false);
         if (leverGroup)
         {
@@ -61,6 +64,9 @@ public class LeverPuzzleInteraction : MonoBehaviour
             controller.enabled = true;
         if (player.TryGetComponent(out ThirdPersonController tpc))
             tpc.enabled = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         if (leverGroup)
         {
