@@ -1,0 +1,90 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+using StarterAssets;
+
+public class LeverPuzzleInteraction : MonoBehaviour
+{
+    public Camera leverCamera;
+    public Camera mainCamera;
+    public GameObject player;
+    public GameObject leverUI;
+    public GameObject leverGroup;
+
+    private bool playerInRange = false;
+    private bool isInteracting = false;
+
+    void Start()
+    {
+        leverCamera.gameObject.SetActive(false);
+        if (leverGroup)
+        {
+            foreach (Collider col in leverGroup.GetComponentsInChildren<Collider>())
+                col.enabled = false;
+        }
+    }
+
+    void Update()
+    {
+        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        {
+            if (!isInteracting) EnterInteraction();
+            else ExitInteraction();
+        }
+    }
+
+    void EnterInteraction()
+    {
+        isInteracting = true;
+        leverCamera.gameObject.SetActive(true);
+        mainCamera.gameObject.SetActive(false);
+
+        if (player.TryGetComponent(out CharacterController controller))
+            controller.enabled = false;
+        if (player.TryGetComponent(out ThirdPersonController tpc))
+            tpc.enabled = false;
+
+        if (leverUI) leverUI.SetActive(false);
+        if (leverGroup)
+        {
+            foreach (Collider col in leverGroup.GetComponentsInChildren<Collider>())
+                col.enabled = true;
+        }
+    }
+
+    void ExitInteraction()
+    {
+        isInteracting = false;
+        leverCamera.gameObject.SetActive(false);
+        mainCamera.gameObject.SetActive(true);
+
+        if (player.TryGetComponent(out CharacterController controller))
+            controller.enabled = true;
+        if (player.TryGetComponent(out ThirdPersonController tpc))
+            tpc.enabled = true;
+
+        if (leverGroup)
+        {
+            foreach (Collider col in leverGroup.GetComponentsInChildren<Collider>())
+                col.enabled = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = true;
+            if (leverUI) leverUI.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = false;
+            if (leverUI) leverUI.SetActive(false);
+            if (isInteracting) ExitInteraction();
+        }
+    }
+}
