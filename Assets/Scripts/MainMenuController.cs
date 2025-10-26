@@ -1,0 +1,42 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class MainMenuController : MonoBehaviour
+{
+    public string gameSceneName = "Carnival";
+
+    public GameObject optionsPanel;
+    public GameObject mainButtons;
+
+    void Start()
+    {
+        ShowMain();
+    }
+
+    public void PlayGame()
+    {
+        SceneManager.LoadScene(gameSceneName);
+    }
+
+    public void OpenOptions()
+    {
+        mainButtons.SetActive(false);
+        optionsPanel.SetActive(true);
+    }
+
+    public void BackFromOptions()
+    {
+        ShowMain();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    void ShowMain()
+    {
+        mainButtons.SetActive(true);
+        optionsPanel.SetActive(false);
+    }
+}
