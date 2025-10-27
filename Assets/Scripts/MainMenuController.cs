@@ -5,6 +5,7 @@ public class MainMenuController : MonoBehaviour
     public string gameSceneName = "Carnival";
 
     public GameObject optionsPanel;
+    public GameObject creditsPanel;
     public GameObject mainButtons;
 
     void Start()
@@ -22,6 +23,12 @@ public class MainMenuController : MonoBehaviour
     {
         mainButtons.SetActive(false);
         optionsPanel.SetActive(true);
+    }
+
+    public void OpenCredits()
+    {
+        mainButtons.SetActive(false);
+        creditsPanel.SetActive(true);
     }
 
     public void BackFromOptions()
