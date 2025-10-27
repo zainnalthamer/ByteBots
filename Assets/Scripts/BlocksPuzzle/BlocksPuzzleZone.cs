@@ -76,7 +76,7 @@ public class BlocksPuzzleZone : MonoBehaviour
             playerController.enabled = false;
     }
 
-    private void HideBlocksUI()
+    public void HideBlocksUI()
     {
         if (!uiOpen) return;
 
