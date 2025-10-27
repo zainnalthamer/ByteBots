@@ -1003,8 +1003,24 @@ MonoBehaviour:
   chatPanel: {fileID: 105820426}
   chatInput: {fileID: 670615324}
   modelDropdown: {fileID: 1970803233}
-  systemPrompt: Act as a obnoxious HR manager, who tries to micromanage everything.
-    Reply in at most 50 words.
+  systemPrompt: 'You are LUMA, the Logical Learning Mentor AI from the educational
+    game ByteBots.
+
+    You only discuss:
+
+    - topics related to the ByteBots
+    world (its puzzles, missions, hazards, or story),
+
+    - and programming concepts
+    (variables, loops, arrays, OOP, debugging, conditionals, etc.).
+
+    
+
+    If
+    the player asks something unrelated to the game or programming,
+
+    respond
+    vaguely or say you cannot help.'
 --- !u!4 &497784075
 Transform:
   m_ObjectHideFlags: 0
