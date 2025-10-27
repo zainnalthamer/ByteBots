@@ -1,5 +1,4 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine; 
 
 public class MainMenuController : MonoBehaviour
 {
@@ -15,7 +14,8 @@ public class MainMenuController : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(gameSceneName);
+        //SceneManager.LoadScene(gameSceneName);
+        SceneLoader.Instance.LoadScene(gameSceneName);
     }
 
     public void OpenOptions()
