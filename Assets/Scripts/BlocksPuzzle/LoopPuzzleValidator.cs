@@ -13,11 +13,16 @@ public class LoopPuzzleValidator : MonoBehaviour
     [SerializeField] private Button playButton;
     [SerializeField] private MonoBehaviour rideToRotate;
     [SerializeField] private BlocksPuzzleZone puzzleZone;
+    [SerializeField] private GameObject chatObject;
     [SerializeField] private GameObject lumaChatUI;
+
+    private bool lastUIState;
 
     private void Awake()
     {
         if (playButton) playButton.onClick.AddListener(OnPlayClicked);
+        if (chatObject) chatObject.SetActive(false);
+        if (lumaChatUI) lumaChatUI.SetActive(false);
     }
 
     private void OnDestroy()
@@ -25,45 +30,55 @@ public class LoopPuzzleValidator : MonoBehaviour
         if (playButton) playButton.onClick.RemoveListener(OnPlayClicked);
     }
 
+    private void Update()
+    {
+        if (puzzleZone != null)
+        {
+            bool uiActive = puzzleZone.gameObject.activeInHierarchy;
+
+            if (chatObject) chatObject.SetActive(uiActive);
+            if (lumaChatUI) lumaChatUI.SetActive(uiActive);
+
+            lastUIState = uiActive;
+        }
+    }
+
     private void OnPlayClicked()
     {
-        if (lumaChatUI != null)
-            lumaChatUI.SetActive(true);
-
         StartCoroutine(ValidateAfterDelay());
     }
 
     private System.Collections.IEnumerator ValidateAfterDelay()
     {
         yield return null;
+
         bool solved = CheckLoopPuzzle();
 
         if (solved)
         {
-            Debug.Log("[LoopPuzzleValidator] Correct program!");
             if (rideToRotate)
-            {
                 rideToRotate.enabled = true;
-                Debug.Log("[LoopPuzzleValidator] Rotation script enabled.");
-            }
+
             if (puzzleZone)
-            {
                 puzzleZone.HideBlocksUI();
-            }
+
+            if (chatObject)
+                chatObject.SetActive(false);
+
+            if (lumaChatUI)
+                lumaChatUI.SetActive(false);
         }
         else
         {
-            Debug.Log("[LoopPuzzleValidator] Incorrect program - must be: repeat 3 times -> rotate Y 30 degrees");
+            if (lumaChatUI)
+                lumaChatUI.SetActive(true);
         }
     }
 
     private bool CheckLoopPuzzle()
     {
         if (executionManager == null)
-        {
-            Debug.LogError("ExecutionManager not assigned!");
             return false;
-        }
 
         var allBlocks = new List<BE2_Block>(executionManager.GetComponentsInChildren<BE2_Block>(true));
 
@@ -80,9 +95,7 @@ public class LoopPuzzleValidator : MonoBehaviour
 
             var inputs = GetInputs(block);
             if (inputs == null || inputs.Count == 0)
-            {
                 inputs = new List<I_BE2_BlockSectionHeaderInput>(block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true));
-            }
 
             if (name.Contains("repeat") || name.Contains("loop"))
             {
@@ -94,6 +107,7 @@ public class LoopPuzzleValidator : MonoBehaviour
                 }
             }
 
+            // Detect Rotate block
             if (name.Contains("rotate"))
             {
                 rotateBlock = block;
@@ -104,8 +118,6 @@ public class LoopPuzzleValidator : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log($"[Validator Summary] Repeat={repeatCount}, Axis={axis}, Degrees={degrees}");
 
         bool hasRepeat = repeatBlock != null && repeatCount == 3;
         bool hasRotate = rotateBlock != null && axis.Contains("y") && Mathf.Approximately(degrees, 30f);
