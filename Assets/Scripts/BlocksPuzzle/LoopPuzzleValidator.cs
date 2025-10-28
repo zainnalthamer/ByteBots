@@ -13,6 +13,7 @@ public class LoopPuzzleValidator : MonoBehaviour
     [SerializeField] private Button playButton;
     [SerializeField] private MonoBehaviour rideToRotate;
     [SerializeField] private BlocksPuzzleZone puzzleZone;
+    [SerializeField] private GameObject lumaChatUI;
 
     private void Awake()
     {
@@ -26,6 +27,9 @@ public class LoopPuzzleValidator : MonoBehaviour
 
     private void OnPlayClicked()
     {
+        if (lumaChatUI != null)
+            lumaChatUI.SetActive(true);
+
         StartCoroutine(ValidateAfterDelay());
     }
 
