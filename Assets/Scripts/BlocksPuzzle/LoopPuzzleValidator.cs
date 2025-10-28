@@ -16,6 +16,9 @@ public class LoopPuzzleValidator : MonoBehaviour
     [SerializeField] private GameObject chatObject;
     [SerializeField] private GameObject lumaChatUI;
 
+    [Header("Canvas Settings (optional)")]
+    [SerializeField] private Canvas lumaChatCanvas;
+
     private bool lastUIState;
 
     private void Awake()
@@ -23,6 +26,15 @@ public class LoopPuzzleValidator : MonoBehaviour
         if (playButton) playButton.onClick.AddListener(OnPlayClicked);
         if (chatObject) chatObject.SetActive(false);
         if (lumaChatUI) lumaChatUI.SetActive(false);
+
+        if (lumaChatUI && lumaChatCanvas == null)
+            lumaChatCanvas = lumaChatUI.GetComponentInParent<Canvas>();
+
+        if (lumaChatCanvas)
+        {
+            lumaChatCanvas.overrideSorting = true;
+            lumaChatCanvas.sortingOrder = 50;
+        }
     }
 
     private void OnDestroy()
@@ -38,6 +50,12 @@ public class LoopPuzzleValidator : MonoBehaviour
 
             if (chatObject) chatObject.SetActive(uiActive);
             if (lumaChatUI) lumaChatUI.SetActive(uiActive);
+
+            if (uiActive)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
 
             lastUIState = uiActive;
         }
@@ -71,7 +89,18 @@ public class LoopPuzzleValidator : MonoBehaviour
         else
         {
             if (lumaChatUI)
+            {
                 lumaChatUI.SetActive(true);
+
+                if (lumaChatCanvas)
+                {
+                    lumaChatCanvas.overrideSorting = true;
+                    lumaChatCanvas.sortingOrder = 50;
+                }
+
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
         }
     }
 
@@ -107,7 +136,6 @@ public class LoopPuzzleValidator : MonoBehaviour
                 }
             }
 
-            // Detect Rotate block
             if (name.Contains("rotate"))
             {
                 rotateBlock = block;
