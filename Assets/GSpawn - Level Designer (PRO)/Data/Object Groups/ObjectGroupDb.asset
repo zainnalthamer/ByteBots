@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4172419011787411112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d78f77521bb1424d90dc20b0de9cee3, type: 3}
+  m_Name: ObjectGroupDbUI_ObjectGroupViewState
+  m_EditorClassIdentifier: 
+  selectedItems:
+    _serializedList:
+    - _guidString: b3be3896-d71e-462c-b9a6-7f1b97ffe3a6
+  collapsedItems:
+    _serializedList: []
+  selectRangeBeginId:
+    _guidString: 00000000-0000-0000-0000-000000000000
+  selectRangeEndId:
+    _guidString: 00000000-0000-0000-0000-000000000000
+  hasSelectRange: 0
+  scrollOffset: {x: 0, y: 0}
+  vertScrollHighValue: 0
+  vertScrollLowValue: 0
+--- !u!114 &-2113111050559045321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e65aff9267f84c04e9ceb3f9b5e44777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _belowGrid: 1
+  _aboveGrid: 1
+  _onGrid: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cdc5f1e3ddab65418bb342193ece696, type: 3}
+  m_Name: ObjectGroupDb
+  m_EditorClassIdentifier: 
+  _actionFilters: {fileID: -2113111050559045321}
+  _sceneToObjectGroups:
+    _serializedKeys:
+    - 2cc8fba065b67144db7e31c32c239e66
+    _serializedValues:
+    - _serializedList:
+      - {fileID: 7332600764066604005}
+  _sceneToDefaultObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+--- !u!114 &7332600764066604005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e89507e0fc6bfa42a8f0a65a2632bdd, type: 3}
+  m_Name: Props
+  m_EditorClassIdentifier: 
+  _parentGroup: {fileID: 0}
+  _guid:
+    _guidString: b3be3896-d71e-462c-b9a6-7f1b97ffe3a6
+  _objectGroupName: Props
+  _globalObjectIdString: GlobalObjectId_V1-2-2cc8fba065b67144db7e31c32c239e66-1720663671-0
+  _uiSelected: 1
