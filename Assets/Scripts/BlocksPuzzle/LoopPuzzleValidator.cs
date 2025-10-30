@@ -14,32 +14,46 @@ public class LoopPuzzleValidator : MonoBehaviour
     [SerializeField] private MonoBehaviour rideToRotate;
     [SerializeField] private BlocksPuzzleZone puzzleZone;
     [SerializeField] private GameObject chatObject;
-    [SerializeField] private GameObject lumaChatUI;
 
-    [Header("Canvas Settings (optional)")]
-    [SerializeField] private Canvas lumaChatCanvas;
+    [Header("Puzzle Card Settings")]
+    [SerializeField] private PuzzleCardController puzzleCard;
+    [TextArea(2, 4)]
+    [SerializeField]
+    private string puzzleQuestion =
+        "Use a loop that repeats 3 times and rotates the ride 30° on the Y axis.";
+    [SerializeField] private Sprite lumaIcon;
+
+    [Header("Choice Card Settings")]
+    [SerializeField] private ChoiceCardController choiceCard;
+    [SerializeField] private string conceptName = "loops";
 
     private bool lastUIState;
 
     private void Awake()
     {
-        if (playButton) playButton.onClick.AddListener(OnPlayClicked);
-        if (chatObject) chatObject.SetActive(false);
-        if (lumaChatUI) lumaChatUI.SetActive(false);
+        if (playButton)
+            playButton.onClick.AddListener(OnPlayClicked);
 
-        if (lumaChatUI && lumaChatCanvas == null)
-            lumaChatCanvas = lumaChatUI.GetComponentInParent<Canvas>();
+        if (chatObject)
+            chatObject.SetActive(false);
 
-        if (lumaChatCanvas)
+        if (puzzleCard)
         {
-            lumaChatCanvas.overrideSorting = true;
-            lumaChatCanvas.sortingOrder = 50;
+            puzzleCard.Hide();
+            puzzleCard.OnLumaClicked.AddListener(OnLumaIconClicked);
         }
+
+        if (choiceCard)
+            choiceCard.Hide();
     }
 
     private void OnDestroy()
     {
-        if (playButton) playButton.onClick.RemoveListener(OnPlayClicked);
+        if (playButton)
+            playButton.onClick.RemoveListener(OnPlayClicked);
+
+        if (puzzleCard)
+            puzzleCard.OnLumaClicked.RemoveListener(OnLumaIconClicked);
     }
 
     private void Update()
@@ -48,13 +62,23 @@ public class LoopPuzzleValidator : MonoBehaviour
         {
             bool uiActive = puzzleZone.gameObject.activeInHierarchy;
 
-            if (chatObject) chatObject.SetActive(uiActive);
-            if (lumaChatUI) lumaChatUI.SetActive(uiActive);
+            if (chatObject)
+                chatObject.SetActive(uiActive);
 
-            if (uiActive)
+            if (uiActive && !lastUIState)
             {
+                if (puzzleCard)
+                    puzzleCard.Show(puzzleQuestion, lumaIcon);
+
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+            }
+            else if (!uiActive && lastUIState)
+            {
+                if (puzzleCard)
+                    puzzleCard.Hide();
+                if (choiceCard)
+                    choiceCard.Hide();
             }
 
             lastUIState = uiActive;
@@ -83,24 +107,19 @@ public class LoopPuzzleValidator : MonoBehaviour
             if (chatObject)
                 chatObject.SetActive(false);
 
-            if (lumaChatUI)
-                lumaChatUI.SetActive(false);
+            if (puzzleCard)
+                puzzleCard.Hide();
+
+            if (choiceCard)
+                choiceCard.Hide();
         }
         else
         {
-            if (lumaChatUI)
-            {
-                lumaChatUI.SetActive(true);
+            if (puzzleCard)
+                puzzleCard.Show(puzzleQuestion, lumaIcon);
 
-                if (lumaChatCanvas)
-                {
-                    lumaChatCanvas.overrideSorting = true;
-                    lumaChatCanvas.sortingOrder = 50;
-                }
-
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -109,7 +128,8 @@ public class LoopPuzzleValidator : MonoBehaviour
         if (executionManager == null)
             return false;
 
-        var allBlocks = new List<BE2_Block>(executionManager.GetComponentsInChildren<BE2_Block>(true));
+        var allBlocks = new List<BE2_Block>(
+            executionManager.GetComponentsInChildren<BE2_Block>(true));
 
         BE2_Block repeatBlock = null;
         BE2_Block rotateBlock = null;
@@ -124,7 +144,8 @@ public class LoopPuzzleValidator : MonoBehaviour
 
             var inputs = GetInputs(block);
             if (inputs == null || inputs.Count == 0)
-                inputs = new List<I_BE2_BlockSectionHeaderInput>(block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true));
+                inputs = new List<I_BE2_BlockSectionHeaderInput>(
+                    block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true));
 
             if (name.Contains("repeat") || name.Contains("loop"))
             {
@@ -148,7 +169,8 @@ public class LoopPuzzleValidator : MonoBehaviour
         }
 
         bool hasRepeat = repeatBlock != null && repeatCount == 3;
-        bool hasRotate = rotateBlock != null && axis.Contains("y") && Mathf.Approximately(degrees, 30f);
+        bool hasRotate =
+            rotateBlock != null && axis.Contains("y") && Mathf.Approximately(degrees, 30f);
 
         return hasRepeat && hasRotate;
     }
@@ -158,7 +180,8 @@ public class LoopPuzzleValidator : MonoBehaviour
         var inputs = new List<I_BE2_BlockSectionHeaderInput>();
         var type = block.GetType();
 
-        foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+        foreach (var field in type.GetFields(
+                     BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
         {
             if (typeof(IEnumerable<I_BE2_BlockSectionHeaderInput>).IsAssignableFrom(field.FieldType))
             {
@@ -171,5 +194,34 @@ public class LoopPuzzleValidator : MonoBehaviour
         }
 
         return inputs;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (puzzleCard)
+                puzzleCard.Show(puzzleQuestion, lumaIcon);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (puzzleCard)
+                puzzleCard.Hide();
+            if (choiceCard)
+                choiceCard.Hide();
+        }
+    }
+
+    public void OnLumaIconClicked()
+    {
+        if (puzzleCard)
+            puzzleCard.Hide();
+
+        if (choiceCard)
+            choiceCard.Show(conceptName, lumaIcon);
     }
 }
