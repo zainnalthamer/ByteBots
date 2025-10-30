@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Neocortex;
+using DG.Tweening;
 
 public class ChoiceCardController : MonoBehaviour
 {
@@ -12,19 +14,25 @@ public class ChoiceCardController : MonoBehaviour
     [SerializeField] private Button examplesButton;
     [SerializeField] private TMP_Text explainButtonText;
     [SerializeField] private TMP_Text examplesButtonText;
-    [SerializeField] private GameObject root;
+    [SerializeField] private GameObject choicesCardPanel;
+
+    [Header("Neocortex References")]
+    [SerializeField] private Transform chatContainer;
+    [SerializeField] private Transform chatPanel;
+    [SerializeField] private NeocortexTextChatInput chatInput;
+
 
     private string currentConcept = "";
 
     private void Awake()
     {
-        if (!root) root = gameObject;
+        if (!choicesCardPanel) choicesCardPanel = gameObject;
         if (canvas)
         {
             canvas.overrideSorting = true;
             canvas.sortingOrder = 60;
         }
-        root.SetActive(false);
+        choicesCardPanel.SetActive(false);
     }
 
     public void Show(string concept, Sprite iconSprite = null)
@@ -43,13 +51,41 @@ public class ChoiceCardController : MonoBehaviour
         if (questionText)
             questionText.text = $"What do you want to know about {concept}?";
 
-        root.SetActive(true);
+        choicesCardPanel.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
 
     public void Hide()
     {
-        root.SetActive(false);
+        choicesCardPanel.SetActive(false);
     }
+
+    #region Button Callbacks
+    public void OnExplainButtonClicked()
+    {
+        var message = explainButtonText.text;
+        AnimateChatPanel(true);
+        chatInput.SendCustomMessage(message); 
+        Hide();
+    }
+
+    public void OnExamplesButtonClicked()
+    {
+        var message = examplesButtonText.text; 
+        AnimateChatPanel(true);
+        chatInput.SendCustomMessage(message);
+        Hide();
+    }
+
+    void AnimateChatPanel(bool animate)
+    { 
+        if(animate) 
+            chatPanel.DOLocalMoveX(530, 1.5f).SetEase(Ease.OutQuad);
+        else
+            chatPanel.DOLocalMoveX(2222, 1.5f).SetEase(Ease.OutQuad);
+    }
+
+    #endregion
+
 }

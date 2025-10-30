@@ -58,6 +58,23 @@ public class LoopPuzzleValidator : MonoBehaviour
 
     private void Update()
     {
+
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+
+
+
+
+
         if (puzzleZone != null)
         {
             bool uiActive = puzzleZone.gameObject.activeInHierarchy;
@@ -174,7 +191,7 @@ public class LoopPuzzleValidator : MonoBehaviour
 
         return hasRepeat && hasRotate;
     }
-
+    
     private List<I_BE2_BlockSectionHeaderInput> GetInputs(BE2_Block block)
     {
         var inputs = new List<I_BE2_BlockSectionHeaderInput>();
