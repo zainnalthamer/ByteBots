@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BugInteraction : MonoBehaviour
+public class OldBugInteraction : MonoBehaviour
 {
     [SerializeField] private GameObject puzzleUI;
     [SerializeField] private Animator bugAnimator;
@@ -27,7 +27,7 @@ public class BugInteraction : MonoBehaviour
         if (!counted && BugCollectibleManager.Instance != null)
         {
             counted = true;
-            BugCollectibleManager.Instance.AddBugCaptured();
+            //BugCollectibleManager.Instance.AddBugCaptured();
         }
 
         if (puzzleUI) puzzleUI.SetActive(false);
