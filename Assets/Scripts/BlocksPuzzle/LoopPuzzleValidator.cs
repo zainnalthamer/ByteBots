@@ -27,6 +27,9 @@ public class LoopPuzzleValidator : MonoBehaviour
     [SerializeField] private ChoiceCardController choiceCard;
     [SerializeField] private string conceptName = "loops";
 
+    [Header("Bug Interaction")]
+    [SerializeField] private BugInteraction bugReference;
+
     private bool lastUIState;
 
     private void Awake()
@@ -58,22 +61,17 @@ public class LoopPuzzleValidator : MonoBehaviour
 
     private void Update()
     {
-
-        if(Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
 
-        if(Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
-
-
-
-
 
         if (puzzleZone != null)
         {
@@ -129,6 +127,10 @@ public class LoopPuzzleValidator : MonoBehaviour
 
             if (choiceCard)
                 choiceCard.Hide();
+
+            if (bugReference != null)
+                bugReference.OnPuzzleSolved();
+
         }
         else
         {
@@ -191,7 +193,7 @@ public class LoopPuzzleValidator : MonoBehaviour
 
         return hasRepeat && hasRotate;
     }
-    
+
     private List<I_BE2_BlockSectionHeaderInput> GetInputs(BE2_Block block)
     {
         var inputs = new List<I_BE2_BlockSectionHeaderInput>();
