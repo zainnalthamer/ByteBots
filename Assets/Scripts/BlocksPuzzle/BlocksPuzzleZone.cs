@@ -14,8 +14,8 @@ public class BlocksPuzzleZone : MonoBehaviour
     [Tooltip("Tag used to identify the player")]
     [SerializeField] private string playerTag = "Player";
 
-    [Header("Optional: Cursor & Control")]
-    [SerializeField] private bool lockCursorDuringUI = false;
+    //[Header("Cursor & Control")]
+    //[SerializeField] private bool lockCursorDuringUI = false;
 
     private bool uiOpen = false;
 
