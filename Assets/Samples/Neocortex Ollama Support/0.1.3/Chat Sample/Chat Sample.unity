@@ -640,10 +640,10 @@ RectTransform:
   m_Father: {fileID: 2065823248}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 508, y: -28}
+  m_SizeDelta: {x: 1008, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &351816356
 MonoBehaviour:
@@ -1008,19 +1008,19 @@ MonoBehaviour:
 
     You only discuss:
 
-    - topics related to the ByteBots
-    world (its puzzles, missions, hazards, or story),
+    - topics related to the ByteBots world
+    (its puzzles, missions, hazards, or story),
 
-    - and programming concepts
-    (variables, loops, arrays, OOP, debugging, conditionals, etc.).
+    - and programming concepts (variables,
+    loops, arrays, OOP, debugging, conditionals, etc.).
 
-    
 
-    If
-    the player asks something unrelated to the game or programming,
 
-    respond
-    vaguely or say you cannot help.'
+    If the player asks
+    something unrelated to the game or programming,
+
+    respond vaguely or say you
+    cannot help.'
 --- !u!4 &497784075
 Transform:
   m_ObjectHideFlags: 0
@@ -1493,10 +1493,10 @@ RectTransform:
   m_Father: {fileID: 351816355}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 984, y: -24}
+  m_SizeDelta: {x: 48, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &963122534
 MonoBehaviour:
