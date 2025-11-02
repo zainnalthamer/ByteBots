@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class BugCollectibleManager : MonoBehaviour
+public class OldBugCollectibleManager : MonoBehaviour
 {
     public static BugCollectibleManager Instance { get; private set; }
 
@@ -14,7 +14,7 @@ public class BugCollectibleManager : MonoBehaviour
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-        Instance = this;
+        //Instance = this;
     }
 
     void Start()
