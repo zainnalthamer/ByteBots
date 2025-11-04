@@ -37,6 +37,7 @@ MonoBehaviour:
     assemblyNames:
     - Assembly-CSharp
     - Assembly-CSharp-firstpass
+    - Boxophobic.Utils.Scripts
     - Cinemachine
     - Fungus
     - FungusExamples
