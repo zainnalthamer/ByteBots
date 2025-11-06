@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Reflection;
+using System.Collections;
 
 public class LoopPuzzleValidator : MonoBehaviour
 {
@@ -15,17 +16,20 @@ public class LoopPuzzleValidator : MonoBehaviour
     [SerializeField] private BlocksPuzzleZone puzzleZone;
     [SerializeField] private GameObject chatObject;
 
+    [Header("Pond Settings")]
+    [SerializeField] private Transform pond;
+    [SerializeField] private Vector3 pondTargetPosition = new Vector3(-109.57f, 0.1f, -124.16f);
+    [SerializeField] private float pondMoveSpeed = 1.5f;
+
     [Header("Puzzle Card Settings")]
     [SerializeField] private PuzzleCardController puzzleCard;
     [TextArea(2, 4)]
-    [SerializeField]
-    private string puzzleQuestion =
-        "Use a loop that repeats 3 times and rotates the ride 30° on the Y axis.";
+    [SerializeField] private string puzzleQuestion = "Set waterLevel to 50 to activate the pump and fill the pond!";
     [SerializeField] private Sprite lumaIcon;
 
     [Header("Choice Card Settings")]
     [SerializeField] private ChoiceCardController choiceCard;
-    [SerializeField] private string conceptName = "loops";
+    [SerializeField] private string conceptName = "variables and data types";
 
     [Header("Bug Interaction")]
     [SerializeField] private BugInteraction bugReference;
@@ -43,6 +47,7 @@ public class LoopPuzzleValidator : MonoBehaviour
         if (puzzleCard)
         {
             puzzleCard.Hide();
+            puzzleCard.OnLumaClicked.RemoveAllListeners();
             puzzleCard.OnLumaClicked.AddListener(OnLumaIconClicked);
         }
 
@@ -82,9 +87,7 @@ public class LoopPuzzleValidator : MonoBehaviour
 
             if (uiActive && !lastUIState)
             {
-                if (puzzleCard)
-                    puzzleCard.Show(puzzleQuestion, lumaIcon);
-
+                StartCoroutine(ShowPuzzleCardGuaranteed());
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
@@ -100,21 +103,38 @@ public class LoopPuzzleValidator : MonoBehaviour
         }
     }
 
+    private IEnumerator ShowPuzzleCardGuaranteed()
+    {
+        yield return new WaitForEndOfFrame();
+        Canvas.ForceUpdateCanvases();
+        if (puzzleCard)
+            puzzleCard.Show(puzzleQuestion, lumaIcon);
+        yield return null;
+        Canvas.ForceUpdateCanvases();
+    }
+
     private void OnPlayClicked()
     {
         StartCoroutine(ValidateAfterDelay());
     }
 
-    private System.Collections.IEnumerator ValidateAfterDelay()
+    private IEnumerator ValidateAfterDelay()
     {
         yield return null;
 
         bool solved = CheckLoopPuzzle();
+        bool waterSolved = CheckWaterLevelPuzzle();
 
-        if (solved)
+        if (solved || waterSolved)
         {
             if (rideToRotate)
                 rideToRotate.enabled = true;
+
+            if (waterSolved)
+            {
+                Debug.Log("[Validator] Pond puzzle solved");
+                StartCoroutine(RaisePond());
+            }
 
             if (puzzleZone)
                 puzzleZone.HideBlocksUI();
@@ -130,7 +150,6 @@ public class LoopPuzzleValidator : MonoBehaviour
 
             if (bugReference != null)
                 bugReference.OnPuzzleSolved();
-
         }
         else
         {
@@ -142,13 +161,63 @@ public class LoopPuzzleValidator : MonoBehaviour
         }
     }
 
+    private IEnumerator RaisePond()
+    {
+        if (pond == null)
+        {
+            Debug.LogWarning("[Validator] Pond reference missing");
+            yield break;
+        }
+
+        Vector3 startPos = pond.position;
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime * pondMoveSpeed;
+            pond.position = Vector3.Lerp(startPos, pondTargetPosition, t);
+            yield return null;
+        }
+        pond.position = pondTargetPosition;
+        Debug.Log("[Validator] Pond raised successfully");
+    }
+
+    private bool CheckWaterLevelPuzzle()
+    {
+        if (executionManager == null)
+            return false;
+
+        var allBlocks = new List<BE2_Block>(executionManager.GetComponentsInChildren<BE2_Block>(true));
+
+        foreach (var block in allBlocks)
+        {
+            if (block == null) continue;
+            string name = block.name.ToLower();
+            var inputs = new List<I_BE2_BlockSectionHeaderInput>(block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true));
+
+            if (name.Contains("set") && name.Contains("variable"))
+            {
+                if (inputs.Count >= 2)
+                {
+                    string varName = inputs[0].StringValue.Trim().ToLower();
+                    string varValue = inputs[1].StringValue.Trim();
+
+                    Debug.Log($"[Validator] Found variable: {varName} = {varValue}");
+
+                    if (varName == "waterlevel" && varValue == "50")
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     private bool CheckLoopPuzzle()
     {
         if (executionManager == null)
             return false;
 
-        var allBlocks = new List<BE2_Block>(
-            executionManager.GetComponentsInChildren<BE2_Block>(true));
+        var allBlocks = new List<BE2_Block>(executionManager.GetComponentsInChildren<BE2_Block>(true));
 
         BE2_Block repeatBlock = null;
         BE2_Block rotateBlock = null;
@@ -163,8 +232,7 @@ public class LoopPuzzleValidator : MonoBehaviour
 
             var inputs = GetInputs(block);
             if (inputs == null || inputs.Count == 0)
-                inputs = new List<I_BE2_BlockSectionHeaderInput>(
-                    block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true));
+                inputs = new List<I_BE2_BlockSectionHeaderInput>(block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true));
 
             if (name.Contains("repeat") || name.Contains("loop"))
             {
@@ -188,8 +256,7 @@ public class LoopPuzzleValidator : MonoBehaviour
         }
 
         bool hasRepeat = repeatBlock != null && repeatCount == 3;
-        bool hasRotate =
-            rotateBlock != null && axis.Contains("y") && Mathf.Approximately(degrees, 30f);
+        bool hasRotate = rotateBlock != null && axis.Contains("y") && Mathf.Approximately(degrees, 30f);
 
         return hasRepeat && hasRotate;
     }
@@ -199,8 +266,7 @@ public class LoopPuzzleValidator : MonoBehaviour
         var inputs = new List<I_BE2_BlockSectionHeaderInput>();
         var type = block.GetType();
 
-        foreach (var field in type.GetFields(
-                     BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+        foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
         {
             if (typeof(IEnumerable<I_BE2_BlockSectionHeaderInput>).IsAssignableFrom(field.FieldType))
             {
@@ -217,22 +283,17 @@ public class LoopPuzzleValidator : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            if (puzzleCard)
-                puzzleCard.Show(puzzleQuestion, lumaIcon);
-        }
+        if (!other.CompareTag("Player")) return;
+        StartCoroutine(ShowPuzzleCardGuaranteed());
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            if (puzzleCard)
-                puzzleCard.Hide();
-            if (choiceCard)
-                choiceCard.Hide();
-        }
+        if (!other.CompareTag("Player")) return;
+        if (puzzleCard)
+            puzzleCard.Hide();
+        if (choiceCard)
+            choiceCard.Hide();
     }
 
     public void OnLumaIconClicked()
@@ -241,6 +302,9 @@ public class LoopPuzzleValidator : MonoBehaviour
             puzzleCard.Hide();
 
         if (choiceCard)
+        {
+            choiceCard.gameObject.SetActive(true);
             choiceCard.Show(conceptName, lumaIcon);
+        }
     }
 }

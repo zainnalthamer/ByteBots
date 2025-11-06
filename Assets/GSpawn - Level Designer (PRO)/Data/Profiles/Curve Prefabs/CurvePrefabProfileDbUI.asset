@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CurvePrefabProfileDbUI
   m_EditorClassIdentifier: 
   _prefabViewContainerWidth: 300
-  _prefabPreviewScale: 0.7
+  _prefabPreviewScale: 0.5
   _prefabSettingsScrollPos: {x: 0, y: 0}
   _prefabViewState: {fileID: 5887037069229279942, guid: 8f7f92f7d597ca043bfc0cedba405fc1, type: 2}

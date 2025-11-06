@@ -37,6 +37,7 @@ MonoBehaviour:
     assemblyNames:
     - Assembly-CSharp
     - Assembly-CSharp-firstpass
+    - Boxophobic.Utils.Scripts
     - Cinemachine
     - Fungus
     - FungusExamples
@@ -54,6 +55,8 @@ MonoBehaviour:
     - MoreMountains.Tools
     - Neocortex.Ollama.Runtime
     - Neocortex.Runtime
+    - sc.fae.editor
+    - sc.fae.runtime
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

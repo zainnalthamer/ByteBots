@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee558fdd4e20dc04bac5514761a4c0ef, type: 3}
   m_Name: TileRuleProfileDb
   m_EditorClassIdentifier: 
-  _profiles: []
+  _profiles:
+  - {fileID: 11400000, guid: 1cfbf66e329410f4f9407268379a2be4, type: 2}
   _activeProfile: {fileID: 0}
