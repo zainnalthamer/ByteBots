@@ -1,0 +1,10 @@
+using UnityEngine;
+using BE2;
+
+public class #INSTRUCTION_NAME# : BE2_InstructionBase
+{
+    public override void Function()
+    {
+        ExecuteNextInstruction();
+    }
+}
