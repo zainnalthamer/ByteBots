@@ -13,8 +13,7 @@ public class OldBugInteraction : MonoBehaviour
     {
         if (isDead) return;
         if (other.CompareTag("Player"))
-        {
-            Time.timeScale = 0f;
+        { 
             if (puzzleUI) puzzleUI.SetActive(true);
         }
     }
@@ -30,15 +29,14 @@ public class OldBugInteraction : MonoBehaviour
             //BugCollectibleManager.Instance.AddBugCaptured();
         }
 
-        if (puzzleUI) puzzleUI.SetActive(false);
-        Time.timeScale = 1f;
+        if (puzzleUI) puzzleUI.SetActive(false); 
 
         if (bugAnimator) bugAnimator.SetTrigger("Die");
-        Invoke(nameof(DisableBug), deathDelay);
+        KillBug();
     }
 
-    private void DisableBug()
+    private void KillBug()
     {
-        gameObject.SetActive(false);
+        Destroy(gameObject, deathDelay);
     }
 }
