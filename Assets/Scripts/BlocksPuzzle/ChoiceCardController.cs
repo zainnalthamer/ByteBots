@@ -64,7 +64,9 @@ public class ChoiceCardController : MonoBehaviour
     #region Button Callbacks
     public void OnExplainButtonClicked()
     {
+        
         var message = explainButtonText.text;
+        Debug.Log(message);
         AnimateChatPanel(true);
         chatInput.SendCustomMessage(message); 
         Hide();
@@ -72,7 +74,8 @@ public class ChoiceCardController : MonoBehaviour
 
     public void OnExamplesButtonClicked()
     {
-        var message = examplesButtonText.text; 
+        var message = examplesButtonText.text;
+        Debug.Log(message);
         AnimateChatPanel(true);
         chatInput.SendCustomMessage(message);
         Hide();
