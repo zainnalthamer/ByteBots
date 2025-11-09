@@ -63,4 +63,10 @@ public class SaveManager : MonoBehaviour
         solvedPuzzles.Clear();
         ES3.DeleteFile(saveFile);
     }
+
+    public void IncrementBugCountBy(int n)
+    {
+        bugCount += Mathf.Max(0, n);
+        ES3.Save(SaveKeys.BugCount, bugCount, saveFile);
+    }
 }

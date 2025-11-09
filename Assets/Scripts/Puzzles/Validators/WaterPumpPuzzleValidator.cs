@@ -3,9 +3,9 @@ using MG_BlocksEngine2.Core;
 using MG_BlocksEngine2.Environment;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Reflection;
 
 public class WaterPumpPuzzleValidator : MonoBehaviour
 {
@@ -17,6 +17,9 @@ public class WaterPumpPuzzleValidator : MonoBehaviour
     [SerializeField] private GameObject lumaChatUI;
     [SerializeField] private WaterPumpController pumpController;
 
+    [Header("Bug Interaction")]
+    [SerializeField] private BugGroup bugGroup;
+
     [Header("Expected Values")]
     [SerializeField] private string variableName = "waterPressure";
     [SerializeField] private string expectedValue = "50.4";
@@ -27,15 +30,24 @@ public class WaterPumpPuzzleValidator : MonoBehaviour
     private void Awake()
     {
         if (playButton) playButton.onClick.AddListener(OnPlayClicked);
+
         if (chatObject) chatObject.SetActive(false);
         if (lumaChatUI) lumaChatUI.SetActive(false);
-        if (lumaChatUI && lumaChatCanvas == null) lumaChatCanvas = lumaChatUI.GetComponentInParent<Canvas>();
-        if (lumaChatCanvas) { lumaChatCanvas.overrideSorting = true; lumaChatCanvas.sortingOrder = 50; }
+
+        if (lumaChatUI && lumaChatCanvas == null)
+            lumaChatCanvas = lumaChatUI.GetComponentInParent<Canvas>();
+
+        if (lumaChatCanvas)
+        {
+            lumaChatCanvas.overrideSorting = true;
+            lumaChatCanvas.sortingOrder = 50;
+        }
     }
 
     private void OnDestroy()
     {
-        if (playButton) playButton.onClick.RemoveListener(OnPlayClicked);
+        if (playButton)
+            playButton.onClick.RemoveListener(OnPlayClicked);
     }
 
     private void OnPlayClicked()
@@ -50,16 +62,35 @@ public class WaterPumpPuzzleValidator : MonoBehaviour
         bool solved = CheckPumpPuzzle();
 
         if (solved)
-        { 
-            if (pumpController) pumpController.ActivatePump(-.1f);
-            if (puzzleZone) puzzleZone.HideBlocksUI();
-            if (chatObject) chatObject.SetActive(false);
-            if (lumaChatUI) lumaChatUI.SetActive(false);
+        {
+            Debug.Log("[WaterPumpPuzzle] Puzzle solved!");
+
+            if (pumpController)
+                pumpController.ActivatePump(-0.1f);
+
+            if (puzzleZone)
+                puzzleZone.HideBlocksUI();
+            if (chatObject)
+                chatObject.SetActive(false);
+            if (lumaChatUI)
+                lumaChatUI.SetActive(false);
+
+            if (bugGroup)
+                bugGroup.OnPuzzleSolved();
         }
         else
         {
-            if (lumaChatUI) lumaChatUI.SetActive(true);
-            if (lumaChatCanvas) { lumaChatCanvas.overrideSorting = true; lumaChatCanvas.sortingOrder = 50; }
+            Debug.Log("[WaterPumpPuzzle] Puzzle incorrect, showing Luma chat.");
+
+            if (lumaChatUI)
+                lumaChatUI.SetActive(true);
+
+            if (lumaChatCanvas)
+            {
+                lumaChatCanvas.overrideSorting = true;
+                lumaChatCanvas.sortingOrder = 50;
+            }
+
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -78,15 +109,16 @@ public class WaterPumpPuzzleValidator : MonoBehaviour
 
             string name = block.name.ToLower();
             var inputs = block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true);
+            if (inputs.Length < 2) continue;
 
             if (name.Contains("create") && name.Contains("float"))
             {
                 string varName = inputs[0].StringValue.Trim().ToLower();
                 string varValue = inputs[1].StringValue.Trim();
 
-                if (varName == "waterpressure" && varValue == "50.4")
+                if (varName == variableName.ToLower() && ValuesEqual(varValue, expectedValue))
                 {
-                    Debug.Log("[Validator] Puzzle solved: " + varName + " = " + varValue);
+                    Debug.Log($"[Validator] Found correct block: {varName} = {varValue}");
                     return true;
                 }
             }
@@ -95,7 +127,6 @@ public class WaterPumpPuzzleValidator : MonoBehaviour
         Debug.Log("[Validator] No matching block found.");
         return false;
     }
-
 
     private bool ValuesEqual(string a, string b)
     {
@@ -110,15 +141,19 @@ public class WaterPumpPuzzleValidator : MonoBehaviour
     {
         var inputs = new List<I_BE2_BlockSectionHeaderInput>();
         var type = block.GetType();
+
         foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
         {
             if (typeof(IEnumerable<I_BE2_BlockSectionHeaderInput>).IsAssignableFrom(field.FieldType))
             {
                 var val = field.GetValue(block);
-                if (val is List<I_BE2_BlockSectionHeaderInput> list) inputs.AddRange(list);
-                else if (val is I_BE2_BlockSectionHeaderInput[] arr) inputs.AddRange(arr);
+                if (val is List<I_BE2_BlockSectionHeaderInput> list)
+                    inputs.AddRange(list);
+                else if (val is I_BE2_BlockSectionHeaderInput[] arr)
+                    inputs.AddRange(arr);
             }
         }
+
         return inputs;
     }
 }
