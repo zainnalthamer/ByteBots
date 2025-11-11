@@ -27,7 +27,7 @@ public class SoilMixPuzzleValidator : MonoBehaviour
     [SerializeField] private string conceptName = "Variables and Arithmetic";
 
     [Header("Bug Interaction")]
-    [SerializeField] private BugInteraction bugReference;
+    [SerializeField] private BugGroup bugGroup;
 
     [Header("Expected Values")]
     [SerializeField] private float expectedNitrogen = 10f;
@@ -129,8 +129,8 @@ public class SoilMixPuzzleValidator : MonoBehaviour
             if (choiceCard)
                 choiceCard.Hide();
 
-            if (bugReference != null)
-                bugReference.OnPuzzleSolved();
+            if (bugGroup != null)
+                bugGroup.OnPuzzleSolved();
 
             if (cropsController != null)
                 cropsController.GrowCrops();
@@ -151,10 +151,9 @@ public class SoilMixPuzzleValidator : MonoBehaviour
         if (executionManager == null)
             return false;
 
-        float nitrogen = 10f;//GetVariableValue("nitrogen");
-        float phosphorus = 15f;//GetVariableValue("phosphorus");
-        float totalNutrients = 25f;//GetVariableValue("totalNutrients");
-
+        float nitrogen = 10f;
+        float phosphorus = 15f;
+        float totalNutrients = 25f;
         float expectedTotal = expectedNitrogen + expectedPhosphorus;
 
         bool correctValues =
@@ -162,130 +161,8 @@ public class SoilMixPuzzleValidator : MonoBehaviour
             Mathf.Approximately(phosphorus, expectedPhosphorus) &&
             Mathf.Approximately(totalNutrients, expectedTotal);
 
-        var allBlocks = new List<BE2_Block>(executionManager.GetComponentsInChildren<BE2_Block>(true)); 
-
-        foreach (var block in allBlocks)
-        {
-            if (block == null) continue;
-
-            string blockName = block.name.ToLower();
-            if (!(blockName.Contains("set") && blockName.Contains("variable")))
-                continue;
-
-            var inputs = GetInputs(block);
-            if (inputs == null || inputs.Count < 2) continue;
-
-            string varName = inputs[0].StringValue.Trim().ToLower();
-            if (varName != "totalnutrients") continue;
-
-            var childBlocks = block.GetComponentsInChildren<BE2_Block>(true);
-            foreach (var child in childBlocks)
-            {
-                if (child == block) continue;
-                string childName = child.name.ToLower();
-
-                if (childName.Contains("add") || childName.Contains("plus") || childName.Contains("+"))
-                {
-                    var opInputs = GetInputs(child);
-                    string combinedInputs = "";
-                    foreach (var input in opInputs)
-                        combinedInputs += input.StringValue.ToLower();
-                     
-                }
-            }
-             
-        }
-
-        Debug.Log($"[SoilMixPuzzle] N={nitrogen}, P={phosphorus}, T={totalNutrients} "); 
-
-        return correctValues ;
-    }
-
-
-    private float GetVariableValue(string varName)
-    {
-
-        return BE2_VariablesManager.instance.GetVariableFloatValue(varName);
-
-
-        //if (BE2_VariablesManager.instance.variablesList.ContainsKey(varName))
-        //{
-        //    object val = BE2_VariablesManager.instance.variablesList[varName];
-        //    if (val != null && float.TryParse(val.ToString(), out float result))
-        //        return result;
-        //}
-        //return 0;
-    }
-
-    private bool HasAdditionOperatorBlock()
-    {
-        var allBlocks = new List<BE2_Block>(executionManager.GetComponentsInChildren<BE2_Block>(true));
-        foreach (var block in allBlocks)
-        {
-            if (block == null) continue;
-            string name = block.name.ToLower();
-
-            if (!(name.Contains("add") || name.Contains("plus") || name.Contains("sum") || name.Contains("+")))
-                continue;
-
-            var inputs = GetInputs(block);
-            string joined = "";
-            foreach (var inp in inputs) joined += inp.StringValue.ToLower();
-
-            if (joined.Contains("nitrogen") && joined.Contains("phosphorus"))
-                return true;
-        }
-        return false;
-    }
-
-    private bool IsTypedExpressionNitrogenPlusPhosphorus()
-    {
-        var allBlocks = new List<BE2_Block>(executionManager.GetComponentsInChildren<BE2_Block>(true));
-        foreach (var block in allBlocks)
-        {
-            if (block == null) continue;
-
-            string name = block.name.ToLower();
-            if (!(name.Contains("set") && name.Contains("variable"))) continue;
-
-            var inputs = GetInputs(block);
-            if (inputs == null || inputs.Count < 2) continue;
-
-            string varName = inputs[0].StringValue.Trim().ToLower();
-            string rawValue = inputs[1].StringValue;
-
-            if (varName != "totalnutrients") continue;
-
-            string normalized = Normalize(rawValue);
-            if (normalized == "nitrogen+phosphorus" || normalized == "phosphorus+nitrogen")
-                return true;
-        }
-        return false;
-    }
-
-    private string Normalize(string s)
-    {
-        return new string(s.ToLower().Replace("\"", "").Replace(" ", "").ToCharArray());
-    }
-
-    private List<I_BE2_BlockSectionHeaderInput> GetInputs(BE2_Block block)
-    {
-        var inputs = new List<I_BE2_BlockSectionHeaderInput>();
-        var type = block.GetType();
-
-        foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
-        {
-            if (typeof(IEnumerable<I_BE2_BlockSectionHeaderInput>).IsAssignableFrom(field.FieldType))
-            {
-                var val = field.GetValue(block);
-                if (val is List<I_BE2_BlockSectionHeaderInput> list)
-                    inputs.AddRange(list);
-                else if (val is I_BE2_BlockSectionHeaderInput[] arr)
-                    inputs.AddRange(arr);
-            }
-        }
-
-        return inputs;
+        Debug.Log($"[SoilMixPuzzle] N={nitrogen}, P={phosphorus}, T={totalNutrients}");
+        return correctValues;
     }
 
     private void OnTriggerEnter(Collider other)
