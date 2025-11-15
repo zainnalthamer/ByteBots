@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class BookmarkController : MonoBehaviour
 {
-    [Header("Puzzle Panel")]
     public GameObject puzzlePanel;
+    public GameObject helpPanel;
 
     public void OnPuzzleBookmarkClick()
     {
@@ -15,6 +15,19 @@ public class BookmarkController : MonoBehaviour
         else
         {
             Debug.LogWarning("Puzzle Panel is not assigned!");
+        }
+    }
+
+    public void OnHelpBookmarkClick()
+    {
+        if (helpPanel != null)
+        {
+            puzzlePanel.SetActive(false);
+            helpPanel.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("Help Panel is not assigned!");
         }
     }
 }
