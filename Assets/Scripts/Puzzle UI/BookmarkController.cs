@@ -5,6 +5,10 @@ public class BookmarkController : MonoBehaviour
     public GameObject puzzlePanel;
     public GameObject helpPanel;
 
+
+    [SerializeField] GameObject chatConfigurer;
+
+
     public void OnPuzzleBookmarkClick()
     {
         if (puzzlePanel != null)
@@ -24,6 +28,12 @@ public class BookmarkController : MonoBehaviour
         {
             puzzlePanel.SetActive(false);
             helpPanel.SetActive(true);
+
+            if (chatConfigurer != null) 
+                Debug.LogWarning("Chat Configurer is missing!"); 
+            else
+                chatConfigurer.SetActive(true);
+
         }
         else
         {
