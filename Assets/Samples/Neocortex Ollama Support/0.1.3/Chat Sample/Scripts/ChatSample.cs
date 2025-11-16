@@ -33,7 +33,7 @@ namespace Neocortex.Samples
             chatPanel.AddMessage(response.message, false);
         }
 
-        private void OnUserMessageSent(string message)
+        public void OnUserMessageSent(string message)
         {
             request.Send(message);
             chatPanel.AddMessage(message, true);
