@@ -2,42 +2,52 @@ using UnityEngine;
 
 public class BookmarkController : MonoBehaviour
 {
+    [Header("Main UI Parents")]
     public GameObject puzzlePanel;
     public GameObject helpPanel;
+    public GameObject learnPanel;
 
+    [Header("Help UI Children")]
+    public GameObject choiceCardUI;
+    public GameObject lumaChatUI;
 
-    [SerializeField] GameObject chatConfigurer;
+    private void Start()
+    {
+        puzzlePanel.SetActive(true);
+        helpPanel.SetActive(false);
+        learnPanel.SetActive(false);
 
+        choiceCardUI.SetActive(false);
+        lumaChatUI.SetActive(false);
+    }
 
     public void OnPuzzleBookmarkClick()
     {
-        if (puzzlePanel != null)
-        {
-            puzzlePanel.SetActive(true);
-            Debug.Log("Switched to Puzzle View");
-        }
-        else
-        {
-            Debug.LogWarning("Puzzle Panel is not assigned!");
-        }
+        puzzlePanel.SetActive(true);
+        helpPanel.SetActive(false);
+        learnPanel.SetActive(false);
+
+        choiceCardUI.SetActive(false);
+        lumaChatUI.SetActive(false);
     }
 
     public void OnHelpBookmarkClick()
     {
-        if (helpPanel != null)
-        {
-            puzzlePanel.SetActive(false);
-            helpPanel.SetActive(true);
+        puzzlePanel.SetActive(false);
+        learnPanel.SetActive(false);
 
-            if (chatConfigurer != null) 
-                Debug.LogWarning("Chat Configurer is missing!"); 
-            else
-                chatConfigurer.SetActive(true);
+        helpPanel.SetActive(true);
+        choiceCardUI.SetActive(true);
+        lumaChatUI.SetActive(true);
+    }
 
-        }
-        else
-        {
-            Debug.LogWarning("Help Panel is not assigned!");
-        }
+    public void OnLearnBookmarkClick()
+    {
+        puzzlePanel.SetActive(false);
+        helpPanel.SetActive(false);
+        learnPanel.SetActive(true);
+
+        choiceCardUI.SetActive(false);
+        lumaChatUI.SetActive(false);
     }
 }

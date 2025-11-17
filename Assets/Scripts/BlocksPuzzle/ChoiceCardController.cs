@@ -69,7 +69,6 @@ public class ChoiceCardController : MonoBehaviour
         Debug.Log(message);
         //AnimateChatPanel(true);
         chatInput.SendCustomMessage(message); 
-        Hide();
     }
 
     public void OnExamplesButtonClicked()
@@ -78,7 +77,6 @@ public class ChoiceCardController : MonoBehaviour
         Debug.Log(message);
         //AnimateChatPanel(true);
         chatInput.SendCustomMessage(message);
-        Hide();
     }
 
     //void AnimateChatPanel(bool animate)
