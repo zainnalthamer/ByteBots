@@ -1,8 +1,10 @@
+using Fungus;
 using MG_BlocksEngine2.Block;
 using MG_BlocksEngine2.Core;
 using MG_BlocksEngine2.Environment;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +32,7 @@ public class SoilMixPuzzleValidator : MonoBehaviour
     [SerializeField] private BugGroup bugGroup;
 
     [Header("Expected Values")]
+    [SerializeField] private string variableName = "phosphorus";
     [SerializeField] private float expectedNitrogen = 10f;
     [SerializeField] private float expectedPhosphorus = 15f;
 
@@ -148,21 +151,50 @@ public class SoilMixPuzzleValidator : MonoBehaviour
 
     private bool CheckSoilMixPuzzle()
     {
+        //if (executionManager == null)
+        //    return false;
+
+        //float nitrogen = 10f;
+        //float phosphorus = 15f;
+        //float totalNutrients = 25f;
+        //float expectedTotal = expectedNitrogen + expectedPhosphorus;
+
+        //bool correctValues =
+        //    Mathf.Approximately(nitrogen, expectedNitrogen) &&
+        //    Mathf.Approximately(phosphorus, expectedPhosphorus) &&
+        //    Mathf.Approximately(totalNutrients, expectedTotal);
+
+        //Debug.Log($"[SoilMixPuzzle] N={nitrogen}, P={phosphorus}, T={totalNutrients}");
+        //return correctValues;
+
         if (executionManager == null)
             return false;
 
-        float nitrogen = 10f;
-        float phosphorus = 15f;
-        float totalNutrients = 25f;
-        float expectedTotal = expectedNitrogen + expectedPhosphorus;
 
-        bool correctValues =
-            Mathf.Approximately(nitrogen, expectedNitrogen) &&
-            Mathf.Approximately(phosphorus, expectedPhosphorus) &&
-            Mathf.Approximately(totalNutrients, expectedTotal);
+        var allBlocks = new List<BE2_Block>(executionManager.GetComponentsInChildren<BE2_Block>(true));
 
-        Debug.Log($"[SoilMixPuzzle] N={nitrogen}, P={phosphorus}, T={totalNutrients}");
-        return correctValues;
+        foreach (var block in allBlocks)
+        {
+            if (block == null) continue;
+
+            string name = block.name.ToLower();
+            var inputs = block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true);
+            if (inputs.Length < 2) continue;
+
+            if (name.Contains("create") && name.Contains("float"))
+            {
+                string varName = inputs[0].StringValue.Trim().ToLower();
+                string varValue = inputs[1].StringValue.Trim();
+
+                if (varName == variableName.ToLower() && ValuesEqual(varValue, expectedPhosphorus.ToString()))
+                {
+                    Debug.Log($"[Validator] Found correct block: {varName} = {varValue}");
+                    return true;
+                }
+            }
+        }
+        Debug.Log("[Validator] No matching block found.");
+        return false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -190,5 +222,14 @@ public class SoilMixPuzzleValidator : MonoBehaviour
             choiceCard.gameObject.SetActive(true);
             choiceCard.Show(conceptName, lumaIcon);
         }
+    }
+
+    private bool ValuesEqual(string a, string b)
+    {
+        if (double.TryParse(a, NumberStyles.Any, CultureInfo.InvariantCulture, out var da) &&
+            double.TryParse(b, NumberStyles.Any, CultureInfo.InvariantCulture, out var db))
+            return Mathf.Abs((float)(da - db)) < 0.0001f;
+
+        return string.Equals(a.Trim(), b.Trim(), System.StringComparison.Ordinal);
     }
 }
