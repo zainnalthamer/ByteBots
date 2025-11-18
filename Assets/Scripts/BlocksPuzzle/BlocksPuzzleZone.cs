@@ -1,3 +1,4 @@
+using StarterAssets;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,15 +14,15 @@ public class BlocksPuzzleZone : MonoBehaviour
     [Header("Player Detection")]
     [Tooltip("Tag used to identify the player")]
     [SerializeField] private string playerTag = "Player";
-
-    //[Header("Cursor & Control")]
-    //[SerializeField] private bool lockCursorDuringUI = false;
+     
 
     private bool uiOpen = false;
+    private ThirdPersonController playerController;
 
     private void Start()
     {
         Debug.Log("[BlocksPuzzleZone] Active and ready on " + gameObject.name);
+        playerController = GameObject.FindWithTag(playerTag)?.GetComponent<ThirdPersonController>();
     }
 
     private void Awake()
@@ -39,6 +40,8 @@ public class BlocksPuzzleZone : MonoBehaviour
         {
             Debug.LogWarning("[BlocksPuzzleZone] Play Button is not assigned.");
         }
+
+
     }
 
     private void OnDestroy()
@@ -68,12 +71,9 @@ public class BlocksPuzzleZone : MonoBehaviour
         blocksCanvas.SetActive(true);
         uiOpen = true;
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        ControlsManager.Instance.ShowCursor();
 
-        var playerController = GameObject.FindWithTag(playerTag)?.GetComponent<MonoBehaviour>();
-        if (playerController != null)
-            playerController.enabled = false;
+        playerController.TogglePlayerControls(false);
     }
 
     public void HideBlocksUI()
@@ -83,12 +83,9 @@ public class BlocksPuzzleZone : MonoBehaviour
         blocksCanvas.SetActive(false);
         uiOpen = false;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        ControlsManager.Instance.HideCursor();
 
-        var playerController = GameObject.FindWithTag(playerTag)?.GetComponent<MonoBehaviour>();
-        if (playerController != null)
-            playerController.enabled = true;
+        playerController.TogglePlayerControls(true);
     }
 
     private void OnPlayClicked()

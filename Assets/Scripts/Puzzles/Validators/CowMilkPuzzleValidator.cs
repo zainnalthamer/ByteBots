@@ -72,8 +72,7 @@ public class CowMilkPuzzleValidator : MonoBehaviour
             if (uiActive && !lastUIState)
             {
                 StartCoroutine(ShowPuzzleCardGuaranteed());
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                ControlsManager.Instance.ShowCursor();
             }
             else if (!uiActive && lastUIState)
             {
@@ -124,8 +123,7 @@ public class CowMilkPuzzleValidator : MonoBehaviour
             Debug.Log("[CowMilkPuzzle] Try again — check your variables or math.");
             if (puzzleCard) puzzleCard.Show(puzzleQuestion, lumaIcon);
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            ControlsManager.Instance.ShowCursor();
         }
     }
 

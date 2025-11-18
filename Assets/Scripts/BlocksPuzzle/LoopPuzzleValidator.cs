@@ -66,17 +66,7 @@ public class LoopPuzzleValidator : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
-        }
 
         if (puzzleZone != null)
         {
@@ -88,8 +78,7 @@ public class LoopPuzzleValidator : MonoBehaviour
             if (uiActive && !lastUIState)
             {
                 StartCoroutine(ShowPuzzleCardGuaranteed());
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                ControlsManager.Instance.ShowCursor();
             }
             else if (!uiActive && lastUIState)
             {
@@ -156,8 +145,7 @@ public class LoopPuzzleValidator : MonoBehaviour
             if (puzzleCard)
                 puzzleCard.Show(puzzleQuestion, lumaIcon);
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            ControlsManager.Instance.ShowCursor();
         }
     }
 
