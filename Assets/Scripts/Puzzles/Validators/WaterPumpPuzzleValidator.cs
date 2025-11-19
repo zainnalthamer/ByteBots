@@ -91,8 +91,7 @@ public class WaterPumpPuzzleValidator : MonoBehaviour
                 lumaChatCanvas.sortingOrder = 50;
             }
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            ControlsManager.Instance.ShowCursor();
         }
     }
 

@@ -78,8 +78,7 @@ public class SoilMixPuzzleValidator : MonoBehaviour
             if (uiActive && !lastUIState)
             {
                 StartCoroutine(ShowPuzzleCardGuaranteed());
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                ControlsManager.Instance.ShowCursor();
             }
             else if (!uiActive && lastUIState)
             {
@@ -144,8 +143,7 @@ public class SoilMixPuzzleValidator : MonoBehaviour
             if (puzzleCard)
                 puzzleCard.Show(puzzleQuestion, lumaIcon);
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            ControlsManager.Instance.ShowCursor();  
         }
     }
 
