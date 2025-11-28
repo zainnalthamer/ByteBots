@@ -52,8 +52,7 @@ public class ChoiceCardController : MonoBehaviour
             questionText.text = $"What do you want to know about {concept}?";
 
         choicesCardPanel.SetActive(true);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        ControlsManager.Instance.ShowCursor();
     }
 
     public void Hide()
@@ -64,27 +63,28 @@ public class ChoiceCardController : MonoBehaviour
     #region Button Callbacks
     public void OnExplainButtonClicked()
     {
+        
         var message = explainButtonText.text;
-        AnimateChatPanel(true);
+        Debug.Log(message);
+        //AnimateChatPanel(true);
         chatInput.SendCustomMessage(message); 
-        Hide();
     }
 
     public void OnExamplesButtonClicked()
     {
-        var message = examplesButtonText.text; 
-        AnimateChatPanel(true);
+        var message = examplesButtonText.text;
+        Debug.Log(message);
+        //AnimateChatPanel(true);
         chatInput.SendCustomMessage(message);
-        Hide();
     }
 
-    void AnimateChatPanel(bool animate)
-    { 
-        if(animate) 
-            chatPanel.DOLocalMoveX(530, 1.5f).SetEase(Ease.OutQuad);
-        else
-            chatPanel.DOLocalMoveX(2222, 1.5f).SetEase(Ease.OutQuad);
-    }
+    //void AnimateChatPanel(bool animate)
+    //{ 
+    //    if(animate) 
+    //        chatPanel.DOLocalMoveX(300, 1.5f).SetEase(Ease.OutQuad);
+    //    else
+    //        chatPanel.DOLocalMoveX(2222, 1.5f).SetEase(Ease.OutQuad);
+    //}
 
     #endregion
 

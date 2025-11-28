@@ -36,6 +36,11 @@ public class MainMenuController : MonoBehaviour
         ShowMain();
     }
 
+    public void BackFromCredits()
+    {
+        ShowMain();
+    }
+
     public void QuitGame()
     {
         Application.Quit();
@@ -45,5 +50,6 @@ public class MainMenuController : MonoBehaviour
     {
         mainButtons.SetActive(true);
         optionsPanel.SetActive(false);
+        creditsPanel.SetActive(false);
     }
 }

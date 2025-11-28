@@ -36,7 +36,6 @@ MonoBehaviour:
     serializationDepthLimit: 64
     assemblyNames:
     - Assembly-CSharp
-    - Assembly-CSharp-firstpass
     - Boxophobic.Utils.Scripts
     - Cinemachine
     - Fungus
@@ -55,6 +54,7 @@ MonoBehaviour:
     - MoreMountains.Tools
     - Neocortex.Ollama.Runtime
     - Neocortex.Runtime
+    - Project.External
     - sc.fae.editor
     - sc.fae.runtime
     showAdvancedSettings: 0

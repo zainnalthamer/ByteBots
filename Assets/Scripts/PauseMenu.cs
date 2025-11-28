@@ -5,6 +5,8 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI;
     public static bool GameIsPaused = false;
+    public GameObject pauseBlurVolume;
+    public GameObject playerFollowCamera;
 
     void Update()
     {
@@ -20,6 +22,8 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
+        pauseBlurVolume.SetActive(false);
+        playerFollowCamera.SetActive(true);
         Time.timeScale = 1f;
         GameIsPaused = false;
         Cursor.visible = false;
@@ -29,6 +33,8 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
+        pauseBlurVolume.SetActive(true);
+        playerFollowCamera.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;
         Cursor.visible = true;
@@ -46,6 +52,5 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         Application.Quit();
-        Debug.Log("Game quit!");
     }
 }

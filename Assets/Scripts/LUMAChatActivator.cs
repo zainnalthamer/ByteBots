@@ -22,14 +22,12 @@ public class LUMAChatActivator : MonoBehaviour
             if (active)
             {
                 playerInput.enabled = false;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                ControlsManager.Instance.ShowCursor();
             }
             else
             {
                 playerInput.enabled = true;
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
+                ControlsManager.Instance.HideCursor();
             }
         }
     }
@@ -47,8 +45,7 @@ public class LUMAChatActivator : MonoBehaviour
             playerNear = false;
             chatUI.SetActive(false);
             playerInput.enabled = true;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            ControlsManager.Instance.HideCursor();
         }
     }
 }
