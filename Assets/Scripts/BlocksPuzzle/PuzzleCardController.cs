@@ -48,9 +48,7 @@ public class PuzzleCardController : MonoBehaviour
         if (questionText) questionText.text = question;
         if (icon && iconSprite) icon.sprite = iconSprite;
 
-        root.SetActive(true);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        root.SetActive(true); 
     }
 
     public void Hide()

@@ -8,6 +8,13 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseBlurVolume;
     public GameObject playerFollowCamera;
 
+    
+    private void Start()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -17,6 +24,19 @@ public class PauseMenu : MonoBehaviour
             else
                 Pause();
         }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None; 
+        }
+
+        if(Cursor.visible == false)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
     }
 
     public void Resume()
@@ -25,9 +45,7 @@ public class PauseMenu : MonoBehaviour
         pauseBlurVolume.SetActive(false);
         playerFollowCamera.SetActive(true);
         Time.timeScale = 1f;
-        GameIsPaused = false;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        GameIsPaused = false; 
     }
 
     void Pause()
@@ -36,9 +54,7 @@ public class PauseMenu : MonoBehaviour
         pauseBlurVolume.SetActive(true);
         playerFollowCamera.SetActive(false);
         Time.timeScale = 0f;
-        GameIsPaused = true;
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        GameIsPaused = true; 
     }
 
     public void RestartLevel()

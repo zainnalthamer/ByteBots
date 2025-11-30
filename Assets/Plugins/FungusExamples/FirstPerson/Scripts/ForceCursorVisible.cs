@@ -16,8 +16,8 @@ namespace Fungus.Examples
 
         void Update()
         {
-            Cursor.visible = !CursorLocked;
-            Cursor.lockState = CursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
+            //Cursor.visible = !CursorLocked;
+            //Cursor.lockState = CursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
         }
     }
 }

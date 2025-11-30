@@ -22,9 +22,6 @@ namespace Boxophobic.Utility
         void Start()
         {
             characterController = GetComponent<UnityEngine.CharacterController>();
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
 
         void Update()
