@@ -78,7 +78,6 @@ public class LoopPuzzleValidator : MonoBehaviour
             if (uiActive && !lastUIState)
             {
                 StartCoroutine(ShowPuzzleCardGuaranteed());
-                ControlsManager.Instance.ShowCursor();
             }
             else if (!uiActive && lastUIState)
             {
@@ -145,7 +144,6 @@ public class LoopPuzzleValidator : MonoBehaviour
             if (puzzleCard)
                 puzzleCard.Show(puzzleQuestion, lumaIcon);
 
-            ControlsManager.Instance.ShowCursor();
         }
     }
 

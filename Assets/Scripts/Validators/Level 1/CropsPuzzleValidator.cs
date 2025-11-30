@@ -54,7 +54,6 @@ public class CropsPuzzleValidator : MonoBehaviour
         if (uiActive && !lastUIState)
         {
             StartCoroutine(ShowPuzzleCard());
-            ControlsManager.Instance.ShowCursor();
         }
 
         lastUIState = uiActive;
@@ -103,7 +102,6 @@ public class CropsPuzzleValidator : MonoBehaviour
         {
             Debug.Log("[SoilMixPuzzle] Try again — check your variable values or math.");
 
-            ControlsManager.Instance.ShowCursor();
         }
     }
 

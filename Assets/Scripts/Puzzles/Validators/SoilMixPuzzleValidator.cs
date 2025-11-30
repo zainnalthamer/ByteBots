@@ -78,7 +78,6 @@ public class SoilMixPuzzleValidator : MonoBehaviour
             if (uiActive && !lastUIState)
             {
                 StartCoroutine(ShowPuzzleCardGuaranteed());
-                ControlsManager.Instance.ShowCursor();
             }
             else if (!uiActive && lastUIState)
             {
@@ -142,8 +141,6 @@ public class SoilMixPuzzleValidator : MonoBehaviour
             Debug.Log("[SoilMixPuzzle] Try again — check your variable values or math.");
             if (puzzleCard)
                 puzzleCard.Show(puzzleQuestion, lumaIcon);
-
-            ControlsManager.Instance.ShowCursor();  
         }
     }
 

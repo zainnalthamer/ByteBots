@@ -52,7 +52,6 @@ public class ChoiceCardController : MonoBehaviour
             questionText.text = $"What do you want to know about {concept}?";
 
         choicesCardPanel.SetActive(true);
-        ControlsManager.Instance.ShowCursor();
     }
 
     public void Hide()

@@ -90,8 +90,6 @@ public class WaterPumpPuzzleValidator : MonoBehaviour
                 lumaChatCanvas.overrideSorting = true;
                 lumaChatCanvas.sortingOrder = 50;
             }
-
-            ControlsManager.Instance.ShowCursor();
         }
     }
 

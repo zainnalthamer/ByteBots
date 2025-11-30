@@ -30,7 +30,6 @@ public class NotebookController : MonoBehaviour
         if (panelIndex >= 0 && panelIndex < puzzlePanels.Length)
             puzzlePanels[panelIndex].SetActive(true);
 
-        ControlsManager.Instance.ShowCursor();
         Time.timeScale = 0f;
     }
 
@@ -38,7 +37,6 @@ public class NotebookController : MonoBehaviour
     {
         notebookRoot.SetActive(false);
         Time.timeScale = 1f;
-        ControlsManager.Instance.HideCursor();
 
         HideAllPanels();
     }

@@ -71,8 +71,6 @@ public class BlocksPuzzleZone : MonoBehaviour
         blocksCanvas.SetActive(true);
         uiOpen = true;
 
-        ControlsManager.Instance.ShowCursor();
-
         playerController.TogglePlayerControls(false);
     }
 
@@ -82,8 +80,7 @@ public class BlocksPuzzleZone : MonoBehaviour
 
         blocksCanvas.SetActive(false);
         uiOpen = false;
-
-        ControlsManager.Instance.HideCursor();
+         
 
         playerController.TogglePlayerControls(true);
     }
