@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement; 
 using UnityEngine.Audio;
 
 
@@ -82,22 +81,13 @@ public class SoundController : MonoBehaviour
         SwapCheck(scene.name);
 
         // Destroy the existing instance if entering the GameScene
-        if (scene.name == "GameScene" && Instance != this)
+        if ((scene.name == "Updated Island Level 1" || scene.name == "Carnival") && Instance != this)
         {
             Destroy(Instance.gameObject);
             Instance = this;
         }
     }
-
-
-    private void Start()
-    {
-        if (SaveLoadManager.Instance.localData.muteSound)
-        {
-            MuteSound(true);
-            musicAudioSource.Stop();
-        }
-    }
+     
 
     public void SwapCheck(string scene)
     {
@@ -137,12 +127,12 @@ public class SoundController : MonoBehaviour
         if (value)
         {
             gameMixer.SetFloat("MasterVolume", -80);
-            SaveLoadManager.Instance.localData.muteSound = value;
+            //SaveLoadManager.Instance.localData.muteSound = value;
         }
         else
         {
             gameMixer.SetFloat("MasterVolume", 0);
-            SaveLoadManager.Instance.localData.muteSound = value;
+            //SaveLoadManager.Instance.localData.muteSound = value;
 
         }
     }
@@ -181,7 +171,7 @@ public class SoundController : MonoBehaviour
 
     public void PlaySFX(int sfxIndex)
     {
-        if (!SaveLoadManager.Instance.localData.muteSound)
+        //if (!SaveLoadManager.Instance.localData.muteSound)
             soundAudioSource.PlayOneShot(soundClips[sfxIndex]);
     }
 
@@ -200,8 +190,7 @@ public class SoundController : MonoBehaviour
             yield return new WaitUntil(() => FadeAudioSource.currentVolume == 0);
             musicAudioSource.clip = musicClips[index];
 
-            if (!musicAudioSource.isPlaying)
-                if (!SaveLoadManager.Instance.localData.muteSound)
+            if (!musicAudioSource.isPlaying) 
                     musicAudioSource.Play();
 
             StartCoroutine(FadeAudioSource.StartFade(musicAudioSource, 2.5f, 1f));
@@ -223,8 +212,7 @@ public class SoundController : MonoBehaviour
             yield return new WaitUntil(() => FadeAudioSource.currentVolume == 0);
             environmentAudioSource.clip = environmentClips[index];
 
-            if (!environmentAudioSource.isPlaying)
-                if (!SaveLoadManager.Instance.localData.muteSound)
+            if (!environmentAudioSource.isPlaying) 
                     environmentAudioSource.Play();
 
             StartCoroutine(FadeAudioSource.StartFade(environmentAudioSource, 2.5f, .55f));
