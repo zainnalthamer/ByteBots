@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 290836756f38f624a87a9d91a98ef22b
   - enabled: 1
+    path: Assets/Scenes/Updated Island Level 1.unity
+    guid: abb35feea3f114d4da7e4a430cf2813e
+  - enabled: 1
     path: Assets/Scenes/Carnival.unity
     guid: bbe5ed3d7f918754da520b6b103ee55b
   - enabled: 1
