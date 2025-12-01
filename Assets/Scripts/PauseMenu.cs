@@ -7,8 +7,10 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
     public GameObject pauseBlurVolume;
     public GameObject playerFollowCamera;
+    public NotebookController notebookController;
+    public GameObject notebookCanvasRoot;
+    public GameObject openNotebookPrompt;
 
-    
     private void Start()
     {
         Cursor.visible = true;
@@ -28,15 +30,14 @@ public class PauseMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None; 
+            Cursor.lockState = CursorLockMode.None;
         }
 
-        if(Cursor.visible == false)
+        if (Cursor.visible == false)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
-
     }
 
     public void Resume()
@@ -44,17 +45,35 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         pauseBlurVolume.SetActive(false);
         playerFollowCamera.SetActive(true);
+
+        if (notebookCanvasRoot.activeSelf)
+        {
+            notebookController.CloseNotebook();
+        }
+
+        if (openNotebookPrompt != null)
+            openNotebookPrompt.SetActive(true);
+
         Time.timeScale = 1f;
-        GameIsPaused = false; 
+        GameIsPaused = false;
     }
 
     void Pause()
     {
+        if (notebookCanvasRoot.activeSelf)
+        {
+            notebookController.CloseNotebook();
+        }
+
         pauseMenuUI.SetActive(true);
         pauseBlurVolume.SetActive(true);
         playerFollowCamera.SetActive(false);
+
+        if (openNotebookPrompt != null)
+            openNotebookPrompt.SetActive(false);
+
         Time.timeScale = 0f;
-        GameIsPaused = true; 
+        GameIsPaused = true;
     }
 
     public void RestartLevel()
