@@ -19,6 +19,11 @@ public class TestPuzzleValidator : MonoBehaviour
     [SerializeField] private string expectedVariableName = "employees";
     [SerializeField] private string expectedValue = "20";
 
+    [Header("Notebook Close")]
+    [SerializeField] private GameObject notebookCanvasRoot;
+    [SerializeField] private GameObject notebookBlurVolume;
+    [SerializeField] private MonoBehaviour playerFollowCamera;
+
     private void Awake()
     {
         checkAnswerButton.onClick.AddListener(ValidatePuzzle);
@@ -37,12 +42,21 @@ public class TestPuzzleValidator : MonoBehaviour
         {
             Debug.Log("[Puzzle] CORRECT!");
 
-            // turn cube green
             cubeRenderer.material = correctMaterial;
 
-            // bug animation
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
+
+            if (notebookCanvasRoot != null)
+                notebookCanvasRoot.SetActive(false);
+
+            if (notebookBlurVolume != null)
+                notebookBlurVolume.SetActive(false);
+
+            if (playerFollowCamera != null)
+                playerFollowCamera.enabled = true;
+
+            Time.timeScale = 1f;
         }
         else
         {
@@ -68,7 +82,7 @@ public class TestPuzzleValidator : MonoBehaviour
                 string varName = inputs[0].StringValue.Trim().ToLower();
                 string varVal = inputs[1].StringValue.Trim();
 
-                Debug.Log($"[Validator] Found {varName} = {varVal}");
+                Debug.Log("[Validator] Found " + varName + " = " + varVal);
 
                 if (varName == expectedVariableName.ToLower() &&
                     varVal == expectedValue)
