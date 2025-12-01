@@ -32,7 +32,7 @@ public class ChoiceCardController : MonoBehaviour
             canvas.overrideSorting = true;
             canvas.sortingOrder = 60;
         }
-        choicesCardPanel.SetActive(false);
+        //choicesCardPanel.SetActive(false);
     }
 
     public void Show(string concept, Sprite iconSprite = null)
@@ -56,7 +56,7 @@ public class ChoiceCardController : MonoBehaviour
 
     public void Hide()
     {
-        choicesCardPanel.SetActive(false);
+       // choicesCardPanel.SetActive(false);
     }
 
     #region Button Callbacks

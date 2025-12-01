@@ -60,6 +60,20 @@ public class NotebookController : MonoBehaviour
             notebookBlurVolume.SetActive(false);
     }
 
+    public void QuitNotebook()
+    {
+        notebookRoot.SetActive(false);
+        Time.timeScale = 1f;
+
+        HideAllPanels();
+
+        if (playerFollowCamera)
+            playerFollowCamera.enabled = true;
+
+        if (notebookBlurVolume)
+            notebookBlurVolume.SetActive(false);
+    }
+
     private void HideAllPanels()
     {
         foreach (var p in puzzlePanels)
