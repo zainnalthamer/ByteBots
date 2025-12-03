@@ -43,7 +43,10 @@ public class BugGroup : MonoBehaviour
         if (puzzleID) SaveManager.I.MarkPuzzleSolved(puzzleID.ID);
 
         if (countsTowardsTotal)
+        {
             SaveManager.I.IncrementBugCountBy(TotalCount);
+            BugPointsManager.Instance.Refresh();
+        }
         BugCollectibleManager.Instance?.Refresh();
 
         foreach (var b in bugs)
