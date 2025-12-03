@@ -32,6 +32,8 @@ public class MistakeManager : MonoBehaviour
 
     void TriggerGameOver()
     {
+        SoundController.Instance.PlaySFX(2);
+
         if (notebook && notebook.notebookRoot.activeSelf)
             notebook.CloseNotebook();
 

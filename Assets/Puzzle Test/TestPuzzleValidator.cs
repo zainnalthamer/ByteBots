@@ -40,6 +40,7 @@ public class TestPuzzleValidator : MonoBehaviour
 
         if (CheckBlocksForAnswer())
         {
+            SoundController.Instance.PlaySFX(0);
             Debug.Log("[Puzzle] CORRECT!");
 
             cubeRenderer.material = correctMaterial;
@@ -61,6 +62,7 @@ public class TestPuzzleValidator : MonoBehaviour
         else
         {
             Debug.Log("[Puzzle] WRONG ANSWER");
+            SoundController.Instance.PlaySFX(1);
             MistakeManager.Instance.OnWrongAnswer();
         }
     }

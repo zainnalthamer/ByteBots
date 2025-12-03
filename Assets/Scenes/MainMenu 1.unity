@@ -8169,7 +8169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1624368972
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10159,6 +10159,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundController
       objectReference: {fileID: 0}
+    - target: {fileID: 7638491386036808675, guid: a7b6c12f2ddae594b96877dc3585c0d9, type: 3}
+      propertyPath: soundClips.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7638491386036808675, guid: a7b6c12f2ddae594b96877dc3585c0d9, type: 3}
+      propertyPath: soundClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5313355cfc52f0344b52b8b8b6e7d21c, type: 3}
+    - target: {fileID: 7638491386036808675, guid: a7b6c12f2ddae594b96877dc3585c0d9, type: 3}
+      propertyPath: soundClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6d3424e4c71a359448467eda8341c661, type: 3}
+    - target: {fileID: 7638491386036808675, guid: a7b6c12f2ddae594b96877dc3585c0d9, type: 3}
+      propertyPath: soundClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0f559b14fc2fa2a42b19778e81e53b19, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7b6c12f2ddae594b96877dc3585c0d9, type: 3}
 --- !u!114 &2028811471 stripped
