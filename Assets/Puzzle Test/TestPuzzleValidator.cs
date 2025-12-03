@@ -61,6 +61,7 @@ public class TestPuzzleValidator : MonoBehaviour
         else
         {
             Debug.Log("[Puzzle] WRONG ANSWER");
+            MistakeManager.Instance.OnWrongAnswer();
         }
     }
 

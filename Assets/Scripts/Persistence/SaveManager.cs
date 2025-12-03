@@ -69,4 +69,5 @@ public class SaveManager : MonoBehaviour
         bugCount += Mathf.Max(0, n);
         ES3.Save(SaveKeys.BugCount, bugCount, saveFile);
     }
+
 }
