@@ -16,6 +16,11 @@ public class GreenhouseSeedsValidator : MonoBehaviour
     [SerializeField] private string pumpkinSeedsName = "pumpkinSeeds";
     [SerializeField] private string totalCostName = "totalCost";
 
+    [Header("Expected Values")]
+    public int expectedPeachSeeds = 10;
+    public int expectedPumpkinSeeds = 5;
+    public float expectedTotalCost = 15f;
+
     [Header("Notebook Close")]
     [SerializeField] private GameObject notebookCanvasRoot;
     [SerializeField] private GameObject notebookBlurVolume;
@@ -66,51 +71,58 @@ public class GreenhouseSeedsValidator : MonoBehaviour
     {
         BE2_Block[] blocks = blocksContainer.GetComponentsInChildren<BE2_Block>(true);
 
-        bool hasPeach = false;
-        bool hasPumpkin = false;
-        bool hasTotalCost = false;
+        int peachValue = -999;
+        int pumpkinValue = -999;
+        float totalValue = -999f;
 
-        string peachNameLower = peachSeedsName.ToLower();
-        string pumpkinNameLower = pumpkinSeedsName.ToLower();
-        string totalCostNameLower = totalCostName.ToLower();
+        bool foundPeach = false;
+        bool foundPumpkin = false;
+        bool foundTotal = false;
 
         foreach (var block in blocks)
         {
             string blockName = block.name.ToLower();
+            var inputs = block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true);
+
+            if (inputs.Length < 2)
+                continue;
+
+            string varName = inputs[0].StringValue.Trim().ToLower();
+            string varVal = inputs[1].StringValue.Trim();
 
             if (blockName.Contains("create") && blockName.Contains("int"))
             {
-                var inputs = block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true);
-                if (inputs.Length < 2)
-                    continue;
-
-                string varName = inputs[0].StringValue.Trim().ToLower();
-                string varVal = inputs[1].StringValue.Trim();
-
-                Debug.Log("[Greenhouse Validator] INT var " + varName + " = " + varVal);
-
-                if (varName == peachNameLower)
-                    hasPeach = true;
-                else if (varName == pumpkinNameLower)
-                    hasPumpkin = true;
+                if (varName == peachSeedsName.ToLower())
+                {
+                    foundPeach = int.TryParse(varVal, out peachValue);
+                    Debug.Log($"[Validator] peachSeeds = {peachValue}");
+                }
+                else if (varName == pumpkinSeedsName.ToLower())
+                {
+                    foundPumpkin = int.TryParse(varVal, out pumpkinValue);
+                    Debug.Log($"[Validator] pumpkinSeeds = {pumpkinValue}");
+                }
             }
-            
-            else if (blockName.Contains("create") && blockName.Contains("float"))
+
+            if (blockName.Contains("create") && blockName.Contains("float"))
             {
-                var inputs = block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true);
-                if (inputs.Length < 2)
-                    continue;
-
-                string varName = inputs[0].StringValue.Trim().ToLower();
-                string varVal = inputs[1].StringValue.Trim();
-
-                Debug.Log("[Greenhouse Validator] FLOAT var " + varName + " = " + varVal);
-
-                if (varName == totalCostNameLower)
-                    hasTotalCost = true;
+                if (varName == totalCostName.ToLower())
+                {
+                    foundTotal = true;
+                    Debug.Log("[Validator] totalCost variable found (value ignored)");
+                }
             }
         }
 
-        return hasPeach && hasPumpkin && hasTotalCost;
+        if (!foundPeach || !foundPumpkin || !foundTotal)
+            return false;
+
+        if (peachValue != expectedPeachSeeds)
+            return false;
+
+        if (pumpkinValue != expectedPumpkinSeeds)
+            return false;
+
+        return true;
     }
 }
