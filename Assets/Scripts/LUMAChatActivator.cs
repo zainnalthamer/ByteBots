@@ -22,12 +22,10 @@ public class LUMAChatActivator : MonoBehaviour
             if (active)
             {
                 playerInput.enabled = false;
-                ControlsManager.Instance.ShowCursor();
             }
             else
             {
                 playerInput.enabled = true;
-                ControlsManager.Instance.HideCursor();
             }
         }
     }
@@ -45,7 +43,6 @@ public class LUMAChatActivator : MonoBehaviour
             playerNear = false;
             chatUI.SetActive(false);
             playerInput.enabled = true;
-            ControlsManager.Instance.HideCursor();
         }
     }
 }

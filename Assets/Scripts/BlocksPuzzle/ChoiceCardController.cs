@@ -32,7 +32,7 @@ public class ChoiceCardController : MonoBehaviour
             canvas.overrideSorting = true;
             canvas.sortingOrder = 60;
         }
-        choicesCardPanel.SetActive(false);
+        //choicesCardPanel.SetActive(false);
     }
 
     public void Show(string concept, Sprite iconSprite = null)
@@ -52,12 +52,11 @@ public class ChoiceCardController : MonoBehaviour
             questionText.text = $"What do you want to know about {concept}?";
 
         choicesCardPanel.SetActive(true);
-        ControlsManager.Instance.ShowCursor();
     }
 
     public void Hide()
     {
-        choicesCardPanel.SetActive(false);
+       // choicesCardPanel.SetActive(false);
     }
 
     #region Button Callbacks
@@ -74,18 +73,8 @@ public class ChoiceCardController : MonoBehaviour
     {
         var message = examplesButtonText.text;
         Debug.Log(message);
-        //AnimateChatPanel(true);
         chatInput.SendCustomMessage(message);
     }
-
-    //void AnimateChatPanel(bool animate)
-    //{ 
-    //    if(animate) 
-    //        chatPanel.DOLocalMoveX(300, 1.5f).SetEase(Ease.OutQuad);
-    //    else
-    //        chatPanel.DOLocalMoveX(2222, 1.5f).SetEase(Ease.OutQuad);
-    //}
-
     #endregion
 
 }

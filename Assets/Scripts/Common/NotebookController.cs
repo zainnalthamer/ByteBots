@@ -9,6 +9,10 @@ public class NotebookController : MonoBehaviour
     [Header("Puzzle Panels")]
     public GameObject[] puzzlePanels;
 
+    [Header("Extras")]  
+    public MonoBehaviour playerFollowCamera; 
+    public GameObject notebookBlurVolume; 
+
     private void Start()
     {
         StartCoroutine(InitializeUI());
@@ -20,6 +24,9 @@ public class NotebookController : MonoBehaviour
 
         notebookRoot.SetActive(false);
         HideAllPanels();
+
+        if (notebookBlurVolume)
+            notebookBlurVolume.SetActive(false); 
     }
 
     public void OpenNotebook(int panelIndex)
@@ -30,17 +37,41 @@ public class NotebookController : MonoBehaviour
         if (panelIndex >= 0 && panelIndex < puzzlePanels.Length)
             puzzlePanels[panelIndex].SetActive(true);
 
-        ControlsManager.Instance.ShowCursor();
         Time.timeScale = 0f;
+
+        if (playerFollowCamera)
+            playerFollowCamera.enabled = false;
+
+        if (notebookBlurVolume)
+            notebookBlurVolume.SetActive(true);
     }
 
     public void CloseNotebook()
     {
         notebookRoot.SetActive(false);
         Time.timeScale = 1f;
-        ControlsManager.Instance.HideCursor();
 
         HideAllPanels();
+
+        if (playerFollowCamera)
+            playerFollowCamera.enabled = true;
+
+        if (notebookBlurVolume)
+            notebookBlurVolume.SetActive(false);
+    }
+
+    public void QuitNotebook()
+    {
+        notebookRoot.SetActive(false);
+        Time.timeScale = 1f;
+
+        HideAllPanels();
+
+        if (playerFollowCamera)
+            playerFollowCamera.enabled = true;
+
+        if (notebookBlurVolume)
+            notebookBlurVolume.SetActive(false);
     }
 
     private void HideAllPanels()
