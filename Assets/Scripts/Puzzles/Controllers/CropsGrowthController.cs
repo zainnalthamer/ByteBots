@@ -9,7 +9,7 @@ public class CropsGrowthController : MonoBehaviour
 
     [Header("Animation")]
     [Range(0.1f, 5f)] public float growDuration = 2.5f;
-    public float targetY = 0.67f;
+    public float targetY = 38.98f;
 
     public void GrowCrops()
     {
