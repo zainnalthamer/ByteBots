@@ -26,6 +26,10 @@ public class GreenhouseSeedsValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Fungus Cutscene")]
+    [SerializeField] private Fungus.Flowchart flowchart;
+    [SerializeField] private string blockNameToPlay = "PickJars";
+
     private void Awake()
     {
         checkAnswerButton.onClick.AddListener(ValidatePuzzle);
@@ -56,6 +60,11 @@ public class GreenhouseSeedsValidator : MonoBehaviour
 
             if (playerFollowCamera != null)
                 playerFollowCamera.enabled = true;
+
+            if (flowchart != null)
+            {
+                flowchart.ExecuteBlock(blockNameToPlay);
+            }
 
             Time.timeScale = 1f;
         }
