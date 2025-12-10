@@ -17,6 +17,8 @@ namespace MG_BlocksEngine2.UI
 
         public Transform variablePanelTemplate;
 
+        public Transform targetCategoryPanel;
+
         void Awake()
         {
             _buttonCreate = transform.GetChild(2).GetComponent<Button>();
@@ -42,22 +44,19 @@ namespace MG_BlocksEngine2.UI
         {
             if (!BE2_VariablesManager.instance.ContainsVariable(varName))
             {
-                // v2.12 - bugfix: variables and function blocks not being loaded if the corresponding selectino blocks was not active
                 bool panelIsActive = transform.parent.gameObject.activeSelf;
                 transform.parent.gameObject.SetActive(true);
 
-                Transform newVarPanel = Instantiate(variablePanelTemplate, Vector3.zero, Quaternion.identity, transform.parent);
+                Transform parentPanel = targetCategoryPanel ? targetCategoryPanel : transform.parent;
+
+                Transform newVarPanel = Instantiate(variablePanelTemplate, Vector3.zero, Quaternion.identity, parentPanel);
                 newVarPanel.SetSiblingIndex(transform.GetSiblingIndex() + 1);
 
-                // v2.6 - adjustments on position and angle of blocks for supporting all canvas render modes
                 newVarPanel.localPosition = new Vector3(newVarPanel.localPosition.x, newVarPanel.localPosition.y, 0);
                 newVarPanel.localEulerAngles = Vector3.zero;
 
                 I_BE2_Block newBlock = newVarPanel.GetChild(0).GetComponent<I_BE2_Block>();
 
-                // v2.8 - adjusted variable viwer with "remove variable" button 
-                // v2.1 - using BE2_Text to enable usage of Text or TMP components
-                //                                                   | block                                                   | section   | header    | text      |
                 BE2_Text newVarName = BE2_Text.GetBE2Text(newVarPanel.GetComponentInChildren<BE2_UI_SelectionBlock>().transform.GetChild(0).GetChild(0).GetChild(0));
                 newVarName.text = varName;
 
@@ -65,7 +64,6 @@ namespace MG_BlocksEngine2.UI
 
                 newVarPanel.GetComponent<BE2_UI_VariableViewer>().RefreshViewer();
 
-                // v2.9 - bugfix: glitch on resizing the Blocks Selection Viewer
                 BE2_UI_BlocksSelectionViewer.Instance.ForceRebuildLayout();
 
                 transform.parent.gameObject.SetActive(panelIsActive);
