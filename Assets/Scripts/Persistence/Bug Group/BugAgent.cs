@@ -40,7 +40,7 @@ public class BugAgent : MonoBehaviour
             // move until close to destination
             while (!isDead && agent.pathPending == false && agent.remainingDistance > agent.stoppingDistance)
             {
-                if (animator) animator.SetFloat(moveParam, agent.velocity.magnitude);
+               // if (animator) animator.SetFloat(moveParam, agent.velocity.magnitude);
                 yield return wait;
             }
 
