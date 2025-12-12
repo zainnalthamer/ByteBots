@@ -76,6 +76,12 @@ public class GreenhouseSeedsValidator : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(Input.GetKey(KeyCode.H))
+            flowchart.ExecuteBlock(blockNameToPlay);
+    }
+
     private bool CheckBlocksForAnswer()
     {
         BE2_Block[] blocks = blocksContainer.GetComponentsInChildren<BE2_Block>(true);
