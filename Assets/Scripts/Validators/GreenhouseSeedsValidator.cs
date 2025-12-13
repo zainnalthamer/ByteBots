@@ -30,17 +30,7 @@ public class GreenhouseSeedsValidator : MonoBehaviour
     [SerializeField] private Fungus.Flowchart flowchart;
     [SerializeField] private string blockNameToPlay = "PickJars";
 
-    private void Awake()
-    {
-        checkAnswerButton.onClick.AddListener(ValidatePuzzle);
-    }
-
-    private void OnDestroy()
-    {
-        checkAnswerButton.onClick.RemoveListener(ValidatePuzzle);
-    }
-
-    private void ValidatePuzzle()
+    public void ValidatePuzzle()
     {
         executionManager.Play();
 

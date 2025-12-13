@@ -113,6 +113,10 @@ public class NotebookController : MonoBehaviour
             {
                 switch(v.name)
                 {
+                    case "GreenhouseSeeds Puzzle Validator":
+                        var greenhouseValidator = v.GetComponent<GreenhouseSeedsValidator>();
+                            greenhouseValidator.ValidatePuzzle(); 
+                        break;
                     case "Water Well Puzzle Validator":
                         var wellValidator = v.GetComponent<WellFlowValidator>(); 
                             wellValidator.ValidatePuzzle();
