@@ -31,17 +31,8 @@ public class PeachPieValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
-    private void Awake()
-    {
-        checkAnswerButton.onClick.AddListener(ValidatePuzzle);
-    }
 
-    private void OnDestroy()
-    {
-        checkAnswerButton.onClick.RemoveListener(ValidatePuzzle);
-    }
-
-    private void ValidatePuzzle()
+    public void ValidatePuzzle()
     {
         executionManager.Play();
 

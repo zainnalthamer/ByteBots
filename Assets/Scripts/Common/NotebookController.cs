@@ -133,6 +133,10 @@ public class NotebookController : MonoBehaviour
                         var flourValidator = v.GetComponent<FlourPriceValidator>();
                         flourValidator.ValidatePuzzle();
                         break;
+                    case "Peach Pie Puzzle Validator":
+                        var peachPieValidator = v.GetComponent<PeachPieValidator>();
+                        peachPieValidator.ValidatePuzzle();
+                        break;
                     case "Food Puzzle Validator": 
                         var foodOrderValidator = v.GetComponent<FoodOrderPuzzleValidator>();
                             foodOrderValidator.ValidatePuzzle();
