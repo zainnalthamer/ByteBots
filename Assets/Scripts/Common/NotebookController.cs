@@ -121,16 +121,13 @@ public class NotebookController : MonoBehaviour
                         var wellValidator = v.GetComponent<WellFlowValidator>(); 
                             wellValidator.ValidatePuzzle();
                         break;
+                    case "Cow Puzzle Validator":
+                        var cowValidator = v.GetComponent<CowPuzzleValidator>();
+                        cowValidator.ValidatePuzzle();
+                        break;
                     case "Food Puzzle Validator": 
                         var foodOrderValidator = v.GetComponent<FoodOrderPuzzleValidator>();
-                            foodOrderValidator.ValidatePuzzle(); 
-                        break;
-                    case "WellFlowValidator": 
-                        break;
-                    case "EggsPuzzleValidator": 
-                        break; 
-                    default:
-                        Debug.LogWarning($"No validation method defined for {v.name}");
+                            foodOrderValidator.ValidatePuzzle();
                         break;
                 }
             }
