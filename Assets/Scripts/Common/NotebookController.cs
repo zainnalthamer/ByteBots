@@ -12,13 +12,17 @@ public class NotebookController : MonoBehaviour
     [Header("Puzzle Block Sets")]
     public GameObject[] puzzleBlockSets;
 
-    [Header("Extras")]  
-    public MonoBehaviour playerFollowCamera; 
-    public GameObject notebookBlurVolume; 
+    [Header("Puzzle Validators")]
+    public GameObject[] puzzleValidators;
+
+    [Header("Extras")]
+    public MonoBehaviour playerFollowCamera;
+    public GameObject notebookBlurVolume;
 
     private void Start()
     {
         StartCoroutine(InitializeUI());
+        DisableAllValidators();
     }
 
     private IEnumerator InitializeUI()
@@ -44,6 +48,7 @@ public class NotebookController : MonoBehaviour
         {
             puzzlePanels[panelIndex].SetActive(true);
             puzzleBlockSets[panelIndex].SetActive(true);
+            puzzleValidators[panelIndex].SetActive(true);
         }
 
         Time.timeScale = 0f;
@@ -83,6 +88,8 @@ public class NotebookController : MonoBehaviour
 
         if (notebookBlurVolume)
             notebookBlurVolume.SetActive(false);
+
+        DisableAllValidators();
     }
 
     private void HideAllPanels()
@@ -95,6 +102,40 @@ public class NotebookController : MonoBehaviour
     {
         foreach (var b in puzzleBlockSets)
             b.SetActive(false);
+    }
+
+    public void RunValidator()
+    {
+        //Check which validator is active and validate.
+        foreach (var v in puzzleValidators)
+        {
+            if (v.activeSelf)
+            {
+                switch(v.name)
+                {
+                    case "Water Well Puzzle Validator":
+                        var wellValidator = v.GetComponent<WellFlowValidator>(); 
+                            wellValidator.ValidatePuzzle();
+                        break;
+                    case "Food Puzzle Validator": 
+                        var foodOrderValidator = v.GetComponent<FoodOrderPuzzleValidator>();
+                            foodOrderValidator.ValidatePuzzle(); 
+                        break;
+                    case "WellFlowValidator": 
+                        break;
+                    case "EggsPuzzleValidator": 
+                        break; 
+                    default:
+                        Debug.LogWarning($"No validation method defined for {v.name}");
+                        break;
+                }
+            }
+        }
+    }
+
+    public void DisableAllValidators() { 
+        foreach (var v in puzzleValidators)
+            v.SetActive(false);
     }
 
 }
