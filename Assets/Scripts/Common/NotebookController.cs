@@ -141,6 +141,18 @@ public class NotebookController : MonoBehaviour
                         var fishBasketValidator = v.GetComponent<FishBasketValidator>();
                         fishBasketValidator.ValidatePuzzle();
                         break;
+                    case "Seafood Freshness Puzzle Validator":
+                        var seafoodValidator = v.GetComponent<SeafoodFreshnessValidator>();
+                        seafoodValidator.ValidatePuzzle();
+                        break;
+                    case "Fish Price Calculator Puzzle Validator":
+                        var fishPriceValidator = v.GetComponent<FishPriceValidator>();
+                        fishPriceValidator.ValidatePuzzle();
+                        break;
+                    case "Ticket Booth Puzzle Validator":
+                        var ticketValidator = v.GetComponent<CarnivalTicketValidator>();
+                        ticketValidator.ValidatePuzzle();
+                        break;
                     case "Food Puzzle Validator": 
                         var foodOrderValidator = v.GetComponent<FoodOrderPuzzleValidator>();
                             foodOrderValidator.ValidatePuzzle();
