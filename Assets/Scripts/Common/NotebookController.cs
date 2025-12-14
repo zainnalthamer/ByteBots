@@ -161,6 +161,10 @@ public class NotebookController : MonoBehaviour
                         var foodOrderValidator = v.GetComponent<FoodOrderPuzzleValidator>();
                             foodOrderValidator.ValidatePuzzle();
                         break;
+                    case "Carousel Puzzle Validator":
+                        var carouselValidator = v.GetComponent<CarouselPuzzleValidator>();
+                        carouselValidator.ValidatePuzzle();
+                        break;
                 }
             }
         }

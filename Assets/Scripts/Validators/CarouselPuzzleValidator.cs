@@ -23,23 +23,8 @@ public class CarouselPuzzleValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
-    private void Awake()
-    {
-        checkAnswerButton.onClick.AddListener(ValidatePuzzle);
 
-        if (carouselController) carouselController.isActive = false;
-
-        horses = horseRoot.GetComponentsInChildren<CarouselHorseController>(true);
-        foreach (var h in horses)
-            h.enabled = false;
-    }
-
-    private void OnDestroy()
-    {
-        checkAnswerButton.onClick.RemoveListener(ValidatePuzzle);
-    }
-
-    private void ValidatePuzzle()
+    public void ValidatePuzzle()
     {
         executionManager.Play();
 
