@@ -42,6 +42,9 @@ public class GreenhouseSeedsValidator : MonoBehaviour
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
 
+            if (QuestManager.Instance != null)
+                QuestManager.Instance.OnPuzzleCompleted();
+
             if (notebookCanvasRoot != null)
                 notebookCanvasRoot.SetActive(false);
 
