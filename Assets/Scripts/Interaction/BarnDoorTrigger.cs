@@ -4,16 +4,22 @@ using UnityEngine.UI;
 
 public class BarnDoorTrigger : MonoBehaviour
 {
-    public CanvasGroup enterText;
+    [Header("UI")]
+    public CanvasGroup enterPanel;
     public Image fadePanel;
+
+    [Header("Teleport")]
     public Transform teleportPoint;
     public Transform player;
 
-    private bool playerInside = false;
+    private bool playerInside;
 
     void Start()
     {
-        enterText.alpha = 0f;
+        enterPanel.alpha = 0f;
+        enterPanel.interactable = false;
+        enterPanel.blocksRaycasts = false;
+
         fadePanel.color = new Color(0, 0, 0, 0);
     }
 
@@ -27,32 +33,32 @@ public class BarnDoorTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerInside = true;
-            enterText.DOFade(1f, 0.3f);
-        }
+        if (!other.CompareTag("Player")) return;
+
+        playerInside = true;
+        enterPanel.DOFade(1f, 0.25f);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerInside = false;
-            enterText.DOFade(0f, 0.3f);
-        }
+        if (!other.CompareTag("Player")) return;
+
+        playerInside = false;
+        enterPanel.DOFade(0f, 0.25f);
     }
 
     void StartTransition()
     {
-        enterText.DOFade(0f, 0.2f);
+        enterPanel.DOFade(0f, 0.2f);
 
-        fadePanel.DOFade(1f, 0.7f).OnComplete(() =>
+        fadePanel.DOFade(1f, 0.6f).OnComplete(() =>
         {
-            player.position = teleportPoint.position;
-            player.rotation = teleportPoint.rotation;
+            player.SetPositionAndRotation(
+                teleportPoint.position,
+                teleportPoint.rotation
+            );
 
-            fadePanel.DOFade(0f, 0.7f);
+            fadePanel.DOFade(0f, 0.6f);
         });
     }
 }

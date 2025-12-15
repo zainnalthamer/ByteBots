@@ -5,7 +5,9 @@ using UnityEngine;
 public static class SaveKeys
 {
     public const string BugCount = "bugCount";
-    public const string CompletedLevels = "completedLevels"; // List<string> of scene names
-    public const string SolvedPuzzles = "solvedPuzzles";   // List<string> of puzzle IDs
+    public const string CompletedLevels = "completedLevels";
+    public const string SolvedPuzzles = "solvedPuzzles";
+    public const string PlayerPosition = "PlayerPosition";
+    public const string PlayerRotation = "PlayerRotation";
 }
 

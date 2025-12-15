@@ -12,6 +12,9 @@ public class SaveManager : MonoBehaviour
     private HashSet<string> completedLevels = new();
     private HashSet<string> solvedPuzzles = new();
 
+    private Vector3 lastPlayerPosition;
+    private Quaternion lastPlayerRotation;
+
     void Awake()
     {
         if (I != null && I != this) { Destroy(gameObject); return; }
@@ -68,6 +71,31 @@ public class SaveManager : MonoBehaviour
     {
         bugCount += Mathf.Max(0, n);
         ES3.Save(SaveKeys.BugCount, bugCount, saveFile);
+    }
+
+    public bool HasPlayerTransform()
+    {
+        return ES3.KeyExists(SaveKeys.PlayerPosition, saveFile)
+            && ES3.KeyExists(SaveKeys.PlayerRotation, saveFile);
+    }
+
+    public Vector3 GetPlayerPosition()
+    {
+        return ES3.Load<Vector3>(SaveKeys.PlayerPosition, saveFile);
+    }
+
+    public Quaternion GetPlayerRotation()
+    {
+        return ES3.Load<Quaternion>(SaveKeys.PlayerRotation, saveFile);
+    }
+
+    public void SavePlayerTransform(Transform player)
+    {
+        lastPlayerPosition = player.position;
+        lastPlayerRotation = player.rotation;
+
+        ES3.Save(SaveKeys.PlayerPosition, lastPlayerPosition, saveFile);
+        ES3.Save(SaveKeys.PlayerRotation, lastPlayerRotation, saveFile);
     }
 
 }
