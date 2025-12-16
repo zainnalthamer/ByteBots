@@ -1,3 +1,4 @@
+using Fungus;
 using MG_BlocksEngine2.Block;
 using MG_BlocksEngine2.Core;
 using UnityEngine;
@@ -25,6 +26,10 @@ public class FlourPriceValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Mushy Reaction")]
+    public Flowchart mushyFlowchart;
+    public string mushySolvedBlock = "MushyPuzzleSolvedReaction";
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -45,6 +50,12 @@ public class FlourPriceValidator : MonoBehaviour
 
             if (playerFollowCamera != null)
                 playerFollowCamera.enabled = true;
+
+            if (mushyFlowchart)
+            {
+                mushyFlowchart.ExecuteBlock(mushySolvedBlock);
+            }
+
 
             Time.timeScale = 1f;
         }
