@@ -39,24 +39,30 @@ public class MarketNPCWander : MonoBehaviour
         while (true)
         {
             PickNewTarget();
+            if (!currentTarget)
+                yield break;
+
             agent.isStopped = false;
             agent.SetDestination(currentTarget.position);
-
             animator.SetBool("Walk", true);
 
-            while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
-            {
+            while (agent.pathPending)
                 yield return null;
-            }
+
+            while (agent.remainingDistance > 0.2f)
+                yield return null;
 
             agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            agent.ResetPath();
+
             animator.SetBool("Walk", false);
 
             yield return StartCoroutine(LookAtTarget());
-
             yield return new WaitForSeconds(Random.Range(minIdleTime, maxIdleTime));
         }
     }
+
 
     void PickNewTarget()
     {

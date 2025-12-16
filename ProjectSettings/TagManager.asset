@@ -8,6 +8,7 @@ TagManager:
   - Collectible
   - LUMA
   - Selectable
+  - MarketNPC
   layers:
   - Default
   - TransparentFX
