@@ -1,3 +1,4 @@
+using Fungus;
 using MG_BlocksEngine2.Block;
 using MG_BlocksEngine2.Core;
 using UnityEngine;
@@ -25,6 +26,11 @@ public class EggsPuzzleValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Blossom Reaction")]
+    public Flowchart blossomFlowchart;
+    public string blossomBlockName = "BlossomPuzzleSolvedReaction";
+    public SimpleWander blossomWander;
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -45,6 +51,16 @@ public class EggsPuzzleValidator : MonoBehaviour
 
             if (playerFollowCamera != null)
                 playerFollowCamera.enabled = true;
+
+            if (blossomFlowchart)
+            {
+                blossomFlowchart.ExecuteBlock(blossomBlockName);
+            }
+
+            if (blossomWander)
+            {
+                blossomWander.StartWandering();
+            }
 
             Time.timeScale = 1f;
         }
