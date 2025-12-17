@@ -1,3 +1,4 @@
+using Fungus;
 using MG_BlocksEngine2.Block;
 using MG_BlocksEngine2.Core;
 using UnityEngine;
@@ -16,6 +17,10 @@ public class SeafoodFreshnessValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Coral Finster Reaction")]
+    public Flowchart coralFlowchart;
+    public string solvedBlockName = "SeafoodPuzzleSolvedReaction";
+
 
     public void ValidatePuzzle()
     {
@@ -32,6 +37,11 @@ public class SeafoodFreshnessValidator : MonoBehaviour
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
+
+            if (coralFlowchart)
+            {
+                coralFlowchart.ExecuteBlock(solvedBlockName);
+            }
 
             Time.timeScale = 1f;
         }
