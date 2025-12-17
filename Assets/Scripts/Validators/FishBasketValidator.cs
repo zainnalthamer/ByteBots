@@ -1,3 +1,4 @@
+using Fungus;
 using MG_BlocksEngine2.Block;
 using MG_BlocksEngine2.Core;
 using UnityEngine;
@@ -25,6 +26,11 @@ public class FishBasketValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Lilo Reaction")]
+    public Flowchart liloFlowchart;
+    public string liloSolvedBlock = "LiloPuzzleSolvedReaction";
+    public GoToPoint liloGoTo;
+    public Transform liloSellPoint;
 
     public void ValidatePuzzle()
     {
@@ -38,6 +44,11 @@ public class FishBasketValidator : MonoBehaviour
 
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
+
+            if (liloFlowchart)
+            {
+                liloFlowchart.ExecuteBlock(liloSolvedBlock);
+            }
 
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
