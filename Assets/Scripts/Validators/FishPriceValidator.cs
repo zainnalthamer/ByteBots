@@ -1,3 +1,4 @@
+using Fungus;
 using MG_BlocksEngine2.Block;
 using MG_BlocksEngine2.Core;
 using UnityEngine;
@@ -16,6 +17,10 @@ public class FishPriceValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Fish Price NPC Reaction")]
+    public Flowchart fishPriceFlowchart;
+    public string solvedBlockName = "FishPricePuzzleSolvedReaction";
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -29,6 +34,11 @@ public class FishPriceValidator : MonoBehaviour
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
+
+            if (fishPriceFlowchart)
+            {
+                fishPriceFlowchart.ExecuteBlock(solvedBlockName);
+            }
 
             Time.timeScale = 1f;
         }
