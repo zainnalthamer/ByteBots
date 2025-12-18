@@ -40,6 +40,8 @@ public class FishPriceValidator : MonoBehaviour
                 fishPriceFlowchart.ExecuteBlock(solvedBlockName);
             }
 
+            QuestManager.Instance.OnPuzzleCompleted(8);
+
             Time.timeScale = 1f;
         }
         else

@@ -53,6 +53,8 @@ public class WellFlowValidator : MonoBehaviour
             if (playerFollowCamera != null)
                 playerFollowCamera.enabled = true;
 
+            QuestManager.Instance.OnPuzzleCompleted(3);
+
             Time.timeScale = 1f;
         }
         else

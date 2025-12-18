@@ -41,6 +41,8 @@ public class FoodOrderPuzzleValidator : MonoBehaviour
                 foodFlowchart.ExecuteBlock(solvedBlockName);
             }
 
+            QuestManager.Instance.OnPuzzleCompleted(12);
+
             Time.timeScale = 1f;
         }
         else

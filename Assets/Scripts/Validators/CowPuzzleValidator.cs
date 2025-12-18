@@ -56,6 +56,8 @@ public class CowPuzzleValidator : MonoBehaviour
                 flowchart.ExecuteBlock(blockNameToPlay);
             }
 
+            QuestManager.Instance.OnPuzzleCompleted(4);
+
             Time.timeScale = 1f;
         }
         else

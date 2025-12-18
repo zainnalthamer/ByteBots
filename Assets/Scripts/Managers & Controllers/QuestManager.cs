@@ -13,14 +13,15 @@ public class QuestManager : MonoBehaviour
     [Header("Quest UI")]
     [SerializeField] private TextMeshProUGUI questText;
     [SerializeField] private Image questImage;
-    [SerializeField] private Image questSticker;
     [SerializeField] private TextMeshProUGUI questNumberText;
 
-    [Header("Quest Data (ALL SAME SIZE)")]
+    [Header("Quest Blur")]
+    [SerializeField] private GameObject questBlurVolume;
+
+    [Header("Quest Data (same index = same quest)")]
     [TextArea][SerializeField] private string[] questTexts;
     [SerializeField] private Sprite[] questImages;
-    [SerializeField] private Sprite[] questStickers;
-    [SerializeField] private int[] questNumbers;
+    [SerializeField] private string[] questNumbers; 
 
     private int currentQuestIndex = -1;
     private bool questVisible;
@@ -36,7 +37,9 @@ public class QuestManager : MonoBehaviour
     private void Start()
     {
         questPanel.SetActive(false);
-        ShowNextQuest();
+        if (questBlurVolume) questBlurVolume.SetActive(false);
+
+        //ShowNextQuest();
     }
 
     private void Update()
@@ -45,14 +48,23 @@ public class QuestManager : MonoBehaviour
             ToggleQuest();
     }
 
-    public void ShowNextQuest()
-    {
-        currentQuestIndex++;
+    //public void ShowNextQuest()
+    //{
+    //    currentQuestIndex++;
 
-        if (currentQuestIndex >= questTexts.Length)
+    //    if (currentQuestIndex >= questTexts.Length)
+    //        return;
+
+    //    ApplyQuestByIndex(currentQuestIndex);
+    //}
+
+    public void ShowQuestByIndex(int index)
+    {
+        if (index < 0 || index >= questTexts.Length)
             return;
 
-        ApplyQuestByIndex(currentQuestIndex);
+        currentQuestIndex = index;
+        ApplyQuestByIndex(index);
     }
 
     private void ApplyQuestByIndex(int index)
@@ -62,30 +74,33 @@ public class QuestManager : MonoBehaviour
         if (questImages.Length > index && questImage)
             questImage.sprite = questImages[index];
 
-        if (questStickers.Length > index && questSticker)
-            questSticker.sprite = questStickers[index];
-
         if (questNumbers.Length > index && questNumberText)
-            questNumberText.text = questNumbers[index].ToString();
+            questNumberText.text = questNumbers[index];
 
         questPanel.SetActive(true);
         questVisible = true;
+
+        if (questBlurVolume)
+            questBlurVolume.SetActive(true);
     }
 
-    public void OnPuzzleCompleted()
+    public void OnPuzzleCompleted(int nextQuestIndex)
     {
-        StartCoroutine(NextQuestDelay());
+        StartCoroutine(NextQuestDelay(nextQuestIndex));
     }
 
-    private IEnumerator NextQuestDelay()
+    private IEnumerator NextQuestDelay(int index)
     {
-        yield return new WaitForSeconds(3f);
-        ShowNextQuest();
+        yield return new WaitForSeconds(10f);
+        ShowQuestByIndex(index);
     }
 
     private void ToggleQuest()
     {
         questVisible = !questVisible;
         questPanel.SetActive(questVisible);
+
+        if (questBlurVolume)
+            questBlurVolume.SetActive(questVisible);
     }
 }

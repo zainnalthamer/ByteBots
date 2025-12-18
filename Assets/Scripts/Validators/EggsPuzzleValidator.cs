@@ -62,6 +62,8 @@ public class EggsPuzzleValidator : MonoBehaviour
                 blossomWander.StartWandering();
             }
 
+            QuestManager.Instance.OnPuzzleCompleted(5);
+
             Time.timeScale = 1f;
         }
         else

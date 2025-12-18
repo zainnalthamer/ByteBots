@@ -56,6 +56,7 @@ public class FlourPriceValidator : MonoBehaviour
                 mushyFlowchart.ExecuteBlock(mushySolvedBlock);
             }
 
+            QuestManager.Instance.OnPuzzleCompleted(6);
 
             Time.timeScale = 1f;
         }

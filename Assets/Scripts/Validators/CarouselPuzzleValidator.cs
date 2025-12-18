@@ -52,6 +52,8 @@ public class CarouselPuzzleValidator : MonoBehaviour
                 carouselFlowchart.ExecuteBlock(solvedBlockName);
             }
 
+            QuestManager.Instance.OnPuzzleCompleted(11);
+
             Time.timeScale = 1f;
         }
         else

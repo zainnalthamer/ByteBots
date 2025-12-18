@@ -36,6 +36,8 @@ public class CropsCutsceneTrigger : MonoBehaviour
             controller.enabled = false;
 
             StartCoroutine(PlayCutscene());
+
+            QuestManager.Instance.OnPuzzleCompleted(2);
         }
     }
 

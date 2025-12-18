@@ -54,6 +54,8 @@ public class FishBasketValidator : MonoBehaviour
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
 
+            QuestManager.Instance.OnPuzzleCompleted(9);
+
             Time.timeScale = 1f;
         }
         else

@@ -42,9 +42,6 @@ public class GreenhouseSeedsValidator : MonoBehaviour
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
 
-            if (QuestManager.Instance != null)
-                QuestManager.Instance.OnPuzzleCompleted();
-
             if (notebookCanvasRoot != null)
                 notebookCanvasRoot.SetActive(false);
 
@@ -58,6 +55,8 @@ public class GreenhouseSeedsValidator : MonoBehaviour
             {
                 flowchart.ExecuteBlock(blockNameToPlay);
             }
+
+            QuestManager.Instance.OnPuzzleCompleted(1);
 
             Time.timeScale = 1f;
         }

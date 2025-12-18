@@ -47,6 +47,8 @@ public class CarnivalTicketValidator : MonoBehaviour
                 ticketFlowchart.ExecuteBlock(solvedBlockName);
             }
 
+            QuestManager.Instance.OnPuzzleCompleted(10);
+
             Time.timeScale = 1f;
         }
         else

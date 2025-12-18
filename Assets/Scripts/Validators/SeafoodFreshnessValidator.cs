@@ -39,9 +39,10 @@ public class SeafoodFreshnessValidator : MonoBehaviour
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
              
-                coralFlowchart.ExecuteBlock(solvedBlockName); 
+                coralFlowchart.ExecuteBlock(solvedBlockName);
 
-            
+            QuestManager.Instance.OnPuzzleCompleted(7);
+
         }
         else
         {
