@@ -1,21 +1,29 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance;
 
-    [Header("UI")]
+    [Header("Quest Panel Root")]
     [SerializeField] private GameObject questPanel;
-    [SerializeField] private TextMeshProUGUI questText;
 
-    [Header("Quests")]
-    [TextArea]
-    [SerializeField] private string[] quests;
+    [Header("Quest UI")]
+    [SerializeField] private TextMeshProUGUI questText;
+    [SerializeField] private Image questImage;
+    [SerializeField] private Image questSticker;
+    [SerializeField] private TextMeshProUGUI questNumberText;
+
+    [Header("Quest Data (ALL SAME SIZE)")]
+    [TextArea][SerializeField] private string[] questTexts;
+    [SerializeField] private Sprite[] questImages;
+    [SerializeField] private Sprite[] questStickers;
+    [SerializeField] private int[] questNumbers;
 
     private int currentQuestIndex = -1;
-    private bool questVisible = false;
+    private bool questVisible;
 
     private void Awake()
     {
@@ -28,25 +36,38 @@ public class QuestManager : MonoBehaviour
     private void Start()
     {
         questPanel.SetActive(false);
-        ShowNextQuest(); // start first quest
+        ShowNextQuest();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.J))
-        {
             ToggleQuest();
-        }
     }
 
     public void ShowNextQuest()
     {
         currentQuestIndex++;
 
-        if (currentQuestIndex >= quests.Length)
+        if (currentQuestIndex >= questTexts.Length)
             return;
 
-        questText.text = quests[currentQuestIndex];
+        ApplyQuestByIndex(currentQuestIndex);
+    }
+
+    private void ApplyQuestByIndex(int index)
+    {
+        questText.text = questTexts[index];
+
+        if (questImages.Length > index && questImage)
+            questImage.sprite = questImages[index];
+
+        if (questStickers.Length > index && questSticker)
+            questSticker.sprite = questStickers[index];
+
+        if (questNumbers.Length > index && questNumberText)
+            questNumberText.text = questNumbers[index].ToString();
+
         questPanel.SetActive(true);
         questVisible = true;
     }

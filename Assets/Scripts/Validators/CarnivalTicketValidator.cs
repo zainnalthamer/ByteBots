@@ -3,6 +3,7 @@ using MG_BlocksEngine2.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Fungus;
 
 public class CarnivalTicketValidator : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class CarnivalTicketValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Ticket Booth Reaction")]
+    public Flowchart ticketFlowchart;
+    public string solvedBlockName = "TicketPuzzleSolvedReaction";
 
     public void ValidatePuzzle()
     {
@@ -37,6 +41,11 @@ public class CarnivalTicketValidator : MonoBehaviour
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
+
+            if (ticketFlowchart)
+            {
+                ticketFlowchart.ExecuteBlock(solvedBlockName);
+            }
 
             Time.timeScale = 1f;
         }

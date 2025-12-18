@@ -24,6 +24,7 @@ public class SeafoodFreshnessValidator : MonoBehaviour
 
     public void ValidatePuzzle()
     {
+        Time.timeScale = 1f;
         executionManager.Play();
 
         if (CheckBlocksForAnswer())
@@ -37,13 +38,10 @@ public class SeafoodFreshnessValidator : MonoBehaviour
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
+             
+                coralFlowchart.ExecuteBlock(solvedBlockName); 
 
-            if (coralFlowchart)
-            {
-                coralFlowchart.ExecuteBlock(solvedBlockName);
-            }
-
-            Time.timeScale = 1f;
+            
         }
         else
         {

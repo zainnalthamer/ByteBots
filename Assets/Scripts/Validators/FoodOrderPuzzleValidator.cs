@@ -16,7 +16,11 @@ public class FoodOrderPuzzleValidator : MonoBehaviour
     [SerializeField] private GameObject notebookCanvasRoot;
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
-     
+
+    [Header("Food NPC Reaction")]
+    [SerializeField] private Fungus.Flowchart foodFlowchart;
+    [SerializeField] private string solvedBlockName = "FoodPuzzleSolvedReaction";
+
 
     public void ValidatePuzzle()
     {
@@ -31,6 +35,11 @@ public class FoodOrderPuzzleValidator : MonoBehaviour
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
+
+            if (foodFlowchart && !string.IsNullOrEmpty(solvedBlockName))
+            {
+                foodFlowchart.ExecuteBlock(solvedBlockName);
+            }
 
             Time.timeScale = 1f;
         }

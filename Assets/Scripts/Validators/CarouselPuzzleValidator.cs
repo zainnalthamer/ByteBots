@@ -1,8 +1,9 @@
+using Fungus;
+using MG_BlocksEngine2.Block;
+using MG_BlocksEngine2.Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using MG_BlocksEngine2.Core;
-using MG_BlocksEngine2.Block;
 
 public class CarouselPuzzleValidator : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class CarouselPuzzleValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Carousel NPC Reaction")]
+    public Flowchart carouselFlowchart;
+    public string solvedBlockName = "CarouselPuzzleSolvedReaction";
+
 
     public void ValidatePuzzle()
     {
@@ -41,6 +46,11 @@ public class CarouselPuzzleValidator : MonoBehaviour
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
+
+            if (carouselFlowchart)
+            {
+                carouselFlowchart.ExecuteBlock(solvedBlockName);
+            }
 
             Time.timeScale = 1f;
         }
