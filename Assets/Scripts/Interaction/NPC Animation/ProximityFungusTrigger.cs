@@ -7,6 +7,9 @@ public class ProximityFungusTrigger : MonoBehaviour
     public Transform player;
     public float triggerDistance = 3f;
 
+    [Header("Quest")]
+    public int requiredQuestIndex;
+
     [Header("Fungus")]
     public Flowchart flowchart;
     public string blockName;
@@ -15,7 +18,12 @@ public class ProximityFungusTrigger : MonoBehaviour
 
     void Update()
     {
-        if (hasTriggered || player == null || flowchart == null) return;
+        if (hasTriggered || player == null || flowchart == null)
+            return;
+
+        if (!QuestManager.Instance ||
+            !QuestManager.Instance.IsCurrentQuest(requiredQuestIndex))
+            return;
 
         float distance = Vector3.Distance(transform.position, player.position);
 

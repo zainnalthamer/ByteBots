@@ -26,6 +26,9 @@ public class QuestManager : MonoBehaviour
     private int currentQuestIndex = -1;
     private bool questVisible;
 
+    public int CurrentQuestIndex => currentQuestIndex;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -39,7 +42,7 @@ public class QuestManager : MonoBehaviour
         questPanel.SetActive(false);
         if (questBlurVolume) questBlurVolume.SetActive(false);
 
-        //ShowNextQuest();
+        ShowNextQuest();
     }
 
     private void Update()
@@ -48,15 +51,17 @@ public class QuestManager : MonoBehaviour
             ToggleQuest();
     }
 
-    //public void ShowNextQuest()
-    //{
-    //    currentQuestIndex++;
+    public void ShowNextQuest()
+    {
+        currentQuestIndex++;
 
-    //    if (currentQuestIndex >= questTexts.Length)
-    //        return;
+        Debug.Log("CURRENT QUEST INDEX: " + currentQuestIndex);
 
-    //    ApplyQuestByIndex(currentQuestIndex);
-    //}
+        if (currentQuestIndex >= questTexts.Length)
+            return;
+
+        ApplyQuestByIndex(currentQuestIndex);
+    }
 
     public void ShowQuestByIndex(int index)
     {
@@ -102,5 +107,10 @@ public class QuestManager : MonoBehaviour
 
         if (questBlurVolume)
             questBlurVolume.SetActive(questVisible);
+    }
+
+    public bool IsCurrentQuest(int questIndex)
+    {
+        return currentQuestIndex == questIndex;
     }
 }
