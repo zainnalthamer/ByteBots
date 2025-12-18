@@ -435,9 +435,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 17bc5e0d22f1bde429427b4958b59ac9, type: 3}
   - {fileID: 8300000, guid: 5cc4edf3c53749b498f78588d641efb7, type: 3}
   environmentClips:
-  - {fileID: 8300000, guid: 44371b3a333ee44a1a98d55d464d0db8, type: 3}
+  - {fileID: 8300000, guid: 617dbdb748d5afa4db13abad4dd23267, type: 3}
   soundClips:
   - {fileID: 8300000, guid: b68768083526cf1438e12dfdef27aa19, type: 3}
+  - {fileID: 8300000, guid: 5313355cfc52f0344b52b8b8b6e7d21c, type: 3}
+  - {fileID: 8300000, guid: 6d3424e4c71a359448467eda8341c661, type: 3}
+  - {fileID: 8300000, guid: 0f559b14fc2fa2a42b19778e81e53b19, type: 3}
   musicAudioSource: {fileID: 7638491385118176933}
   environmentAudioSource: {fileID: 7638491385535936636}
   soundAudioSource: {fileID: 7638491385319483171}
@@ -448,7 +451,7 @@ MonoBehaviour:
     isLooping: 0
     musicIndex: 0
     environmentIndex: 0
-  - sceneName: Updated Island Level 1
+  - sceneName: Elven Oak
     switchMusic: 1
     switchEnvironment: 0
     isLooping: 0

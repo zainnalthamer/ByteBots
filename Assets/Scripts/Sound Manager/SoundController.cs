@@ -199,9 +199,12 @@ public class SoundController : MonoBehaviour
 
     IEnumerator SwapEnvironment(int index)
     {
+        Debug.Log("Swapping environment to index: " + index);
+        if (environmentAudioSource.clip == environmentClips[index])
+        { 
+            if(environmentAudioSource.isPlaying && environmentAudioSource.volume < 1)
+                FadeAudioSource.StartFade(environmentAudioSource, 2.5f, .55f); 
 
-        if (environmentAudioSource.clip == musicClips[index])
-        {
             yield break;
         }
         else
@@ -209,11 +212,13 @@ public class SoundController : MonoBehaviour
             if (environmentAudioSource.isPlaying)
                 StartCoroutine(FadeAudioSource.StartFade(environmentAudioSource, 2.5f, 0f));
 
-            yield return new WaitUntil(() => FadeAudioSource.currentVolume == 0);
+           // yield return new WaitUntil(() => FadeAudioSource.currentVolume == 0);
             environmentAudioSource.clip = environmentClips[index];
 
             if (!environmentAudioSource.isPlaying) 
                     environmentAudioSource.Play();
+
+            Debug.Log("Playing environment clip: " + environmentAudioSource.clip.name);
 
             StartCoroutine(FadeAudioSource.StartFade(environmentAudioSource, 2.5f, .55f));
         }
