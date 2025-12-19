@@ -28,6 +28,8 @@ public class CarouselPuzzleValidator : MonoBehaviour
     public Flowchart carouselFlowchart;
     public string solvedBlockName = "CarouselPuzzleSolvedReaction";
 
+    [SerializeField] private Transform programmingEnv;
+
 
     public void ValidatePuzzle()
     {
@@ -39,6 +41,8 @@ public class CarouselPuzzleValidator : MonoBehaviour
             SoundController.Instance.PlaySFX(0);
 
             if (bugGroup) bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
 
             if (carouselController) carouselController.ActivateCarousel();
             foreach (var h in horses) h.enabled = true;
@@ -108,5 +112,15 @@ public class CarouselPuzzleValidator : MonoBehaviour
                hasRotationsText &&
                hasTen &&
                hasOne;
+    }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
     }
 }

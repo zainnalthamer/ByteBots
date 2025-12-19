@@ -32,6 +32,9 @@ public class FishBasketValidator : MonoBehaviour
     public GoToPoint liloGoTo;
     public Transform liloSellPoint;
 
+    [SerializeField] private Transform programmingEnv;
+
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -44,6 +47,8 @@ public class FishBasketValidator : MonoBehaviour
 
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
 
             if (liloFlowchart)
             {
@@ -100,5 +105,15 @@ public class FishBasketValidator : MonoBehaviour
         }
 
         return foundBasket && foundFish && foundOverflow;
+    }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
     }
 }

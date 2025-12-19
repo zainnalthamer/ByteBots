@@ -31,6 +31,8 @@ public class PeachPieValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [SerializeField] private Transform programmingEnv;
+
 
     public void ValidatePuzzle()
     {
@@ -44,6 +46,8 @@ public class PeachPieValidator : MonoBehaviour
 
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
 
             if (pieObject != null)
                 pieObject.SetActive(true);
@@ -128,4 +132,15 @@ public class PeachPieValidator : MonoBehaviour
 
         return true;
     }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
+
 }

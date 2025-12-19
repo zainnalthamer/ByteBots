@@ -25,6 +25,8 @@ public class CarnivalTicketValidator : MonoBehaviour
     public Flowchart ticketFlowchart;
     public string solvedBlockName = "TicketPuzzleSolvedReaction";
 
+    [SerializeField] private Transform programmingEnv;
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -38,6 +40,9 @@ public class CarnivalTicketValidator : MonoBehaviour
                 gateCollider.enabled = false;
 
             if (bugGroup) bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
+
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
@@ -101,4 +106,15 @@ public class CarnivalTicketValidator : MonoBehaviour
 
         return foundHasTicketTrue && foundCanEnterTrue;
     }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
+
 }

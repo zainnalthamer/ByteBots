@@ -30,6 +30,8 @@ public class CowPuzzleValidator : MonoBehaviour
     [SerializeField] private Fungus.Flowchart flowchart;
     [SerializeField] private string blockNameToPlay = "MilkCow";
 
+    [SerializeField] private Transform programmingEnv;
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -41,6 +43,8 @@ public class CowPuzzleValidator : MonoBehaviour
 
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
 
             if (notebookCanvasRoot != null)
                 notebookCanvasRoot.SetActive(false);
@@ -128,4 +132,15 @@ public class CowPuzzleValidator : MonoBehaviour
 
         return true;
     }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
+
 }

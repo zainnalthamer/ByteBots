@@ -31,6 +31,8 @@ public class EggsPuzzleValidator : MonoBehaviour
     public string blossomBlockName = "BlossomPuzzleSolvedReaction";
     public SimpleWander blossomWander;
 
+    [SerializeField] private Transform programmingEnv;
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -42,6 +44,8 @@ public class EggsPuzzleValidator : MonoBehaviour
 
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
 
             if (notebookCanvasRoot != null)
                 notebookCanvasRoot.SetActive(false);
@@ -124,4 +128,15 @@ public class EggsPuzzleValidator : MonoBehaviour
 
         return true;
     }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
+
 }

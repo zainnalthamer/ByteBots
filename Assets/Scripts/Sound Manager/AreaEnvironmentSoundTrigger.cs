@@ -10,15 +10,15 @@ public class AreaEnvironmentSoundTrigger : MonoBehaviour
     public float fadeInDuration = 2.5f;
     public float fadeOutDuration = 2.5f;
     [Range(0f, 1f)] public float targetVolume = 0.55f;
-     
-     
+
+
 
     private void OnTriggerEnter(Collider other)
     {
 
         if (other.CompareTag("Player"))
         {
-             Debug.Log("Player entered environment sound trigger: " + environmentClipIndex);
+            Debug.Log("Player entered environment sound trigger: " + environmentClipIndex);
 
             SoundController.Instance.PlayOrSwitchEnvironment(environmentClipIndex);
             //SoundController.Instance.FadeEnvironment(fadeInDuration, targetVolume);

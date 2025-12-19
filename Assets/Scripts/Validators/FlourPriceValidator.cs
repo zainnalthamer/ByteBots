@@ -30,6 +30,8 @@ public class FlourPriceValidator : MonoBehaviour
     public Flowchart mushyFlowchart;
     public string mushySolvedBlock = "MushyPuzzleSolvedReaction";
 
+    [SerializeField] private Transform programmingEnv;
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -41,6 +43,8 @@ public class FlourPriceValidator : MonoBehaviour
 
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
 
             if (notebookCanvasRoot != null)
                 notebookCanvasRoot.SetActive(false);
@@ -118,4 +122,15 @@ public class FlourPriceValidator : MonoBehaviour
 
         return true;
     }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
+
 }

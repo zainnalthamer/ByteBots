@@ -21,6 +21,8 @@ public class FoodOrderPuzzleValidator : MonoBehaviour
     [SerializeField] private Fungus.Flowchart foodFlowchart;
     [SerializeField] private string solvedBlockName = "FoodPuzzleSolvedReaction";
 
+    [SerializeField] private Transform programmingEnv;
+
 
     public void ValidatePuzzle()
     {
@@ -32,6 +34,9 @@ public class FoodOrderPuzzleValidator : MonoBehaviour
             SoundController.Instance.PlaySFX(0);
 
             if (bugGroup) bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
+
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
@@ -115,4 +120,15 @@ public class FoodOrderPuzzleValidator : MonoBehaviour
             hasIfOrderEqualsTaco &&
             hasIsReadyTrue;
     }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
+
 }

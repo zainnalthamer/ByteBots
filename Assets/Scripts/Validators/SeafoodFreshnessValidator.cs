@@ -21,6 +21,8 @@ public class SeafoodFreshnessValidator : MonoBehaviour
     public Flowchart coralFlowchart;
     public string solvedBlockName = "SeafoodPuzzleSolvedReaction";
 
+    [SerializeField] private Transform programmingEnv;
+
 
     public void ValidatePuzzle()
     {
@@ -34,6 +36,8 @@ public class SeafoodFreshnessValidator : MonoBehaviour
 
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
 
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
@@ -120,4 +124,13 @@ public class SeafoodFreshnessValidator : MonoBehaviour
         return varName == expectedName && varValue == expectedValue;
     }
 
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
 }
