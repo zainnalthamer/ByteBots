@@ -55,8 +55,6 @@ MonoBehaviour:
     - Neocortex.Ollama.Runtime
     - Neocortex.Runtime
     - Project.External
-    - sc.fae.editor
-    - sc.fae.runtime
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
