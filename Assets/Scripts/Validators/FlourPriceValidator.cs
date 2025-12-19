@@ -1,3 +1,4 @@
+using Fungus;
 using MG_BlocksEngine2.Block;
 using MG_BlocksEngine2.Core;
 using UnityEngine;
@@ -25,6 +26,12 @@ public class FlourPriceValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Mushy Reaction")]
+    public Flowchart mushyFlowchart;
+    public string mushySolvedBlock = "MushyPuzzleSolvedReaction";
+
+    [SerializeField] private Transform programmingEnv;
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -37,6 +44,8 @@ public class FlourPriceValidator : MonoBehaviour
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
 
+            ClearProgrammingEnv();
+
             if (notebookCanvasRoot != null)
                 notebookCanvasRoot.SetActive(false);
 
@@ -45,6 +54,13 @@ public class FlourPriceValidator : MonoBehaviour
 
             if (playerFollowCamera != null)
                 playerFollowCamera.enabled = true;
+
+            if (mushyFlowchart)
+            {
+                mushyFlowchart.ExecuteBlock(mushySolvedBlock);
+            }
+
+            QuestManager.Instance.OnPuzzleCompleted(6);
 
             Time.timeScale = 1f;
         }
@@ -106,4 +122,15 @@ public class FlourPriceValidator : MonoBehaviour
 
         return true;
     }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
+
 }

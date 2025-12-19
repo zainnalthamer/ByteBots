@@ -3,6 +3,7 @@ using MG_BlocksEngine2.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Fungus;
 
 public class CarnivalTicketValidator : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class CarnivalTicketValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Ticket Booth Reaction")]
+    public Flowchart ticketFlowchart;
+    public string solvedBlockName = "TicketPuzzleSolvedReaction";
+
+    [SerializeField] private Transform programmingEnv;
 
     public void ValidatePuzzle()
     {
@@ -34,9 +40,19 @@ public class CarnivalTicketValidator : MonoBehaviour
                 gateCollider.enabled = false;
 
             if (bugGroup) bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
+
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
+
+            if (ticketFlowchart)
+            {
+                ticketFlowchart.ExecuteBlock(solvedBlockName);
+            }
+
+            QuestManager.Instance.OnPuzzleCompleted(10);
 
             Time.timeScale = 1f;
         }
@@ -90,4 +106,15 @@ public class CarnivalTicketValidator : MonoBehaviour
 
         return foundHasTicketTrue && foundCanEnterTrue;
     }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
+
 }

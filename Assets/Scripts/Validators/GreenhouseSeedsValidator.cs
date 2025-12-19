@@ -30,6 +30,8 @@ public class GreenhouseSeedsValidator : MonoBehaviour
     [SerializeField] private Fungus.Flowchart flowchart;
     [SerializeField] private string blockNameToPlay = "PickJars";
 
+    [SerializeField] private Transform programmingEnv;
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -41,6 +43,8 @@ public class GreenhouseSeedsValidator : MonoBehaviour
 
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
+
+            ClearProgrammingEnv();
 
             if (notebookCanvasRoot != null)
                 notebookCanvasRoot.SetActive(false);
@@ -55,6 +59,8 @@ public class GreenhouseSeedsValidator : MonoBehaviour
             {
                 flowchart.ExecuteBlock(blockNameToPlay);
             }
+
+            QuestManager.Instance.OnPuzzleCompleted(1);
 
             Time.timeScale = 1f;
         }
@@ -124,4 +130,15 @@ public class GreenhouseSeedsValidator : MonoBehaviour
 
         return true;
     }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
+
 }

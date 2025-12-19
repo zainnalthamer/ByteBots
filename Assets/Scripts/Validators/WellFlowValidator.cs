@@ -27,7 +27,7 @@ public class WellFlowValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
- 
+    [SerializeField] private Transform programmingEnv;
 
     public void ValidatePuzzle()
     {
@@ -41,6 +41,8 @@ public class WellFlowValidator : MonoBehaviour
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
 
+            ClearProgrammingEnv();
+
             if (notebookCanvasRoot != null)
                 notebookCanvasRoot.SetActive(false);
 
@@ -52,6 +54,8 @@ public class WellFlowValidator : MonoBehaviour
 
             if (playerFollowCamera != null)
                 playerFollowCamera.enabled = true;
+
+            QuestManager.Instance.OnPuzzleCompleted(3);
 
             Time.timeScale = 1f;
         }
@@ -126,5 +130,15 @@ public class WellFlowValidator : MonoBehaviour
             return false;
 
         return true;
+    }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
     }
 }

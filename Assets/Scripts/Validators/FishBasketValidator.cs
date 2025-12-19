@@ -1,3 +1,4 @@
+using Fungus;
 using MG_BlocksEngine2.Block;
 using MG_BlocksEngine2.Core;
 using UnityEngine;
@@ -25,6 +26,14 @@ public class FishBasketValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Lilo Reaction")]
+    public Flowchart liloFlowchart;
+    public string liloSolvedBlock = "LiloPuzzleSolvedReaction";
+    public GoToPoint liloGoTo;
+    public Transform liloSellPoint;
+
+    [SerializeField] private Transform programmingEnv;
+
 
     public void ValidatePuzzle()
     {
@@ -39,9 +48,18 @@ public class FishBasketValidator : MonoBehaviour
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
 
+            ClearProgrammingEnv();
+
+            if (liloFlowchart)
+            {
+                liloFlowchart.ExecuteBlock(liloSolvedBlock);
+            }
+
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
+
+            QuestManager.Instance.OnPuzzleCompleted(9);
 
             Time.timeScale = 1f;
         }
@@ -87,5 +105,15 @@ public class FishBasketValidator : MonoBehaviour
         }
 
         return foundBasket && foundFish && foundOverflow;
+    }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
     }
 }

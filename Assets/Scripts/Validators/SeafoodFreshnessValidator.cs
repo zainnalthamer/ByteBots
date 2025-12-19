@@ -1,3 +1,4 @@
+using Fungus;
 using MG_BlocksEngine2.Block;
 using MG_BlocksEngine2.Core;
 using UnityEngine;
@@ -16,9 +17,16 @@ public class SeafoodFreshnessValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Coral Finster Reaction")]
+    public Flowchart coralFlowchart;
+    public string solvedBlockName = "SeafoodPuzzleSolvedReaction";
+
+    [SerializeField] private Transform programmingEnv;
+
 
     public void ValidatePuzzle()
     {
+        Time.timeScale = 1f;
         executionManager.Play();
 
         if (CheckBlocksForAnswer())
@@ -29,11 +37,16 @@ public class SeafoodFreshnessValidator : MonoBehaviour
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
 
+            ClearProgrammingEnv();
+
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
+             
+                coralFlowchart.ExecuteBlock(solvedBlockName);
 
-            Time.timeScale = 1f;
+            QuestManager.Instance.OnPuzzleCompleted(7);
+
         }
         else
         {
@@ -111,4 +124,13 @@ public class SeafoodFreshnessValidator : MonoBehaviour
         return varName == expectedName && varValue == expectedValue;
     }
 
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
 }

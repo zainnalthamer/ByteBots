@@ -1,8 +1,9 @@
+using Fungus;
+using MG_BlocksEngine2.Block;
+using MG_BlocksEngine2.Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using MG_BlocksEngine2.Core;
-using MG_BlocksEngine2.Block;
 
 public class CarouselPuzzleValidator : MonoBehaviour
 {
@@ -23,6 +24,12 @@ public class CarouselPuzzleValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Carousel NPC Reaction")]
+    public Flowchart carouselFlowchart;
+    public string solvedBlockName = "CarouselPuzzleSolvedReaction";
+
+    [SerializeField] private Transform programmingEnv;
+
 
     public void ValidatePuzzle()
     {
@@ -35,12 +42,21 @@ public class CarouselPuzzleValidator : MonoBehaviour
 
             if (bugGroup) bugGroup.OnPuzzleSolved();
 
+            ClearProgrammingEnv();
+
             if (carouselController) carouselController.ActivateCarousel();
             foreach (var h in horses) h.enabled = true;
 
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
+
+            if (carouselFlowchart)
+            {
+                carouselFlowchart.ExecuteBlock(solvedBlockName);
+            }
+
+            QuestManager.Instance.OnPuzzleCompleted(11);
 
             Time.timeScale = 1f;
         }
@@ -96,5 +112,15 @@ public class CarouselPuzzleValidator : MonoBehaviour
                hasRotationsText &&
                hasTen &&
                hasOne;
+    }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
     }
 }

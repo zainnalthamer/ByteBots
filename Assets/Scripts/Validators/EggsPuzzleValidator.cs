@@ -1,3 +1,4 @@
+using Fungus;
 using MG_BlocksEngine2.Block;
 using MG_BlocksEngine2.Core;
 using UnityEngine;
@@ -25,6 +26,13 @@ public class EggsPuzzleValidator : MonoBehaviour
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
 
+    [Header("Blossom Reaction")]
+    public Flowchart blossomFlowchart;
+    public string blossomBlockName = "BlossomPuzzleSolvedReaction";
+    public SimpleWander blossomWander;
+
+    [SerializeField] private Transform programmingEnv;
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -37,6 +45,8 @@ public class EggsPuzzleValidator : MonoBehaviour
             if (bugGroup != null)
                 bugGroup.OnPuzzleSolved();
 
+            ClearProgrammingEnv();
+
             if (notebookCanvasRoot != null)
                 notebookCanvasRoot.SetActive(false);
 
@@ -45,6 +55,18 @@ public class EggsPuzzleValidator : MonoBehaviour
 
             if (playerFollowCamera != null)
                 playerFollowCamera.enabled = true;
+
+            if (blossomFlowchart)
+            {
+                blossomFlowchart.ExecuteBlock(blossomBlockName);
+            }
+
+            if (blossomWander)
+            {
+                blossomWander.StartWandering();
+            }
+
+            QuestManager.Instance.OnPuzzleCompleted(5);
 
             Time.timeScale = 1f;
         }
@@ -106,4 +128,15 @@ public class EggsPuzzleValidator : MonoBehaviour
 
         return true;
     }
+
+    void ClearProgrammingEnv()
+    {
+        if (!programmingEnv) return;
+
+        for (int i = programmingEnv.childCount - 1; i >= 0; i--)
+        {
+            Destroy(programmingEnv.GetChild(i).gameObject);
+        }
+    }
+
 }
