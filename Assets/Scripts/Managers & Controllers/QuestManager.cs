@@ -51,7 +51,16 @@ public class QuestManager : MonoBehaviour
         questPanel.SetActive(false);
         if (questBlurVolume) questBlurVolume.SetActive(false);
 
-        ShowNextQuest();
+        int savedQuest = SaveManager.I.GetCurrentQuestIndex();
+
+        if (savedQuest >= 0)
+        {
+            ShowQuestByIndex(savedQuest);
+        }
+        else
+        {
+            ShowNextQuest();
+        }
     }
 
     private void Update()
@@ -76,7 +85,7 @@ public class QuestManager : MonoBehaviour
 
     public void ShowQuestByIndex(int index)
     {
-        if (index < 0 || index >= questTexts.Length)
+        if (SaveManager.I.IsQuestCompleted(index))
             return;
 
         currentQuestIndex = index;
@@ -103,6 +112,8 @@ public class QuestManager : MonoBehaviour
 
     public void OnPuzzleCompleted(int nextQuestIndex)
     {
+        SaveManager.I.MarkQuestCompleted(currentQuestIndex);
+        SaveManager.I.SaveQuestProgress(nextQuestIndex);
         StartCoroutine(NextQuestDelay(nextQuestIndex));
     }
 
