@@ -8,6 +8,7 @@ public class StoryManager : MonoBehaviour
 {
 
     public GameObject cutsceneCameras;
+    public GameObject cutsceneObject;
     public bool firstGame = true; 
     public Flowchart introFlowchart;
 
@@ -18,6 +19,7 @@ public class StoryManager : MonoBehaviour
         {
             firstGame = false;
             cutsceneCameras.SetActive(false);
+            Destroy(cutsceneObject);
         }
         else
         {

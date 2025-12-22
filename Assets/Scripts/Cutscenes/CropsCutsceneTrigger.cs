@@ -9,31 +9,22 @@ public class CropsCutsceneTrigger : MonoBehaviour
     public float moveSpeed = 2f;
     public float stoppingDistance = 0.2f;
 
-    private bool cutsceneStarted = false;
-    private Transform player;
+    public bool cutsceneStarted = false;
+    public Transform player;
+    CharacterController playerController;
 
-    void Start()
+    private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-    }
-
-    void Update()
-    {
-        if (flowchart.GetBooleanVariable("CutsceneDone"))
-        {
-            var controller = player.GetComponent<CharacterController>();
-            controller.enabled = true;
-        }
-    }
+        playerController = player.GetComponent<CharacterController>();
+    } 
 
     void OnTriggerEnter(Collider other)
     {
         if (!cutsceneStarted && other.CompareTag("Player"))
         {
             cutsceneStarted = true;
-
-            var controller = player.GetComponent<CharacterController>();
-            controller.enabled = false;
+             
+            playerController.enabled = false;
 
             StartCoroutine(PlayCutscene());
 
@@ -62,5 +53,7 @@ public class CropsCutsceneTrigger : MonoBehaviour
         flowchart.ExecuteBlock(dialogueBlockName);
 
         flowchart.SetBooleanVariable("CutsceneDone", true);
+
+        playerController.enabled = true;
     }
 }
