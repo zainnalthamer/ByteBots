@@ -202,8 +202,9 @@ public class SoundController : MonoBehaviour
         Debug.Log("Swapping environment to index: " + index);
         if (environmentAudioSource.clip == environmentClips[index])
         { 
-            if(environmentAudioSource.isPlaying && environmentAudioSource.volume < 1)
-                FadeAudioSource.StartFade(environmentAudioSource, 2.5f, .55f); 
+            Debug.Log("Environment clip already playing: " + environmentAudioSource.clip.name);
+            if (environmentAudioSource.isPlaying)
+                environmentAudioSource.volume = 1f;
 
             yield break;
         }
