@@ -54,7 +54,7 @@ public class CarnivalTicketValidator : MonoBehaviour
 
             QuestManager.Instance.OnPuzzleCompleted(10);
 
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
         else
         {
