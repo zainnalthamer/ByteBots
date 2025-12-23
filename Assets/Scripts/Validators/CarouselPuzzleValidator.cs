@@ -30,6 +30,14 @@ public class CarouselPuzzleValidator : MonoBehaviour
 
     [SerializeField] private Transform programmingEnv;
 
+    private void Awake()
+    {
+        if (horseRoot)
+        {
+            horses = horseRoot.GetComponentsInChildren<CarouselHorseController>(true);
+        }
+    }
+
 
     public void ValidatePuzzle()
     {
