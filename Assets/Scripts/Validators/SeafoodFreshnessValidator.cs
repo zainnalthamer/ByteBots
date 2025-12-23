@@ -39,7 +39,7 @@ public class SeafoodFreshnessValidator : MonoBehaviour
 
             ClearProgrammingEnv();
 
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;

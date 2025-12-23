@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using MG_BlocksEngine2.Core;
 using MG_BlocksEngine2.Block;
+using Fungus;
 
 public class PrizePuzzleValidator : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class PrizePuzzleValidator : MonoBehaviour
     [SerializeField] private GameObject notebookCanvasRoot;
     [SerializeField] private GameObject notebookBlurVolume;
     [SerializeField] private MonoBehaviour playerFollowCamera;
+
+    public Flowchart reactionFlowchart;
+    public string solvedBlockName = "PrizePuzzleSolvedReaction";
 
     [SerializeField] private Transform programmingEnv;
 
@@ -37,7 +41,10 @@ public class PrizePuzzleValidator : MonoBehaviour
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
 
-            Time.timeScale = 1f;
+            reactionFlowchart.StopAllCoroutines();
+            reactionFlowchart.ExecuteBlock(solvedBlockName);
+
+            //Time.timeScale = 1f;
         }
         else
         {
