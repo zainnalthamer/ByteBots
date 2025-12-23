@@ -11,5 +11,6 @@ public static class SaveKeys
     public const string PlayerRotation = "PlayerRotation";
     public const string CurrentQuestIndex = "currentQuestIndex";
     public const string CompletedQuests = "completedQuests";
+    public const string GreenhouseBunnyIntro = "GreenhouseBunnyIntro";
 }
 

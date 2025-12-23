@@ -25,7 +25,7 @@ public class BarnDoorTrigger : MonoBehaviour
 
     void Update()
     {
-        if (playerInside && Input.GetKeyDown(KeyCode.E))
+        if (playerInside && Input.GetKeyDown(KeyCode.A))
         {
             StartTransition();
         }

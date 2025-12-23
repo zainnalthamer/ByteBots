@@ -13,22 +13,30 @@ public class RunFungusBlockOnEnter : MonoBehaviour
     public Transform patch;
     public Transform bunnyReturnPoint;
 
-    private bool hasTriggered;
     private bool dialogueFinished;
     private Collider triggerCollider;
 
     private void Awake()
     {
         triggerCollider = GetComponent<Collider>();
+
+        if (ES3.KeyExists(SaveKeys.GreenhouseBunnyIntro))
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (hasTriggered) return;
         if (!other.CompareTag("Player")) return;
 
-        hasTriggered = true;
-        if (triggerCollider) triggerCollider.enabled = false;
+        if (ES3.KeyExists(SaveKeys.GreenhouseBunnyIntro))
+            return;
+
+        ES3.Save(SaveKeys.GreenhouseBunnyIntro, true);
+
+        if (triggerCollider)
+            triggerCollider.enabled = false;
 
         StartCoroutine(ApproachPatch());
     }
