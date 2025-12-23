@@ -48,7 +48,7 @@ public class FoodOrderPuzzleValidator : MonoBehaviour
 
             QuestManager.Instance.OnPuzzleCompleted(12);
 
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
         else
         {

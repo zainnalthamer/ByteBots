@@ -58,7 +58,7 @@ public class CarouselPuzzleValidator : MonoBehaviour
 
             QuestManager.Instance.OnPuzzleCompleted(11);
 
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
         else
         {

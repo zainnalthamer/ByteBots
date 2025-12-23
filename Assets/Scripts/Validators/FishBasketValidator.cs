@@ -61,7 +61,7 @@ public class FishBasketValidator : MonoBehaviour
 
             QuestManager.Instance.OnPuzzleCompleted(9);
 
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
         else
         {

@@ -38,6 +38,9 @@ public class QuestManager : MonoBehaviour
     [Header("Quest : Objects")]
     [SerializeField] private QuestObjects[] questObjects;
 
+    [Header("DEV / TEST CONTROLS")]
+    [SerializeField] private bool enableDebugKeys = true;
+
     private void Awake()
     {
         if (Instance == null)
@@ -55,7 +58,7 @@ public class QuestManager : MonoBehaviour
 
         if (savedQuest >= 0)
         {
-            ShowQuestByIndex(savedQuest);
+            ForceShowQuest(savedQuest);
         }
         else
         {
@@ -67,19 +70,24 @@ public class QuestManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
             ToggleQuest();
+
+        if (!enableDebugKeys) return;
+
+        if (Input.GetKeyDown(KeyCode.N))
+            ForceShowQuest(currentQuestIndex + 1);
+
+        if (Input.GetKeyDown(KeyCode.B))
+            ForceShowQuest(currentQuestIndex - 1);
     }
 
     public void ShowNextQuest()
     {
         currentQuestIndex++;
 
-        Debug.Log("CURRENT QUEST INDEX: " + currentQuestIndex);
-
         if (currentQuestIndex >= questTexts.Length)
             return;
 
         ApplyQuestByIndex(currentQuestIndex);
-
         UpdateSelectableObjects();
     }
 
@@ -90,6 +98,22 @@ public class QuestManager : MonoBehaviour
 
         currentQuestIndex = index;
         ApplyQuestByIndex(index);
+        UpdateSelectableObjects();
+    }
+
+    private void ForceShowQuest(int index)
+    {
+        if (index < 0 || index >= questTexts.Length)
+        {
+            Debug.Log("[QuestManager] Invalid quest index: " + index);
+            return;
+        }
+
+        currentQuestIndex = index;
+
+        Debug.Log("[QuestManager] FORCED quest index: " + currentQuestIndex);
+
+        ApplyQuestByIndex(currentQuestIndex);
         UpdateSelectableObjects();
     }
 
