@@ -51,7 +51,7 @@ public class NotebookController : MonoBehaviour
             puzzleValidators[panelIndex].SetActive(true);
         }
 
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
 
         if (playerFollowCamera)
             playerFollowCamera.enabled = false;

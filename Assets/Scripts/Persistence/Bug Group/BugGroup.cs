@@ -28,7 +28,7 @@ public class BugGroup : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         if (isDead) return;
 
-        Time.timeScale = 0f;
+       // Time.timeScale = 0f;
         if (puzzleUI) puzzleUI.SetActive(true);
     }
 
