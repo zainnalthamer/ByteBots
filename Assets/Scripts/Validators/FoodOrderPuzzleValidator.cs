@@ -23,6 +23,10 @@ public class FoodOrderPuzzleValidator : MonoBehaviour
 
     [SerializeField] private Transform programmingEnv;
 
+    [Header("Help Concept")]
+    [SerializeField] private string conceptName = "Functions";
+    public string ConceptName => conceptName;
+
 
     public void ValidatePuzzle()
     {
@@ -48,7 +52,7 @@ public class FoodOrderPuzzleValidator : MonoBehaviour
 
             QuestManager.Instance.OnPuzzleCompleted(12);
 
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
         else
         {

@@ -38,6 +38,9 @@ public class QuestManager : MonoBehaviour
     [Header("Quest : Objects")]
     [SerializeField] private QuestObjects[] questObjects;
 
+    [Header("DEV / TEST CONTROLS")]
+    [SerializeField] private bool enableDebugKeys = true;
+
     private void Awake()
     {
         if (Instance == null)
@@ -51,36 +54,66 @@ public class QuestManager : MonoBehaviour
         questPanel.SetActive(false);
         if (questBlurVolume) questBlurVolume.SetActive(false);
 
-        ShowNextQuest();
+        int savedQuest = SaveManager.I.GetCurrentQuestIndex();
+
+        if (savedQuest >= 0)
+        {
+            ForceShowQuest(savedQuest);
+        }
+        else
+        {
+            ShowNextQuest();
+        }
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.J))
             ToggleQuest();
+
+        if (!enableDebugKeys) return;
+
+        if (Input.GetKeyDown(KeyCode.N))
+            ForceShowQuest(currentQuestIndex + 1);
+
+        if (Input.GetKeyDown(KeyCode.B))
+            ForceShowQuest(currentQuestIndex - 1);
     }
 
     public void ShowNextQuest()
     {
         currentQuestIndex++;
 
-        Debug.Log("CURRENT QUEST INDEX: " + currentQuestIndex);
-
         if (currentQuestIndex >= questTexts.Length)
             return;
 
         ApplyQuestByIndex(currentQuestIndex);
-
         UpdateSelectableObjects();
     }
 
     public void ShowQuestByIndex(int index)
     {
-        if (index < 0 || index >= questTexts.Length)
+        if (SaveManager.I.IsQuestCompleted(index))
             return;
 
         currentQuestIndex = index;
         ApplyQuestByIndex(index);
+        UpdateSelectableObjects();
+    }
+
+    private void ForceShowQuest(int index)
+    {
+        if (index < 0 || index >= questTexts.Length)
+        {
+            Debug.Log("[QuestManager] Invalid quest index: " + index);
+            return;
+        }
+
+        currentQuestIndex = index;
+
+        Debug.Log("[QuestManager] FORCED quest index: " + currentQuestIndex);
+
+        ApplyQuestByIndex(currentQuestIndex);
         UpdateSelectableObjects();
     }
 
@@ -103,6 +136,8 @@ public class QuestManager : MonoBehaviour
 
     public void OnPuzzleCompleted(int nextQuestIndex)
     {
+        SaveManager.I.MarkQuestCompleted(currentQuestIndex);
+        SaveManager.I.SaveQuestProgress(nextQuestIndex);
         StartCoroutine(NextQuestDelay(nextQuestIndex));
     }
 

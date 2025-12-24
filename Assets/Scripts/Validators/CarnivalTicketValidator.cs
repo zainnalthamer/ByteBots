@@ -27,6 +27,10 @@ public class CarnivalTicketValidator : MonoBehaviour
 
     [SerializeField] private Transform programmingEnv;
 
+    [Header("Help Concept")]
+    [SerializeField] private string conceptName = "Functions";
+    public string ConceptName => conceptName;
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -54,7 +58,7 @@ public class CarnivalTicketValidator : MonoBehaviour
 
             QuestManager.Instance.OnPuzzleCompleted(10);
 
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
         else
         {

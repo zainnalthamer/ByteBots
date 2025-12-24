@@ -21,7 +21,7 @@ public class BugInteraction : MonoBehaviour
         if (isDead) return;
         if (!other.CompareTag("Player")) return;
 
-        Time.timeScale = 0f;
+      //  Time.timeScale = 0f;
         if (puzzleUI) puzzleUI.SetActive(true);
     }
 

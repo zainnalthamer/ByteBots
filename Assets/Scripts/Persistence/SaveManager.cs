@@ -15,6 +15,12 @@ public class SaveManager : MonoBehaviour
     private Vector3 lastPlayerPosition;
     private Quaternion lastPlayerRotation;
 
+    private int currentQuestIndex = -1;
+    private HashSet<int> completedQuests = new();
+
+    public int GetCurrentQuestIndex() => currentQuestIndex;
+    public bool IsQuestCompleted(int questIndex) => completedQuests.Contains(questIndex);
+
     void Awake()
     {
         if (I != null && I != this) { Destroy(gameObject); return; }
@@ -57,6 +63,14 @@ public class SaveManager : MonoBehaviour
 
         if (ES3.KeyExists(SaveKeys.SolvedPuzzles, saveFile))
             solvedPuzzles = new HashSet<string>(ES3.Load<List<string>>(SaveKeys.SolvedPuzzles, saveFile));
+
+        if (ES3.KeyExists(SaveKeys.CurrentQuestIndex, saveFile))
+            currentQuestIndex = ES3.Load<int>(SaveKeys.CurrentQuestIndex, saveFile);
+
+        if (ES3.KeyExists(SaveKeys.CompletedQuests, saveFile))
+            completedQuests = new HashSet<int>(
+                ES3.Load<List<int>>(SaveKeys.CompletedQuests, saveFile)
+            );
     }
 
     public void ResetAll()
@@ -96,6 +110,22 @@ public class SaveManager : MonoBehaviour
 
         ES3.Save(SaveKeys.PlayerPosition, lastPlayerPosition, saveFile);
         ES3.Save(SaveKeys.PlayerRotation, lastPlayerRotation, saveFile);
+    }
+
+    public void SaveQuestProgress(int questIndex)
+    {
+        currentQuestIndex = questIndex;
+        ES3.Save(SaveKeys.CurrentQuestIndex, currentQuestIndex, saveFile);
+    }
+
+    public void MarkQuestCompleted(int questIndex)
+    {
+        if (completedQuests.Add(questIndex))
+            ES3.Save(
+                SaveKeys.CompletedQuests,
+                new List<int>(completedQuests),
+                saveFile
+            );
     }
 
 }

@@ -48,10 +48,22 @@ public class NotebookController : MonoBehaviour
         {
             puzzlePanels[panelIndex].SetActive(true);
             puzzleBlockSets[panelIndex].SetActive(true);
-            puzzleValidators[panelIndex].SetActive(true);
+
+            GameObject validatorGO = puzzleValidators[panelIndex];
+            validatorGO.SetActive(true);
+
+            var conceptProvider = validatorGO.GetComponent<MonoBehaviour>();
+            if (conceptProvider != null)
+            {
+                var field = conceptProvider.GetType().GetProperty("ConceptName");
+                if (field != null)
+                {
+                    HelpButton.CurrentConcept = (string)field.GetValue(conceptProvider);
+                }
+            }
         }
 
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
 
         if (playerFollowCamera)
             playerFollowCamera.enabled = false;

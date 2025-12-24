@@ -37,7 +37,7 @@ public class MistakeManager : MonoBehaviour
         if (notebook && notebook.notebookRoot.activeSelf)
             notebook.CloseNotebook();
 
-        Time.timeScale = 0f;
+       // Time.timeScale = 0f;
 
         if (gameOverCanvas) gameOverCanvas.SetActive(true);
         if (gameOverVolume) gameOverVolume.SetActive(true);

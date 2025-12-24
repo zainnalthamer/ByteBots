@@ -29,6 +29,10 @@ public class WellFlowValidator : MonoBehaviour
 
     [SerializeField] private Transform programmingEnv;
 
+    [Header("Help Concept")]
+    [SerializeField] private string conceptName = "Data Types";
+    public string ConceptName => conceptName;
+
     public void ValidatePuzzle()
     {
         executionManager.Play();

@@ -34,6 +34,10 @@ public class FishBasketValidator : MonoBehaviour
 
     [SerializeField] private Transform programmingEnv;
 
+    [Header("Help Concept")]
+    [SerializeField] private string conceptName = "Conditionals";
+    public string ConceptName => conceptName;
+
 
     public void ValidatePuzzle()
     {
@@ -61,7 +65,7 @@ public class FishBasketValidator : MonoBehaviour
 
             QuestManager.Instance.OnPuzzleCompleted(9);
 
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
         else
         {

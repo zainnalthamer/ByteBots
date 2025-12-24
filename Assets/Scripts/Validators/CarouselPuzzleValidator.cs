@@ -30,6 +30,18 @@ public class CarouselPuzzleValidator : MonoBehaviour
 
     [SerializeField] private Transform programmingEnv;
 
+    [Header("Help Concept")]
+    [SerializeField] private string conceptName = "Loops";
+    public string ConceptName => conceptName;
+
+    private void Awake()
+    {
+        if (horseRoot)
+        {
+            horses = horseRoot.GetComponentsInChildren<CarouselHorseController>(true);
+        }
+    }
+
 
     public void ValidatePuzzle()
     {
@@ -58,7 +70,7 @@ public class CarouselPuzzleValidator : MonoBehaviour
 
             QuestManager.Instance.OnPuzzleCompleted(11);
 
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
         else
         {

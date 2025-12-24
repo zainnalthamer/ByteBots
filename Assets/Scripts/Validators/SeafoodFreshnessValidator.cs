@@ -23,10 +23,14 @@ public class SeafoodFreshnessValidator : MonoBehaviour
 
     [SerializeField] private Transform programmingEnv;
 
+    [Header("Help Concept")]
+    [SerializeField] private string conceptName = "Conditionals";
+    public string ConceptName => conceptName;
+
 
     public void ValidatePuzzle()
     {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         executionManager.Play();
 
         if (CheckBlocksForAnswer())
@@ -39,11 +43,13 @@ public class SeafoodFreshnessValidator : MonoBehaviour
 
             ClearProgrammingEnv();
 
+            //Time.timeScale = 1f;
             if (notebookCanvasRoot) notebookCanvasRoot.SetActive(false);
             if (notebookBlurVolume) notebookBlurVolume.SetActive(false);
             if (playerFollowCamera) playerFollowCamera.enabled = true;
-             
-                coralFlowchart.ExecuteBlock(solvedBlockName);
+
+            coralFlowchart.StopAllCoroutines();
+            coralFlowchart.ExecuteBlock(solvedBlockName);
 
             QuestManager.Instance.OnPuzzleCompleted(7);
 

@@ -80,58 +80,26 @@ public class CowPuzzleValidator : MonoBehaviour
         bool foundMood = false;
         bool foundStall = false;
 
-        string hungerValue = "";
-        string moodValue = "";
-        string stallValue = "";
-
         foreach (var block in blocks)
         {
-            string blockNameLower = block.name.ToLower();
             var inputs = block.GetComponentsInChildren<I_BE2_BlockSectionHeaderInput>(true);
-
-            if (inputs.Length < 2)
-                continue;
+            if (inputs.Length == 0) continue;
 
             string varName = inputs[0].StringValue.Trim().ToLower();
-            string varVal = inputs[1].StringValue.Trim().Replace("\"", ""); // clean quotes
 
-            if (blockNameLower.Contains("create") && blockNameLower.Contains("string"))
-            {
-                if (varName == hungerVarName.ToLower())
-                {
-                    foundHunger = true;
-                    hungerValue = varVal;
-                    Debug.Log($"[Validator] Hunger = {hungerValue}");
-                }
-                else if (varName == moodVarName.ToLower())
-                {
-                    foundMood = true;
-                    moodValue = varVal;
-                    Debug.Log($"[Validator] Mood = {moodValue}");
-                }
-                else if (varName == stallVarName.ToLower())
-                {
-                    foundStall = true;
-                    stallValue = varVal;
-                    Debug.Log($"[Validator] Stall = {stallValue}");
-                }
-            }
+            if (varName == hungerVarName.ToLower())
+                foundHunger = true;
+
+            if (varName == moodVarName.ToLower())
+                foundMood = true;
+
+            if (varName == stallVarName.ToLower())
+                foundStall = true;
         }
 
-        if (!foundHunger || !foundMood || !foundStall)
-            return false;
-
-        if (hungerValue != expectedHunger)
-            return false;
-
-        if (moodValue != expectedMood)
-            return false;
-
-        if (stallValue != expectedStall)
-            return false;
-
-        return true;
+        return foundHunger && foundMood && foundStall;
     }
+
 
     void ClearProgrammingEnv()
     {
