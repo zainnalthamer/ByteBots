@@ -17,6 +17,8 @@ public class HelpButton : MonoBehaviour
     public void OnHelpClicked()
     {
         int current = SaveManager.I.GetBugCount();
+        Debug.Log(current + " is the current bug count.");
+        Debug.Log(cost + " is the current cost");
 
         if (current < cost)
         {
@@ -30,6 +32,7 @@ public class HelpButton : MonoBehaviour
         explainText.text = $"Explain {CurrentConcept}";
         examplesText.text = $"Examples of {CurrentConcept}";
 
-        helpPanel.SetActive(true);
+        BookmarkController bookmark = FindObjectOfType<BookmarkController>();
+        bookmark.OnHelpBookmarkClick();
     }
 }
