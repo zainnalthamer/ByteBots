@@ -30,6 +30,10 @@ public class CarouselPuzzleValidator : MonoBehaviour
 
     [SerializeField] private Transform programmingEnv;
 
+    [Header("Help Concept")]
+    [SerializeField] private string conceptName = "Loops";
+    public string ConceptName => conceptName;
+
     private void Awake()
     {
         if (horseRoot)

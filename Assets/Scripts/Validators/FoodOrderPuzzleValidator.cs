@@ -23,6 +23,10 @@ public class FoodOrderPuzzleValidator : MonoBehaviour
 
     [SerializeField] private Transform programmingEnv;
 
+    [Header("Help Concept")]
+    [SerializeField] private string conceptName = "Functions";
+    public string ConceptName => conceptName;
+
 
     public void ValidatePuzzle()
     {

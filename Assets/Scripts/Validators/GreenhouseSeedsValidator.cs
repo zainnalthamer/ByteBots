@@ -32,6 +32,11 @@ public class GreenhouseSeedsValidator : MonoBehaviour
 
     [SerializeField] private Transform programmingEnv;
 
+    [Header("Puzzle Concept")]
+    [SerializeField] private string conceptName = "Variables";
+    public string ConceptName => conceptName;
+
+
     public void ValidatePuzzle()
     {
         executionManager.Play();
