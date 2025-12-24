@@ -38,6 +38,10 @@ public class QuestManager : MonoBehaviour
     [Header("Quest : Objects")]
     [SerializeField] private QuestObjects[] questObjects;
 
+    [Header("Quest Auto Hide")]
+    [SerializeField] private float autoHideDelay = 5f;
+
+
     [Header("DEV / TEST CONTROLS")]
     [SerializeField] private bool enableDebugKeys = true;
 
@@ -73,10 +77,10 @@ public class QuestManager : MonoBehaviour
 
         if (!enableDebugKeys) return;
 
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Input.GetKeyDown(KeyCode.X))
             ForceShowQuest(currentQuestIndex + 1);
 
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.Z))
             ForceShowQuest(currentQuestIndex - 1);
     }
 
@@ -132,6 +136,9 @@ public class QuestManager : MonoBehaviour
 
         if (questBlurVolume)
             questBlurVolume.SetActive(true);
+
+        StopAllCoroutines();
+        StartCoroutine(AutoHideQuest());
     }
 
     public void OnPuzzleCompleted(int nextQuestIndex)
@@ -149,6 +156,8 @@ public class QuestManager : MonoBehaviour
 
     private void ToggleQuest()
     {
+        StopAllCoroutines();
+
         questVisible = !questVisible;
         questPanel.SetActive(questVisible);
 
@@ -192,4 +201,16 @@ public class QuestManager : MonoBehaviour
             obj.tag = "Selectable";
         }
     }
+
+    private IEnumerator AutoHideQuest()
+    {
+        yield return new WaitForSeconds(autoHideDelay);
+
+        questVisible = false;
+        questPanel.SetActive(false);
+
+        if (questBlurVolume)
+            questBlurVolume.SetActive(false);
+    }
+
 }
