@@ -29,13 +29,15 @@ public class PrizePuzzleValidator : MonoBehaviour
 
     [Header("End Game")]
     [SerializeField] private bool isFinalPuzzle = true;
-    [SerializeField] private float endDelay = 3f;
+    [SerializeField] private float endDelay = 6f;
     [SerializeField] private GameObject questManagerRoot;
 
 
 
     public void ValidatePuzzle()
     {
+        MistakeManager.Instance.blockGameOver = true;
+
         executionManager.Play();
 
         if (CheckBlocksForAnswer())
@@ -68,7 +70,7 @@ public class PrizePuzzleValidator : MonoBehaviour
         {
             Debug.Log("[Prize Puzzle] WRONG!");
             SoundController.Instance.PlaySFX(1);
-            MistakeManager.Instance.OnWrongAnswer();
+            MistakeManager.Instance.OnWrongAnswer(false);
         }
     }
 
