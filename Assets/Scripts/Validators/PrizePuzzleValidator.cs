@@ -27,6 +27,12 @@ public class PrizePuzzleValidator : MonoBehaviour
     [SerializeField] private string conceptName = "Functions";
     public string ConceptName => conceptName;
 
+    [Header("End Game")]
+    [SerializeField] private bool isFinalPuzzle = true;
+    [SerializeField] private float endDelay = 3f;
+    [SerializeField] private GameObject questManagerRoot;
+
+
 
     public void ValidatePuzzle()
     {
@@ -47,6 +53,14 @@ public class PrizePuzzleValidator : MonoBehaviour
 
             reactionFlowchart.StopAllCoroutines();
             reactionFlowchart.ExecuteBlock(solvedBlockName);
+
+            if (isFinalPuzzle)
+            {
+                if (questManagerRoot)
+                    questManagerRoot.SetActive(false);
+
+                Invoke(nameof(EndGame), endDelay);
+            }
 
             //Time.timeScale = 1f;
         }
@@ -122,5 +136,13 @@ public class PrizePuzzleValidator : MonoBehaviour
             Destroy(programmingEnv.GetChild(i).gameObject);
         }
     }
+
+    private void EndGame()
+    {
+        Debug.Log("[GAME] Ending game");
+
+        Application.Quit();
+    }
+
 
 }
