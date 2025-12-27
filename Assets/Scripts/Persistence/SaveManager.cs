@@ -8,7 +8,7 @@ public class SaveManager : MonoBehaviour
 
     [SerializeField] private string saveFile = "save.es3";
 
-    private int bugCount = 0;
+    private int bugCount = 30;
     private HashSet<string> completedLevels = new();
     private HashSet<string> solvedPuzzles = new();
 
@@ -30,8 +30,17 @@ public class SaveManager : MonoBehaviour
         I = this;
         DontDestroyOnLoad(gameObject);
 
-        if (!IsNewGame)
+        if (IsNewGame)
+        {
+            ResetAll();
+            bugCount = 30;
+            ES3.Save(SaveKeys.BugCount, bugCount, saveFile);
+            IsNewGame = false;
+        }
+        else
+        {
             LoadAll();
+        }
     }
 
     public int GetBugCount() => bugCount;
@@ -80,7 +89,7 @@ public class SaveManager : MonoBehaviour
 
     public void ResetAll()
     {
-        bugCount = 0;
+        bugCount = 30;
         completedLevels.Clear();
         solvedPuzzles.Clear();
         completedQuests.Clear();
@@ -91,7 +100,8 @@ public class SaveManager : MonoBehaviour
 
     public void IncrementBugCountBy(int n)
     {
-        bugCount += Mathf.Max(0, n);
+        bugCount += n;
+        bugCount = Mathf.Max(0, bugCount);
         ES3.Save(SaveKeys.BugCount, bugCount, saveFile);
     }
 

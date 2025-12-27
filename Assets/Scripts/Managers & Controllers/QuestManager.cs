@@ -77,10 +77,10 @@ public class QuestManager : MonoBehaviour
 
         if (!enableDebugKeys) return;
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.KeypadMultiply))
             ForceShowQuest(currentQuestIndex + 1);
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.KeypadDivide))
             ForceShowQuest(currentQuestIndex - 1);
     }
 
