@@ -9,6 +9,14 @@ public class MainMenuController : MonoBehaviour
     public GameObject creditsPanel;
     public GameObject mainButtons;
 
+    [Header("Instructions")]
+    public GameObject instructionsPanel;
+    public GameObject noMainMenuPanel;
+
+    [Header("Disable When Instructions Open")]
+    public GameObject robotSticker;
+    public GameObject homeText;
+
     void Start()
     {
         ShowMain();
@@ -70,4 +78,17 @@ public class MainMenuController : MonoBehaviour
         optionsPanel.SetActive(false);
         creditsPanel.SetActive(false);
     }
+
+    public void ToggleInstructions()
+    {
+        bool isOpen = instructionsPanel.activeSelf;
+
+        instructionsPanel.SetActive(!isOpen);
+        noMainMenuPanel.SetActive(!isOpen);
+
+        robotSticker.SetActive(isOpen);
+        homeText.SetActive(isOpen);
+        mainButtons.SetActive(isOpen);
+    }
+
 }
