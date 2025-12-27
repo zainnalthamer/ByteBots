@@ -19,6 +19,9 @@ public class NotebookController : MonoBehaviour
     public MonoBehaviour playerFollowCamera;
     public GameObject notebookBlurVolume;
 
+    [Header("Player Control")]
+    [SerializeField] private PlayerControlToggle playerControlToggle;
+
     private void Start()
     {
         StartCoroutine(InitializeUI());
@@ -68,6 +71,9 @@ public class NotebookController : MonoBehaviour
         if (playerFollowCamera)
             playerFollowCamera.enabled = false;
 
+        if (playerControlToggle)
+            playerControlToggle.DisableControl();
+
         if (notebookBlurVolume)
             notebookBlurVolume.SetActive(true);
     }
@@ -84,6 +90,9 @@ public class NotebookController : MonoBehaviour
         if (playerFollowCamera)
             playerFollowCamera.enabled = true;
 
+        if (playerControlToggle)
+            playerControlToggle.EnableControl();
+
         if (notebookBlurVolume)
             notebookBlurVolume.SetActive(false);
     }
@@ -97,6 +106,9 @@ public class NotebookController : MonoBehaviour
 
         if (playerFollowCamera)
             playerFollowCamera.enabled = true;
+
+        if (playerControlToggle)
+            playerControlToggle.EnableControl();
 
         if (notebookBlurVolume)
             notebookBlurVolume.SetActive(false);
@@ -123,19 +135,19 @@ public class NotebookController : MonoBehaviour
         {
             if (v.activeSelf)
             {
-                switch(v.name)
+                switch (v.name)
                 {
                     case "GreenhouseSeeds Puzzle Validator":
                         var greenhouseValidator = v.GetComponent<GreenhouseSeedsValidator>();
-                            greenhouseValidator.ValidatePuzzle(); 
+                        greenhouseValidator.ValidatePuzzle();
                         break;
                     case "Water Well Puzzle Validator":
-                        var wellValidator = v.GetComponent<WellFlowValidator>(); 
-                            wellValidator.ValidatePuzzle();
+                        var wellValidator = v.GetComponent<WellFlowValidator>();
+                        wellValidator.ValidatePuzzle();
                         break;
                     case "Cow Puzzle Validator":
                         var cowValidator = v.GetComponent<CowPuzzleValidator>();
-                            cowValidator.ValidatePuzzle();
+                        cowValidator.ValidatePuzzle();
                         break;
                     case "Eggs Puzzle Validator":
                         var eggsValidator = v.GetComponent<EggsPuzzleValidator>();
@@ -169,9 +181,9 @@ public class NotebookController : MonoBehaviour
                         var prizeValidator = v.GetComponent<PrizePuzzleValidator>();
                         prizeValidator.ValidatePuzzle();
                         break;
-                    case "Food Puzzle Validator": 
+                    case "Food Puzzle Validator":
                         var foodOrderValidator = v.GetComponent<FoodOrderPuzzleValidator>();
-                            foodOrderValidator.ValidatePuzzle();
+                        foodOrderValidator.ValidatePuzzle();
                         break;
                     case "Carousel Puzzle Validator":
                         var carouselValidator = v.GetComponent<CarouselPuzzleValidator>();
@@ -182,7 +194,8 @@ public class NotebookController : MonoBehaviour
         }
     }
 
-    public void DisableAllValidators() { 
+    public void DisableAllValidators()
+    {
         foreach (var v in puzzleValidators)
             v.SetActive(false);
     }
