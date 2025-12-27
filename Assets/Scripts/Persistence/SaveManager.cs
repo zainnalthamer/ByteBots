@@ -21,12 +21,17 @@ public class SaveManager : MonoBehaviour
     public int GetCurrentQuestIndex() => currentQuestIndex;
     public bool IsQuestCompleted(int questIndex) => completedQuests.Contains(questIndex);
 
+    public static bool IsNewGame = false;
+
+
     void Awake()
     {
         if (I != null && I != this) { Destroy(gameObject); return; }
         I = this;
         DontDestroyOnLoad(gameObject);
-        LoadAll();
+
+        if (!IsNewGame)
+            LoadAll();
     }
 
     public int GetBugCount() => bugCount;
@@ -78,6 +83,9 @@ public class SaveManager : MonoBehaviour
         bugCount = 0;
         completedLevels.Clear();
         solvedPuzzles.Clear();
+        completedQuests.Clear();
+        currentQuestIndex = -1;
+
         ES3.DeleteFile(saveFile);
     }
 

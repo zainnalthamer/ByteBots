@@ -1,4 +1,5 @@
-using UnityEngine; 
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -18,6 +19,23 @@ public class MainMenuController : MonoBehaviour
         //SceneManager.LoadScene(gameSceneName);
         SceneLoader.Instance.LoadScene(gameSceneName);
     }
+
+    public void StartNewGame()
+    {
+        SaveManager.IsNewGame = true;
+
+        if (SaveManager.I != null)
+            SaveManager.I.ResetAll();
+
+        SceneLoader.Instance.LoadScene(gameSceneName);
+    }
+
+    public void LoadGame()
+    {
+        SaveManager.IsNewGame = false;
+        SceneLoader.Instance.LoadScene(gameSceneName);
+    }
+
 
     public void OpenOptions()
     {
