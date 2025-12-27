@@ -36,6 +36,8 @@ public class PrizePuzzleValidator : MonoBehaviour
 
     public void ValidatePuzzle()
     {
+        MistakeManager.Instance.blockGameOver = true;
+
         executionManager.Play();
 
         if (CheckBlocksForAnswer())
@@ -68,7 +70,7 @@ public class PrizePuzzleValidator : MonoBehaviour
         {
             Debug.Log("[Prize Puzzle] WRONG!");
             SoundController.Instance.PlaySFX(1);
-            MistakeManager.Instance.OnWrongAnswer();
+            MistakeManager.Instance.OnWrongAnswer(false);
         }
     }
 

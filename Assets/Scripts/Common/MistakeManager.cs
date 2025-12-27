@@ -16,25 +16,35 @@ public class MistakeManager : MonoBehaviour
     [Header("Player Control")]
     [SerializeField] private PlayerControlToggle playerControlToggle;
 
+    public bool blockGameOver = false;
+
     void Awake()
     {
         Instance = this;
     }
 
-    public void OnWrongAnswer()
+    public void OnWrongAnswer(bool allowGameOver)
     {
         SaveManager.I.IncrementBugCountBy(-wrongAnswerPenalty);
-
         BugPointsManager.Instance.Refresh();
 
-        if (SaveManager.I.GetBugCount() <= 0)
+        if (allowGameOver && SaveManager.I.GetBugCount() <= 0)
         {
             TriggerGameOver();
         }
     }
 
+    public void OnWrongAnswer()
+    {
+        OnWrongAnswer(true);
+    }
+
+
     void TriggerGameOver()
     {
+        if (blockGameOver)
+            return;
+
         SoundController.Instance.PlaySFX(2);
 
         if (notebook && notebook.notebookRoot.activeSelf)
@@ -46,6 +56,7 @@ public class MistakeManager : MonoBehaviour
         if (gameOverCanvas) gameOverCanvas.SetActive(true);
         if (gameOverVolume) gameOverVolume.SetActive(true);
     }
+
 
     public void TryAgain()
     {
