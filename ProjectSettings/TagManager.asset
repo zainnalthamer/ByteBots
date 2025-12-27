@@ -9,6 +9,7 @@ TagManager:
   - LUMA
   - Selectable
   - MarketNPC
+  - Bug
   layers:
   - Default
   - TransparentFX

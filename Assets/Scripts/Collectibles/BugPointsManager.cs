@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class BugPointsManager : MonoBehaviour
@@ -7,7 +6,8 @@ public class BugPointsManager : MonoBehaviour
     public static BugPointsManager Instance;
 
     [SerializeField] TMP_Text counterText;
-    [SerializeField] private int maxValue = 50;
+
+    private int maxValue;
 
     void Awake()
     {
@@ -16,6 +16,7 @@ public class BugPointsManager : MonoBehaviour
 
     void Start()
     {
+        maxValue = GameObject.FindGameObjectsWithTag("Bug").Length;
         Refresh();
     }
 
