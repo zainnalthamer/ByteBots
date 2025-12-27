@@ -13,6 +13,9 @@ public class MistakeManager : MonoBehaviour
     [Header("Settings")]
     public int wrongAnswerPenalty = 10;
 
+    [Header("Player Control")]
+    [SerializeField] private PlayerControlToggle playerControlToggle;
+
     void Awake()
     {
         Instance = this;
@@ -37,7 +40,8 @@ public class MistakeManager : MonoBehaviour
         if (notebook && notebook.notebookRoot.activeSelf)
             notebook.CloseNotebook();
 
-       // Time.timeScale = 0f;
+        if (playerControlToggle)
+            playerControlToggle.DisableControl();
 
         if (gameOverCanvas) gameOverCanvas.SetActive(true);
         if (gameOverVolume) gameOverVolume.SetActive(true);
@@ -46,12 +50,20 @@ public class MistakeManager : MonoBehaviour
     public void TryAgain()
     {
         Time.timeScale = 1f;
+
+        if (playerControlToggle)
+            playerControlToggle.EnableControl();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Main Menu 1");
+
+        if (playerControlToggle)
+            playerControlToggle.EnableControl();
+
+        SceneManager.LoadScene("MainMenu 1");
     }
 }
