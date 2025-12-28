@@ -30,7 +30,7 @@ public class CarnivalTicketValidator : MonoBehaviour
     [Header("Help Concept")]
     [SerializeField] private string conceptName = "Functions";
     public string ConceptName => conceptName;
-
+     
     public void ValidatePuzzle()
     {
         executionManager.Play();
@@ -41,7 +41,10 @@ public class CarnivalTicketValidator : MonoBehaviour
             SoundController.Instance.PlaySFX(0);
 
             if (gateCollider)
+            {
                 gateCollider.enabled = false;
+                PlayerPrefs.SetString("CarnivalGateOpened", "yes");
+            }
 
             if (bugGroup) bugGroup.OnPuzzleSolved();
 

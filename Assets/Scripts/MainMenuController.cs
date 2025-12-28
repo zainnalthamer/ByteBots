@@ -31,9 +31,8 @@ public class MainMenuController : MonoBehaviour
     public void StartNewGame()
     {
         SaveManager.IsNewGame = true;
-
-        if (SaveManager.I != null)
-            SaveManager.I.ResetAll();
+         
+        SaveManager.I.ResetAll();
 
         SceneLoader.Instance.LoadScene(gameSceneName);
     }

@@ -7,19 +7,14 @@ public class BugPointsManager : MonoBehaviour
 
     [SerializeField] TMP_Text counterText;
 
-    private int maxValue;
+    private int maxValue = 50;
 
     void Awake()
     {
         Instance = this;
-    }
-
-    void Start()
-    {
-        maxValue = GameObject.FindGameObjectsWithTag("Bug").Length;
         Refresh();
     }
-
+     
     public void Refresh()
     {
         int value = SaveManager.I.GetBugCount();

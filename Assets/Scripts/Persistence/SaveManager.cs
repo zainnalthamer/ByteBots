@@ -49,9 +49,10 @@ public class SaveManager : MonoBehaviour
 
     public void IncrementBugCount()
     {
-        bugCount++;
+        bugCount+=10;
         ES3.Save(SaveKeys.BugCount, bugCount, saveFile);
     }
+ 
 
     public void MarkLevelCompleted(string sceneName = null)
     {
@@ -95,7 +96,9 @@ public class SaveManager : MonoBehaviour
         completedQuests.Clear();
         currentQuestIndex = -1;
 
-        ES3.DeleteFile(saveFile);
+        ES3.DeleteDirectory(saveFile);
+        PlayerPrefs.DeleteAll();
+        //ES3.DeleteFile(saveFile);
     }
 
     public void IncrementBugCountBy(int n)

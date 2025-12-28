@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class QuestManager : MonoBehaviour
 {
@@ -185,6 +186,8 @@ public class QuestManager : MonoBehaviour
 
                 if (obj.CompareTag("Selectable"))
                     obj.tag = "Untagged";
+                if(obj.GetComponent<Outlines>())
+                    obj.GetComponent<Outlines>().enabled = false;
             }
         }
 
@@ -196,9 +199,13 @@ public class QuestManager : MonoBehaviour
 
         foreach (var obj in questObjects[currentQuestIndex].selectableObjects)
         {
-            if (!obj) continue;
-
+            if (!obj) continue; 
             obj.tag = "Selectable";
+            if(obj.transform.GetComponent<Outlines>() == null)
+                obj.transform.AddComponent<Outlines>();
+
+            obj.transform.GetComponent<Outlines>().enabled = true;
+            obj.transform.GetComponent<Outlines>().OutlineWidth = 3.5f;
         }
     }
 
