@@ -19,6 +19,9 @@ public class NotebookController : MonoBehaviour
     public MonoBehaviour playerFollowCamera;
     public GameObject notebookBlurVolume;
 
+    [Header("Player Control")]
+    [SerializeField] private PlayerControlToggle playerControlToggle;
+
     private void Start()
     {
         StartCoroutine(InitializeUI());
@@ -68,6 +71,9 @@ public class NotebookController : MonoBehaviour
         if (playerFollowCamera)
             playerFollowCamera.enabled = false;
 
+        if (playerControlToggle)
+            playerControlToggle.DisableControl();
+
         if (notebookBlurVolume)
             notebookBlurVolume.SetActive(true);
     }
@@ -84,6 +90,9 @@ public class NotebookController : MonoBehaviour
         if (playerFollowCamera)
             playerFollowCamera.enabled = true;
 
+        if (playerControlToggle)
+            playerControlToggle.EnableControl();
+
         if (notebookBlurVolume)
             notebookBlurVolume.SetActive(false);
     }
@@ -97,6 +106,9 @@ public class NotebookController : MonoBehaviour
 
         if (playerFollowCamera)
             playerFollowCamera.enabled = true;
+
+        if (playerControlToggle)
+            playerControlToggle.EnableControl();
 
         if (notebookBlurVolume)
             notebookBlurVolume.SetActive(false);

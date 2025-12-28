@@ -29,7 +29,7 @@ public class PrizePuzzleValidator : MonoBehaviour
 
     [Header("End Game")]
     [SerializeField] private bool isFinalPuzzle = true;
-    [SerializeField] private float endDelay = 3f;
+    [SerializeField] private float endDelay = 6f;
     [SerializeField] private GameObject questManagerRoot;
 
 

@@ -12,21 +12,29 @@ public class StoryManager : MonoBehaviour
     public bool firstGame = true; 
     public Flowchart introFlowchart;
 
+    [Header("TicketBooth Setting")]
+    public BoxCollider ticketBoothCollider;
+
     // Start is called before the first frame update
     void Awake()
     {
-        if(ES3.KeyExists("firstGame"))
+
+        if(PlayerPrefs.HasKey("firstGame"))
         {
             firstGame = false;
             cutsceneCameras.SetActive(false);
             Destroy(cutsceneObject);
-        }
+        }  
         else
         {
             cutsceneCameras.SetActive(true);
-            ES3.Save<bool>("firstGame", true);
+            PlayerPrefs.SetString("firstGame", "yes");
             SetupIntroScene();
         }
+
+        if (PlayerPrefs.HasKey("CarnivalGateOpened"))
+            ticketBoothCollider.enabled = false;
+
     }
      
 
