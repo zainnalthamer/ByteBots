@@ -12,7 +12,8 @@ ByteBots transforms abstract programming ideas into tangible in-game actions. Pl
 - Conditionals  
 - Comparisons  
 - Loops  
-- Functions  
+- Functions
+
 Learning is reinforced through immediate visual feedback, narrative progression, and optional AI support.
 
 ## Screenshots
