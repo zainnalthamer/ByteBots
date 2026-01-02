@@ -388,5 +388,18 @@ namespace StarterAssets
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
         }
-    }
+
+        public void TogglePlayerControls(bool toggle)
+        {
+            if (toggle) 
+            {
+                _playerInput.enabled = false;
+            }
+            else
+            {
+                _playerInput.enabled = false;
+                _animator.SetFloat(_animIDSpeed, 0f);
+            }
+        }
+    } 
 }
